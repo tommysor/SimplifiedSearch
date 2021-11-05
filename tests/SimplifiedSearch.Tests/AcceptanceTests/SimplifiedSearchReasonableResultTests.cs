@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SimplifiedSearch.Tests
+namespace SimplifiedSearch.Tests.AcceptanceTests
 {
     public class SimplifiedSearchReasonableResultTests
     {
@@ -27,7 +27,7 @@ namespace SimplifiedSearch.Tests
             var expected3 = TestData.Countries.First(x => x.Name == expect3);
 
             var actual = await _search.SimplifiedSearchAsync(TestData.Countries, search, x => x.Name);
-            
+
             var actual1 = actual[0];
             var actual2 = actual[1];
             var actual3 = actual[2];
@@ -43,8 +43,8 @@ namespace SimplifiedSearch.Tests
         public async Task SimplifiedSearch_UsStatesTopResult(string search, string expectTop)
         {
             var a = TestData.Countries;
-            var expectedTop = TestData.UsStates.First(v => v.Name == expectTop);
-            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, search, v => v.Name);
+            var expectedTop = TestData.UsStates.First(x => x.Name == expectTop);
+            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, search, x => x.Name);
 
             Assert.Same(expectedTop, actual.First());
         }

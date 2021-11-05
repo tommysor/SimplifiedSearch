@@ -8,7 +8,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SimplifiedSearch.Tests
+namespace SimplifiedSearch.Tests.PerformanceTests
 {
     public class SimplifiedSearchSmokePerformanceTests
     {
@@ -34,7 +34,7 @@ namespace SimplifiedSearch.Tests
             var cancellationToken = cancellationTokenSource.Token;
 
             await _search.SimplifiedSearchAsync(_persons, "a", null);
-            
+
             sw.Stop();
             var xxx = sw.ElapsedMilliseconds;
         }

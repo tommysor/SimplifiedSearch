@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SimplifiedSearch.Tests
+namespace SimplifiedSearch.Tests.AcceptanceTests
 {
     /// <summary>
     /// Try each feature one at a time from top level.
@@ -26,7 +26,7 @@ namespace SimplifiedSearch.Tests
         public async Task SimplifiedSearch_ListNull_ThrowsException()
         {
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-            var func = new Func<Task>(async () => await _search.SimplifiedSearchAsync<TestItem>(null, "a", v => v.Name));
+            var func = new Func<Task>(async () => await _search.SimplifiedSearchAsync<TestItem>(null, "a", x => x.Name));
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
             await Assert.ThrowsAsync<ArgumentNullException>("searchThisList", func);
@@ -38,7 +38,7 @@ namespace SimplifiedSearch.Tests
             var expected = TestData.UsStates;
 
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, null, v => v.Name);
+            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, null, x => x.Name);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
             Assert.Same(expected, actual);
@@ -50,7 +50,7 @@ namespace SimplifiedSearch.Tests
             var expected = TestData.UsStates;
 
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "", v => v.Name);
+            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "", x => x.Name);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
             Assert.Same(expected, actual);
@@ -67,7 +67,7 @@ namespace SimplifiedSearch.Tests
 
             var expected = list.Last();
 
-            var actuals = await _search.SimplifiedSearchAsync(list, "efgh", v => v.Name);
+            var actuals = await _search.SimplifiedSearchAsync(list, "efgh", x => x.Name);
 
             Assert.Single(actuals, expected);
         }
@@ -92,21 +92,21 @@ namespace SimplifiedSearch.Tests
         [Fact]
         public async Task SimplifiedSearch_MatchWholeWordExcact()
         {
-            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "California", v => v.Name);
+            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "California", x => x.Name);
             Assert.Single(actual);
         }
 
         [Fact]
         public async Task SimplifiedSearch_MatchWholeWordExactCaseInsensitive()
         {
-            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "arkANsas", v => v.Name);
+            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "arkANsas", x => x.Name);
             Assert.Single(actual);
         }
 
         [Fact]
         public async Task SimplifiedSearch_MatchStartOfWordExact()
         {
-            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "Maryla", v => v.Name);
+            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "Maryla", x => x.Name);
             Assert.Single(actual);
         }
 
@@ -114,7 +114,7 @@ namespace SimplifiedSearch.Tests
         public async Task SimplifiedSearch_MatchWholeWordFuzzy()
         {
             //                                                                   Montana
-            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "MoZtanZ", v => v.Name);
+            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "MoZtanZ", x => x.Name);
             Assert.Single(actual);
         }
 
@@ -122,7 +122,7 @@ namespace SimplifiedSearch.Tests
         public async Task SimplifiedSearch_MatchStartOfWordFuzzy()
         {
             //                                                                   Hawaii
-            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "hZwZ", v => v.Name);
+            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "hZwZ", x => x.Name);
             Assert.Single(actual);
         }
 
@@ -130,15 +130,15 @@ namespace SimplifiedSearch.Tests
         public async Task SimplifiedSearch_MatchAsciiFoldedWordExact_SearchList()
         {
             //                                                                                 Düsseldorf
-            var actual = await _search.SimplifiedSearchAsync(TestData.GermanDistrictsLimited, "Dusseldorf", v => v.Name);
+            var actual = await _search.SimplifiedSearchAsync(TestData.GermanDistrictsLimited, "Dusseldorf", x => x.Name);
             Assert.Single(actual);
         }
 
-        [Fact(Skip ="Ascii folding not implemented.")]
+        [Fact(Skip = "Ascii folding not implemented.")]
         public async Task SimplifiedSearch_MatchAsciiFoldedWordExact_SearchTerm()
         {
             //                                                                                 Böblingen
-            var actual = await _search.SimplifiedSearchAsync(TestData.GermanDistrictsLimited, "Böblingeñ", v => v.Name);
+            var actual = await _search.SimplifiedSearchAsync(TestData.GermanDistrictsLimited, "Böblingeñ", x => x.Name);
             Assert.Single(actual);
         }
 
@@ -147,7 +147,7 @@ namespace SimplifiedSearch.Tests
         {
             // string.Contains with CurrentCultureIgnoreCase will pass this test.
             //                                                                                 Bergstraße
-            var actual = await _search.SimplifiedSearchAsync(TestData.GermanDistrictsLimited, "Bergstrasse", v => v.Name);
+            var actual = await _search.SimplifiedSearchAsync(TestData.GermanDistrictsLimited, "Bergstrasse", x => x.Name);
             Assert.Single(actual);
         }
 
@@ -156,7 +156,7 @@ namespace SimplifiedSearch.Tests
         {
             // string.Contains with CurrentCultureIgnoreCase will pass this test.
             //                                                                                 Düsseldorf
-            var actual = await _search.SimplifiedSearchAsync(TestData.GermanDistrictsLimited, "Düßeldorf", v => v.Name);
+            var actual = await _search.SimplifiedSearchAsync(TestData.GermanDistrictsLimited, "Düßeldorf", x => x.Name);
             Assert.Single(actual);
         }
     }

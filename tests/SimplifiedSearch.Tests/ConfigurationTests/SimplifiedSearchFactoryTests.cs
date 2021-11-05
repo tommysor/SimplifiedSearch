@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SimplifiedSearch.Tests
+namespace SimplifiedSearch.Tests.ConfigurationTests
 {
     public class SimplifiedSearchFactoryTests
     {
@@ -15,7 +15,7 @@ namespace SimplifiedSearch.Tests
         {
             var factory = new SimplifiedSearchFactory();
             var simplifiedSearch = factory.GetSimplifiedSearch();
-            var actual = await simplifiedSearch.SimplifiedSearchAsync(TestData.UsStates, "new york", v => v.Name);
+            var actual = await simplifiedSearch.SimplifiedSearchAsync(TestData.UsStates, "new york", x => x.Name);
             Assert.Single(actual);
         }
 
@@ -36,7 +36,7 @@ namespace SimplifiedSearch.Tests
 
             var expected = list[0..2];
 
-            var actual = await search.SimplifiedSearchAsync(list, "aaaa", v => v.Name);
+            var actual = await search.SimplifiedSearchAsync(list, "aaaa", x => x.Name);
 
             AssertCollectionUtils.AssertCollectionContainsEqualIds(expected, actual);
         }

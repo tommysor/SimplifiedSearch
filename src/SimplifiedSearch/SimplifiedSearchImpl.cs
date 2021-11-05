@@ -24,13 +24,13 @@ namespace SimplifiedSearch
             // If no field is specified, build field of all properties.
             if (fieldToSearch is null)
             {
-                fieldToSearch = new Func<T, string?>(v =>
+                fieldToSearch = new Func<T, string?>(x =>
                 {
                     var properties = typeof(T).GetProperties().Where(p => p.CanRead);
                     var stringBuilder = new StringBuilder();
                     foreach (var property in properties)
                     {
-                        var propertyValue = property.GetValue(v);
+                        var propertyValue = property.GetValue(x);
                         if (propertyValue is not null)
                             stringBuilder.AppendLine(propertyValue.ToString());
                     }
