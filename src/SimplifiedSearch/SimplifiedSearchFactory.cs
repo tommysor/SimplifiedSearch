@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimplifiedSearch.SearchPipelines;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -10,7 +11,7 @@ namespace SimplifiedSearch
     /// </summary>
     public class SimplifiedSearchFactory
     {
-        private SimplifiedSearchConfiguration _configuration;
+        private readonly SimplifiedSearchConfiguration _configuration;
 
         //todo doc public SimplifiedSearchFactory()
         /// <summary>
@@ -39,7 +40,11 @@ namespace SimplifiedSearch
         /// <returns></returns>
         public ISimplifiedSearch GetSimplifiedSearch()
         {
-            return new SimplifiedSearchImpl();
+            var lowercaseFilter = new LowercaseFilter();
+            var asciiFoldingFilter = new AsciiFoldingFilter();
+            var tokenizeFilter = new TokenizeFilter();
+            var pipeline = new SearchPipeline(lowercaseFilter, asciiFoldingFilter, tokenizeFilter);
+            return new SimplifiedSearchImpl(pipeline);
         }
     }
 }

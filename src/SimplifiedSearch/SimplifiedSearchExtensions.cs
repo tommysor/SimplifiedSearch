@@ -21,7 +21,7 @@ namespace SimplifiedSearch
         /// <returns></returns>
         public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IList<T> searchThisList, string searchTerm, Func<T, string?>? fieldToSearch)
         {
-            var results = await _search.SimplifiedSearchAsync(searchThisList, searchTerm, fieldToSearch);
+            var results = await _search.SimplifiedSearchAsync(searchThisList, searchTerm, fieldToSearch).ConfigureAwait(false);
             return results;
         }
 
@@ -37,7 +37,7 @@ namespace SimplifiedSearch
         public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IEnumerable<T> searchThisList, string searchTerm, Func<T, string?>? fieldToSearch)
         {
             var searchThisListAsList = searchThisList.ToArray();
-            return await SimplifiedSearchAsync(searchThisListAsList, searchTerm, fieldToSearch);
+            return await SimplifiedSearchAsync(searchThisListAsList, searchTerm, fieldToSearch).ConfigureAwait(false);
         }
     }
 }

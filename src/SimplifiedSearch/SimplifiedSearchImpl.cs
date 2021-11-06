@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SimplifiedSearch.SearchPipelines;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,11 +9,15 @@ namespace SimplifiedSearch
 {
     internal class SimplifiedSearchImpl : ISimplifiedSearch
     {
+        private readonly SearchPipeline _searchPipeline;
+
+        internal SimplifiedSearchImpl(SearchPipeline searchPipeline)
+        {
+            _searchPipeline = searchPipeline ?? throw new ArgumentNullException(nameof(searchPipeline));
+        }
+
         public async Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? fieldToSearch)
         {
-            // To remove warning about not using async.
-            await Task.CompletedTask;
-
             // Validate arguments.
             if (searchThisList is null)
                 throw new ArgumentNullException(nameof(searchThisList));
@@ -39,17 +44,7 @@ namespace SimplifiedSearch
             }
 
             // Build the results.
-            //todo implement proper search.
-            var results = new List<T>();
-            foreach (var item in searchThisList)
-            {
-                var fieldValue = fieldToSearch(item);
-                if (fieldValue is null)
-                    continue;
-
-                if (fieldValue.Contains(searchTerm, StringComparison.CurrentCultureIgnoreCase))
-                    results.Add(item);
-            }
+            var results = await _searchPipeline.SearchAsync(searchThisList, searchTerm, fieldToSearch).ConfigureAwait(false);
 
             return results;
         }

@@ -49,9 +49,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         {
             var expected = TestData.UsStates;
 
-#pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "", x => x.Name);
-#pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
             Assert.Same(expected, actual);
         }
