@@ -74,8 +74,37 @@ namespace SimplifiedSearch.SearchPipelines
             foreach(var fieldValue in fieldValueTokens)
                 foreach(var searchTerm in searchTermTokens)
                 {
-                    if (fieldValue.StartsWith(searchTerm))
-                        similarityRank++;
+                    var fieldValue2 = fieldValue;
+
+                    // Shorten fieldValue to match start of word.
+                    // Add char to get better match when searchTerm is missing a character.
+                    var maxLength = searchTerm.Length + 1;
+                    if (fieldValue2.Length > maxLength)
+                        fieldValue2 = fieldValue2[0..maxLength];
+
+                    // Use fuzzy matching for longer words.
+                    // For short words, use exact matching.
+                    if (searchTerm.Length > 3)
+                    {
+                        var distance = Fastenshtein.Levenshtein.Distance(fieldValue2, searchTerm);
+                        switch (distance)
+                        {
+                            case 0:
+                                similarityRank += 5;
+                                break;
+                            case 1:
+                                similarityRank += 3;
+                                break;
+                            case 2:
+                                similarityRank += 1;
+                                break;
+                        }
+                    }
+                    else
+                    {
+                        if (searchTerm == fieldValue2)
+                            similarityRank += 1;
+                    }
                 }
 
             return Task.FromResult(similarityRank);

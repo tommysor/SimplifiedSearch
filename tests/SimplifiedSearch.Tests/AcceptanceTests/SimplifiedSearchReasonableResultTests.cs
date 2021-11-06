@@ -18,23 +18,25 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             _search = factory.GetSimplifiedSearch();
         }
 
-        [Theory(Skip = "Not implemented Fuzzy search and Ranking")]
-        [InlineData("tailand", "Thailand", "Taiwan", "placeholder value")]
-        public async Task SimplifiedSearch_Countries_Top3(string search, string expect1, string expect2, string expect3)
+        [Theory]
+        [InlineData("tailand", "Thailand", "Taiwan")]
+        //todo Prefer closer to total match ? [InlineData("Guinea", "Equatorial Guinea", "Guinea")]
+        [InlineData("Guinea", "Equatorial Guinea", "Guinea")]
+        [InlineData("Niger", "Niger", "Nigeria")]
+        [InlineData("Nigeria", "Nigeria", "Algeria")]
+        public async Task SimplifiedSearch_Countries_Top2(string search, string expect1, string expect2)
         {
             var expected1 = TestData.Countries.First(x => x.Name == expect1);
             var expected2 = TestData.Countries.First(x => x.Name == expect2);
-            var expected3 = TestData.Countries.First(x => x.Name == expect3);
 
             var actual = await _search.SimplifiedSearchAsync(TestData.Countries, search, x => x.Name);
 
             var actual1 = actual[0];
-            var actual2 = actual[1];
-            var actual3 = actual[2];
-
             Assert.Same(expected1, actual1);
+
+            Assert.True(actual.Count >= 2, "Did not get a second result.");
+            var actual2 = actual[1];
             Assert.Same(expected2, actual2);
-            Assert.Same(expected3, actual3);
         }
 
         [Theory]

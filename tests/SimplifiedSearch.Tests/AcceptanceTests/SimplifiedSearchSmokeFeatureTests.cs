@@ -25,38 +25,53 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Fact]
         public async Task SimplifiedSearch_MatchWholeWordExcact()
         {
+            var expected = TestData.UsStates.First(x => x.Name == "California");
+
             var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "California", x => x.Name);
-            Assert.Single(actual);
+
+            Assert.Same(expected, actual.First());
         }
 
         [Fact]
         public async Task SimplifiedSearch_MatchWholeWordExactCaseInsensitive()
         {
+            var expected = TestData.UsStates.First(x => x.Name == "Arkansas");
+
             var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "arkANsas", x => x.Name);
-            Assert.Single(actual);
+
+            Assert.Same(expected, actual.First());
         }
 
         [Fact]
         public async Task SimplifiedSearch_MatchStartOfWordExact()
         {
+            var expected = TestData.UsStates.First(x => x.Name == "Maryland");
+
             var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "Maryla", x => x.Name);
-            Assert.Single(actual);
+
+            Assert.Same(expected, actual.First());
         }
 
-        [Fact(Skip = "Fuzzy matching not implemented.")]
+        [Fact]
         public async Task SimplifiedSearch_MatchWholeWordFuzzy()
         {
+            var expected = TestData.UsStates.First(x => x.Name == "Montana");
+
             //                                                                   Montana
             var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "MoZtanZ", x => x.Name);
-            Assert.Single(actual);
+
+            Assert.Same(expected, actual.First());
         }
 
-        [Fact(Skip = "Fuzzy matching not implemented.")]
+        [Fact]
         public async Task SimplifiedSearch_MatchStartOfWordFuzzy()
         {
+            var expected = TestData.UsStates.First(x => x.Name == "Hawaii");
+
             //                                                                   Hawaii
-            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "hZwZ", x => x.Name);
-            Assert.Single(actual);
+            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, "hZwa", x => x.Name);
+
+            Assert.Same(expected, actual.First());
         }
 
         [Fact(Skip = "Ascii folding not implemented.")]

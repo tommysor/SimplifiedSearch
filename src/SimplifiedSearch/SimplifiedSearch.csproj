@@ -6,4 +6,8 @@
 	<LangVersion>latest</LangVersion>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="Fastenshtein" Version="1.0.0.8" />
+  </ItemGroup>
+
 </Project>
