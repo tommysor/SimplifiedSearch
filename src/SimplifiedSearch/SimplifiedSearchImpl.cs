@@ -29,24 +29,37 @@ namespace SimplifiedSearch
             // If no field is specified, build field of all properties.
             if (fieldToSearch is null)
             {
-                fieldToSearch = new Func<T, string?>(x =>
+                var type = typeof(T);
+                if (type == typeof(string) || type.IsPrimitive)
                 {
-                    var properties = typeof(T).GetProperties().Where(p => p.CanRead);
-                    var stringBuilder = new StringBuilder();
-                    foreach (var property in properties)
+                    fieldToSearch = new Func<T, string>(x => x?.ToString() ?? "");
+                }
+                else
+                {
+                    fieldToSearch = new Func<T, string?>(x =>
                     {
-                        var propertyValue = property.GetValue(x);
-                        if (propertyValue is not null)
-                            stringBuilder.AppendLine(propertyValue.ToString());
-                    }
-                    return stringBuilder.ToString();
-                });
+                        var properties = type.GetProperties().Where(p => p.CanRead);
+                        var stringBuilder = new StringBuilder();
+                        foreach (var property in properties)
+                        {
+                            var propertyValue = property.GetValue(x);
+                            if (propertyValue is not null)
+                                stringBuilder.AppendLine(propertyValue.ToString());
+                        }
+                        return stringBuilder.ToString();
+                    });
+                }
             }
 
             // Build the results.
             var results = await _searchPipeline.SearchAsync(searchThisList, searchTerm, fieldToSearch).ConfigureAwait(false);
 
             return results;
+        }
+
+        public async Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm)
+        {
+            return await SimplifiedSearchAsync(searchThisList, searchTerm, null);
         }
     }
 }

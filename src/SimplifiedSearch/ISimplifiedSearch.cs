@@ -20,5 +20,15 @@ namespace SimplifiedSearch
         /// <param name="fieldToSearch"></param>
         /// <returns></returns>
         Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? fieldToSearch);
+
+        //todo doc Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="searchThisList"></param>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
+        Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm);
     }
 }

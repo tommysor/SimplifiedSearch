@@ -9,6 +9,9 @@ namespace SimplifiedSearch.Tests.Models
 {
     internal static class TestData
     {
+        private const string CountriesFileName = "countries.txt";
+        private const string UsStatesFileName = "UsStates.txt";
+
         private static IList<TestItem> TestItemFromFile(string fileName)
         {
             var baseDirectory = AppContext.BaseDirectory;
@@ -21,9 +24,20 @@ namespace SimplifiedSearch.Tests.Models
             return list;
         }
 
-        internal static IList<TestItem> Countries { get; } = TestItemFromFile("countries.txt");
+        private static IList<T> TestItemFromFileField<T>(string fileName, Func<TestItem, T> selector)
+        {
+            var list = TestItemFromFile(fileName);
+            var results = list.Select(selector).ToArray();
+            return results;
+        }
 
-        internal static IList<TestItem> UsStates { get; } = TestItemFromFile("UsStates.txt");
+        internal static IList<TestItem> Countries { get; } = TestItemFromFile(CountriesFileName);
+
+        internal static IList<string?> CountriesString { get; } = TestItemFromFileField(CountriesFileName, x => x.Name);
+
+        internal static IList<int> CountriesIndexes { get; } = TestItemFromFileField(CountriesFileName, x => x.Id);
+
+        internal static IList<TestItem> UsStates { get; } = TestItemFromFile(UsStatesFileName);
 
         internal static IList<TestItem> GermanDistrictsLimited { get; } = new[]
         {
