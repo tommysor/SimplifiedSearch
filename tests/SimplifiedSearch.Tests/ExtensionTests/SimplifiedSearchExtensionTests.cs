@@ -21,9 +21,28 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
+        public async Task Extension_Enumerable_PassesList()
+        {
+            var list = TestData.Countries.AsEnumerable();
+            var expected = list;
+            var actual = await list.SimplifiedSearchAsync("", null);
+            // Enumerable version is enumerated and therefore is not "Same".
+            AssertCollectionUtils.AssertCollectionContainsEqualIds(expected, actual);
+        }
+
+        [Fact]
         public async Task Extension_List_PassesSearchTerm()
         {
             var list = TestData.Countries.ToList();
+            var expected = TestData.Countries.First(x => x.Name == "Albania");
+            var actual = await list.SimplifiedSearchAsync("albania", x => x.Name);
+            Assert.Single(actual, expected);
+        }
+
+        [Fact]
+        public async Task Extension_Enumerable_PassesSearchTerm()
+        {
+            var list = TestData.Countries.AsEnumerable();
             var expected = TestData.Countries.First(x => x.Name == "Albania");
             var actual = await list.SimplifiedSearchAsync("albania", x => x.Name);
             Assert.Single(actual, expected);
@@ -47,31 +66,6 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
-        public async Task Extension_List_FieldToSearchOptional()
-        {
-            var _ = await TestData.CountriesString.SimplifiedSearchAsync("a");
-        }
-
-        [Fact]
-        public async Task Extension_Enumerable_PassesList()
-        {
-            var list = TestData.Countries.AsEnumerable();
-            var expected = list;
-            var actual = await list.SimplifiedSearchAsync("", null);
-            // Enumerable version is enumerated and therefore is not "Same".
-            AssertCollectionUtils.AssertCollectionContainsEqualIds(expected, actual);
-        }
-
-        [Fact]
-        public async Task Extension_Enumerable_PassesSearchTerm()
-        {
-            var list = TestData.Countries.AsEnumerable();
-            var expected = TestData.Countries.First(x => x.Name == "Albania");
-            var actual = await list.SimplifiedSearchAsync("albania", x => x.Name);
-            Assert.Single(actual, expected);
-        }
-
-        [Fact]
         public async Task Extension_Enumerable_PassesProperty()
         {
             var listTmp = new[]
@@ -91,10 +85,21 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
+        public async Task Extension_List_FieldToSearchOptional()
+        {
+            var actual = await TestData.CountriesString.SimplifiedSearchAsync("Morocco");
+
+            Assert.Single(actual, "Morocco");
+        }
+
+        [Fact]
         public async Task Extension_Enumerable_FieldToSearchOptional()
         {
             var enumerableToSearch = TestData.CountriesString.AsEnumerable();
-            var _ = await enumerableToSearch.SimplifiedSearchAsync("a");
+
+            var actual = await enumerableToSearch.SimplifiedSearchAsync("Morocco");
+
+            Assert.Single(actual, "Morocco");
         }
     }
 }
