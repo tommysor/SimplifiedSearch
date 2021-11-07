@@ -83,6 +83,17 @@ namespace SimplifiedSearch.Tests.Models
             return list;
         }
 
+        private static IList<TestItem> GetTestItemWithEnum()
+        {
+            var list = new[]
+            {
+                new TestItem { Id = 1, TestEnum = TestEnum.First },
+                new TestItem { Id = 2, TestEnum = TestEnum.Second }
+            };
+
+            return list;
+        }
+
         internal static IList<TestItem> Countries { get; } = TestItemFromFile(CountriesFileName);
 
         internal static IList<string?> CountriesString { get; } = TestItemFromFileField(CountriesFileName, x => x.Name);
@@ -101,5 +112,9 @@ namespace SimplifiedSearch.Tests.Models
         };
 
         internal static IList<string> RedditMoviesShortPosts { get; } = GetRedditAnimeShortPosts();
+
+        internal static IList<TestEnum> Enums { get; } = Enum.GetValues(typeof(TestEnum)).Cast<TestEnum>().ToArray();
+
+        internal static IList<TestItem> ItemsWithEnum { get; } = GetTestItemWithEnum();
     }
 }

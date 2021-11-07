@@ -30,7 +30,7 @@ namespace SimplifiedSearch
             if (fieldToSearch is null)
             {
                 var type = typeof(T);
-                if (type == typeof(string) || type.IsPrimitive)
+                if (type == typeof(string) || type.IsPrimitive || type.IsEnum)
                 {
                     fieldToSearch = new Func<T, string>(x => x?.ToString() ?? "");
                 }
