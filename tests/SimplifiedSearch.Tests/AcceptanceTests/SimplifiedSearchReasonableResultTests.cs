@@ -42,13 +42,29 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Theory]
         [InlineData("York", "New York")]
         [InlineData("Loui", "Louisiana")]
-        public async Task SimplifiedSearch_UsStatesTopResult(string search, string expectTop)
+        public async Task SimplifiedSearch_UsStates_Top1(string search, string expectTop)
         {
-            var a = TestData.Countries;
             var expectedTop = TestData.UsStates.First(x => x.Name == expectTop);
+
             var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, search, x => x.Name);
 
             Assert.Same(expectedTop, actual.First());
+        }
+
+        [Theory]
+        [InlineData("naruto ideas", "naruto and really original anime ideas like rakugo", "this naruto joke  link    http  imgurcomk8sjgwg")]
+        [InlineData("joker favorite", "the  actual dialog  joke continues to be my favorite bit", "fanart corner    post your favorite anime related fanart")]
+        [InlineData("main character", "in rewrite  the main character s fake name is suzuki bond", "it s supposed to be one of her cute character quirks")]
+        public async Task SimplifiedSearch_ShortText_Top2(string search, string expect1, string expect2)
+        {
+            var actual = await _search.SimplifiedSearchAsync(TestData.RedditMoviesShortPosts, search);
+
+            var actual1 = actual[0];
+            Assert.Equal(expect1, actual1);
+
+            Assert.True(actual.Count >= 2, "Did not get a second result.");
+            var actual2 = actual[1];
+            Assert.Equal(expect2, actual2);
         }
     }
 }

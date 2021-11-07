@@ -104,21 +104,17 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Fact]
         public async Task SimplifiedSearch_ListOfString()
         {
-            var expected = TestData.CountriesString.First(x => x == "Bahamas");
-
             var actual = await _search.SimplifiedSearchAsync(TestData.CountriesString, "Bahamas");
 
-            Assert.Equal(expected, actual.First());
+            Assert.Equal("Bahamas", actual.First());
         }
 
         [Fact]
         public async Task SimplifiedSearch_ListOfInt()
         {
-            var expected = TestData.CountriesIndexes.First(x => x == 23).ToString();
-
             var actual = await _search.SimplifiedSearchAsync(TestData.CountriesIndexes, "23");
 
-            Assert.Equal(expected, actual.First().ToString());
+            Assert.Equal("23", actual.First().ToString());
         }
     }
 }
