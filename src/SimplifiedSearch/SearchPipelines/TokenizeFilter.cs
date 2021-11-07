@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,11 +19,12 @@ namespace SimplifiedSearch.SearchPipelines
 
         public Task<string[]> RunAsync(params string[] value)
         {
-            var results = new List<string>();
+            var results = new HashSet<string>();
             foreach (var item in value)
             {
                 var splitItem = item.Split(_splitChars, StringSplitOptions.RemoveEmptyEntries);
-                results.AddRange(splitItem);
+                foreach (var result in splitItem)
+                    results.Add(result);
             }
 
             return Task.FromResult(results.ToArray());
