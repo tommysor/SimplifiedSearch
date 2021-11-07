@@ -7,11 +7,13 @@ Searching through lists of short phrases like country names or the subject line 
 Tested with: NETCore3.0, NETCore3.1, NET5.0, NET6.0
 ## Quickstart
 ### Install
-TODO
+`PM> Install-Package SimplifiedSearch`
 ### Code
 Use extension method `.SimplifiedSearchAsync(searchTerm, fieldToSearchLambda)`.
 `fieldToSearchLambda` is optional. When missing, all fields will be searched (or the value, if the value is `string`, `Enum`, `int`, etc).
-```c#
+```csharp
+using SimplifiedSearch;
+
 IList<Country> countries = GetListOfCountries();
 IList<Country> matches = await countries.SimplifiedSearchAsync("tailand", x => x.CountryName);
 foreach (var country in matches)
