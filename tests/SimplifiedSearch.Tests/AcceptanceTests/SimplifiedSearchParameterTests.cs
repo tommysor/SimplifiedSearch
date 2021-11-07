@@ -116,5 +116,33 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 
             Assert.Equal("23", actual.First().ToString());
         }
+
+        [Fact]
+        public async Task SimplifiedSearch_ListOfEnum()
+        {
+            var actual = await _search.SimplifiedSearchAsync(TestData.Enums, nameof(TestEnum.Second));
+
+            Assert.Single(actual, TestEnum.Second);
+        }
+
+        [Fact]
+        public async Task SimplifiedSearch_ListOfItemWithEnum_SpesifyField()
+        {
+            var expected = TestData.ItemsWithEnum.First(x => x.TestEnum == TestEnum.Second);
+
+            var actual = await _search.SimplifiedSearchAsync(TestData.ItemsWithEnum, nameof(TestEnum.Second), x => x.TestEnum?.ToString());
+
+            Assert.Single(actual, expected);
+        }
+
+        [Fact]
+        public async Task SimplifiedSearch_ListOfItemWithEnum_AutoFields()
+        {
+            var expected = TestData.ItemsWithEnum.First(x => x.TestEnum == TestEnum.Second);
+
+            var actual = await _search.SimplifiedSearchAsync(TestData.ItemsWithEnum, nameof(TestEnum.Second));
+
+            Assert.Single(actual, expected);
+        }
     }
 }
