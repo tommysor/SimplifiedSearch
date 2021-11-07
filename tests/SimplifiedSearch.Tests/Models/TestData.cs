@@ -19,6 +19,8 @@ namespace SimplifiedSearch.Tests.Models
         /// </summary>
         private const string RedditAnimeFileName = "entertainment_anime.csv";
 
+        private const int RedditShortLongCutoffPoint = 60;
+
         private static string GetPath(string fileName)
         {
             var baseDirectory = AppContext.BaseDirectory;
@@ -74,12 +76,14 @@ namespace SimplifiedSearch.Tests.Models
         private static IList<string> GetRedditAnimeShortPosts()
         {
             var lines = GetRedditAnime();
+            var list = lines.Where(x => x.Length <= RedditShortLongCutoffPoint).ToArray();
+            return list;
+        }
 
-            var list = new List<string>();
-            foreach (var line in lines)
-                if (line.Length <= 60)
-                    list.Add(line);
-
+        private static IList<string> GetRedditAnimeLongPosts()
+        {
+            var lines = GetRedditAnime();
+            var list = lines.Where(x => x.Length > RedditShortLongCutoffPoint && x.Length <= 700).ToArray();
             return list;
         }
 
@@ -111,7 +115,9 @@ namespace SimplifiedSearch.Tests.Models
             new TestItem { Id = 5, Name = "Südliche Weinstraße"}
         };
 
-        internal static IList<string> RedditMoviesShortPosts { get; } = GetRedditAnimeShortPosts();
+        internal static IList<string> RedditAnimeShortPosts { get; } = GetRedditAnimeShortPosts();
+
+        internal static IList<string> RedditAnimeLongPosts { get; } = GetRedditAnimeLongPosts();
 
         internal static IList<TestEnum> Enums { get; } = Enum.GetValues(typeof(TestEnum)).Cast<TestEnum>().ToArray();
 

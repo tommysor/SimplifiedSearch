@@ -57,7 +57,26 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [InlineData("main character", "in rewrite  the main character s fake name is suzuki bond", "it s supposed to be one of her cute character quirks")]
         public async Task SimplifiedSearch_ShortText_Top2(string search, string expect1, string expect2)
         {
-            var actual = await _search.SimplifiedSearchAsync(TestData.RedditMoviesShortPosts, search);
+            var actual = await _search.SimplifiedSearchAsync(TestData.RedditAnimeShortPosts, search);
+
+            var actual1 = actual[0];
+            Assert.Equal(expect1, actual1);
+
+            Assert.True(actual.Count >= 2, "Did not get a second result.");
+            var actual2 = actual[1];
+            Assert.Equal(expect2, actual2);
+        }
+
+        [Theory]
+        [InlineData("finally demand a season 3",
+            "medaka box  so it gets enough viewers to finally demand a season 3 it ended literally as the best arc was about to begin",
+            "spice and wolf then with the increased demand for the series we can finally get season 3")]
+        [InlineData("potential plotprogression ideas",
+            "_cross ange_  i felt like at every major plot intersection  they wrote six potential plotprogression ideas and then rolled a die to determine which one they d go with",
+            "stands  jojo s bizarre adventure  are my favorite power there s so much potential for what they can do  and there are no signs of araki slowing down with the unique ideas")]
+        public async Task SimplifiedSearch_LongText_Top2(string search, string expect1, string expect2)
+        {
+            var actual = await _search.SimplifiedSearchAsync(TestData.RedditAnimeLongPosts, search);
 
             var actual1 = actual[0];
             Assert.Equal(expect1, actual1);
