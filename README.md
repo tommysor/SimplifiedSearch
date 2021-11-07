@@ -4,7 +4,7 @@ For when you have up to a few thousand products, locations or similar and want t
 ## Intended use case
 Searching through lists of short phrases like country names or the subject line in emails.
 ## .NET support
-Tested with: NETCore3.1, NET5.0, NET6.0
+Tested with: NETCore3.0, NETCore3.1, NET5.0, NET6.0
 ## Quickstart
 ### Install
 TODO
