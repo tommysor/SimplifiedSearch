@@ -25,6 +25,19 @@ namespace SimplifiedSearch
             return results;
         }
 
+        //todo doc public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IList<T> searchThisList, string searchTerm)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="searchThisList"></param>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
+        public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IList<T> searchThisList, string searchTerm)
+        {
+            return await SimplifiedSearchAsync(searchThisList, searchTerm, null).ConfigureAwait(false);
+        }
+
         //todo doc public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IEnumerable<T> searchThisList, string searchTerm, Func<T, string?>? fieldToSearch)
         /// <summary>
         /// 
@@ -38,6 +51,19 @@ namespace SimplifiedSearch
         {
             var searchThisListAsList = searchThisList.ToArray();
             return await SimplifiedSearchAsync(searchThisListAsList, searchTerm, fieldToSearch).ConfigureAwait(false);
+        }
+
+        //todo doc public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IEnumerable<T> searchThisList, string searchTerm)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="searchThisList"></param>
+        /// <param name="searchTerm"></param>
+        /// <returns></returns>
+        public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IEnumerable<T> searchThisList, string searchTerm)
+        {
+            return await SimplifiedSearchAsync(searchThisList, searchTerm, null).ConfigureAwait(false);
         }
     }
 }

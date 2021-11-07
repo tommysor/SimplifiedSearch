@@ -47,6 +47,12 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
+        public async Task Extension_List_FieldToSearchOptional()
+        {
+            var _ = await TestData.CountriesString.SimplifiedSearchAsync("a");
+        }
+
+        [Fact]
         public async Task Extension_Enumerable_PassesList()
         {
             var list = TestData.Countries.AsEnumerable();
@@ -82,6 +88,13 @@ namespace SimplifiedSearch.Tests.ExtensionTests
             var actual = await list.SimplifiedSearchAsync("1", x => x.Id.ToString());
 
             Assert.Single(actual, expected);
+        }
+
+        [Fact]
+        public async Task Extension_Enumerable_FieldToSearchOptional()
+        {
+            var enumerableToSearch = TestData.CountriesString.AsEnumerable();
+            var _ = await enumerableToSearch.SimplifiedSearchAsync("a");
         }
     }
 }
