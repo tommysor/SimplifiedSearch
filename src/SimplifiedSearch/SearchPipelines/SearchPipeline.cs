@@ -32,6 +32,8 @@ namespace SimplifiedSearch.SearchPipelines
                 var fieldValue = fieldToSearch(item);
                 if (string.IsNullOrEmpty(fieldValue))
                     continue;
+                if (fieldValue is null)
+                    continue;
                 var fieldValueTokens = await GetFieldTokens(fieldValue).ConfigureAwait(false);
                 var similarityRank = await GetSimilarityRank(fieldValueTokens, searchTermTokens).ConfigureAwait(false);
                 if (similarityRank > 0)
@@ -80,7 +82,7 @@ namespace SimplifiedSearch.SearchPipelines
                     // Add char to get better match when searchTerm is missing a character.
                     var maxLength = searchTerm.Length + 1;
                     if (fieldValue2.Length > maxLength)
-                        fieldValue2 = fieldValue2[0..maxLength];
+                        fieldValue2 = fieldValue2.Substring(0, maxLength);
 
                     // Use fuzzy matching for longer words.
                     // For short words, use exact matching.
