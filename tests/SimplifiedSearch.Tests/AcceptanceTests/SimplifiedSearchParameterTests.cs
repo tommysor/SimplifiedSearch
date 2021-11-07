@@ -112,7 +112,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Fact]
         public async Task SimplifiedSearch_ListOfInt()
         {
-            var actual = await _search.SimplifiedSearchAsync(TestData.CountriesIndexes, "23");
+            var actual = await _search.SimplifiedSearchAsync(TestData.Ids, "23");
 
             Assert.Equal("23", actual.First().ToString());
         }
