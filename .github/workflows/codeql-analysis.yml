@@ -63,8 +63,6 @@ jobs:
     #    uses a compiled language
 
     - run: |
-    #   make bootstrap
-    #   make release
         dotnet restore
         dotnet build --no-restore -c Release
         
