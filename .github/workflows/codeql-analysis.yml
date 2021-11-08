@@ -33,7 +33,6 @@ jobs:
       fail-fast: false
       matrix:
         language: [ 'csharp' ]
-        dotnet: ['3.0.x', '3.1.x', '5.0.x', '6.0.x']
         # CodeQL supports [ 'cpp', 'csharp', 'go', 'java', 'javascript', 'python', 'ruby' ]
         # Learn more about CodeQL language support at https://git.io/codeql-language-support
 
@@ -44,7 +43,7 @@ jobs:
     - name: Setup dotnet
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: ${{ matrix.dotnet }}
+        dotnet-version: '6.0.x'
         include-prerelease: true
 
     # Initializes the CodeQL tools for scanning.
