@@ -46,15 +46,6 @@ namespace SimplifiedSearch.Tests.Models
             return results;
         }
 
-        private static IList<int> GetInts()
-        {
-            var list = new List<int>();
-            for (var i = 1; i <= 100; i++)
-                list.Add(i);
-
-            return list;
-        }
-
         private static ICollection<string> GetRedditAnime()
         {
             var path = GetPath(RedditAnimeFileName);
@@ -101,8 +92,6 @@ namespace SimplifiedSearch.Tests.Models
         internal static IList<TestItem> Countries { get; } = TestItemFromFile(CountriesFileName);
 
         internal static IList<string?> CountriesString { get; } = TestItemFromFileField(CountriesFileName, x => x.Name);
-
-        internal static IList<int> Ids { get; } = GetInts();
 
         internal static IList<TestItem> UsStates { get; } = TestItemFromFile(UsStatesFileName);
 
