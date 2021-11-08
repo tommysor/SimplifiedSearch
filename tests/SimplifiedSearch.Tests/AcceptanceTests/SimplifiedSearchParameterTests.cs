@@ -112,9 +112,13 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Fact]
         public async Task SimplifiedSearch_ListOfInt()
         {
-            var actual = await _search.SimplifiedSearchAsync(TestData.Ids, "23");
+            var ids = new List<int>();
+            for (var i = 0; i < 30; i++)
+                ids.Add(i);
 
-            Assert.Equal("23", actual.First().ToString());
+            var actual = await _search.SimplifiedSearchAsync(ids, "23");
+
+            Assert.Single(actual, 23);
         }
 
         [Fact]
