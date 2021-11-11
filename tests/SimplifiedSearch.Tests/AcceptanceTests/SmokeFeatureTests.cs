@@ -12,18 +12,18 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
     /// <summary>
     /// Try each feature one at a time from top level.
     /// </summary>
-    public class SimplifiedSearchSmokeFeatureTests
+    public class SmokeFeatureTests
     {
         private readonly ISimplifiedSearch _search;
 
-        public SimplifiedSearchSmokeFeatureTests()
+        public SmokeFeatureTests()
         {
             var factory = new SimplifiedSearchFactory();
             _search = factory.GetSimplifiedSearch();
         }
 
         [Fact]
-        public async Task SimplifiedSearch_MatchWholeWordExcact()
+        public async Task MatchWholeWordExcact()
         {
             var expected = TestData.UsStates.First(x => x.Name == "California");
 
@@ -33,7 +33,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_MatchWholeWordExactCaseInsensitive()
+        public async Task MatchWholeWordExactCaseInsensitive()
         {
             var expected = TestData.UsStates.First(x => x.Name == "Arkansas");
 
@@ -43,7 +43,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_MatchStartOfWordExact()
+        public async Task MatchStartOfWordExact()
         {
             var expected = TestData.UsStates.First(x => x.Name == "Maryland");
 
@@ -53,7 +53,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_MatchWholeWordFuzzy()
+        public async Task MatchWholeWordFuzzy()
         {
             var expected = TestData.UsStates.First(x => x.Name == "Montana");
 
@@ -64,7 +64,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_MatchStartOfWordFuzzy()
+        public async Task MatchStartOfWordFuzzy()
         {
             var expected = TestData.UsStates.First(x => x.Name == "Hawaii");
 
@@ -75,7 +75,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact(Skip = "Ascii folding not implemented.")]
-        public async Task SimplifiedSearch_MatchAsciiFoldedWordExact_SearchList()
+        public async Task MatchAsciiFoldedWordExact_SearchList()
         {
             //                                                                                 Düsseldorf
             var actual = await _search.SimplifiedSearchAsync(TestData.GermanDistrictsLimited, "Dusseldorf", x => x.Name);
@@ -83,7 +83,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact(Skip = "Ascii folding not implemented.")]
-        public async Task SimplifiedSearch_MatchAsciiFoldedWordExact_SearchTerm()
+        public async Task MatchAsciiFoldedWordExact_SearchTerm()
         {
             //                                                                                 Böblingen
             var actual = await _search.SimplifiedSearchAsync(TestData.GermanDistrictsLimited, "Böblingeñ", x => x.Name);
@@ -91,7 +91,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact(Skip = "Ascii folding not implemented.")]
-        public async Task SimplifiedSearch_MatchAsciiFoldedWordExact_SearchList_DoubleAscii()
+        public async Task MatchAsciiFoldedWordExact_SearchList_DoubleAscii()
         {
             // string.Contains with CurrentCultureIgnoreCase will pass this test.
             //                                                                                 Bergstraße
@@ -100,7 +100,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact(Skip = "Ascii folding not implemented.")]
-        public async Task SimplifiedSearch_MatchAsciiFoldedWordExact_SearchTerm_DoubleAscii()
+        public async Task MatchAsciiFoldedWordExact_SearchTerm_DoubleAscii()
         {
             // string.Contains with CurrentCultureIgnoreCase will pass this test.
             //                                                                                 Düsseldorf

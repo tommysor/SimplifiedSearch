@@ -9,18 +9,18 @@ using Xunit;
 
 namespace SimplifiedSearch.Tests.AcceptanceTests
 {
-    public class SimplifiedSearchParameterTests
+    public class ParameterTests
     {
         private readonly ISimplifiedSearch _search;
 
-        public SimplifiedSearchParameterTests()
+        public ParameterTests()
         {
             var factory = new SimplifiedSearchFactory();
             _search = factory.GetSimplifiedSearch();
         }
 
         [Fact]
-        public async Task SimplifiedSearch_ListNull_ThrowsException()
+        public async Task ListNull_ThrowsException()
         {
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
             var func = new Func<Task>(async () => await _search.SimplifiedSearchAsync<TestItem>(null, "a", x => x.Name));
@@ -30,7 +30,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_SearchTermNull_ReturnsSameList()
+        public async Task SearchTermNull_ReturnsSameList()
         {
             var expected = TestData.UsStates;
 
@@ -42,7 +42,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_SearchTermEmpty_ReturnsSameList()
+        public async Task SearchTermEmpty_ReturnsSameList()
         {
             var expected = TestData.UsStates;
 
@@ -52,7 +52,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_fieldToSearch_SearchOnlyThatField()
+        public async Task fieldToSearch_SearchOnlyThatField()
         {
             var list = new[]
             {
@@ -68,7 +68,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_fieldToSearchNull_SearchAllFields()
+        public async Task fieldToSearchNull_SearchAllFields()
         {
             var list = new[]
             {
@@ -85,7 +85,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_fieldToSearchNull_Overload_searchAllFields()
+        public async Task fieldToSearchNull_Overload_searchAllFields()
         {
             var list = new[]
 {
@@ -102,7 +102,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_ListOfString()
+        public async Task ListOfString()
         {
             var actual = await _search.SimplifiedSearchAsync(TestData.CountriesString, "Bahamas");
 
@@ -110,7 +110,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_ListOfInt()
+        public async Task ListOfInt()
         {
             var ids = new List<int>();
             for (var i = 0; i < 30; i++)
@@ -122,7 +122,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_ListOfEnum()
+        public async Task ListOfEnum()
         {
             var actual = await _search.SimplifiedSearchAsync(TestData.Enums, nameof(TestEnum.Second));
 
@@ -130,7 +130,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_ListOfItemWithEnum_SpesifyField()
+        public async Task ListOfItemWithEnum_SpesifyField()
         {
             var expected = TestData.ItemsWithEnum.First(x => x.TestEnum == TestEnum.Second);
 
@@ -140,7 +140,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task SimplifiedSearch_ListOfItemWithEnum_AutoFields()
+        public async Task ListOfItemWithEnum_AutoFields()
         {
             var expected = TestData.ItemsWithEnum.First(x => x.TestEnum == TestEnum.Second);
 

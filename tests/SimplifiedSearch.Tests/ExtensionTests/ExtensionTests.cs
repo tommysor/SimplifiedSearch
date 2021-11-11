@@ -9,10 +9,10 @@ using Xunit;
 
 namespace SimplifiedSearch.Tests.ExtensionTests
 {
-    public class SimplifiedSearchExtensionTests
+    public class ExtensionTests
     {
         [Fact]
-        public  async Task Extension_List_PassesList()
+        public  async Task List_PassesList()
         {
             var list = TestData.Countries.ToList();
             var expected = list;
@@ -21,7 +21,7 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
-        public async Task Extension_Enumerable_PassesList()
+        public async Task Enumerable_PassesList()
         {
             var list = TestData.Countries.AsEnumerable();
             var expected = list;
@@ -31,7 +31,7 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
-        public async Task Extension_List_PassesSearchTerm()
+        public async Task List_PassesSearchTerm()
         {
             var list = TestData.Countries.ToList();
             var expected = TestData.Countries.First(x => x.Name == "Albania");
@@ -40,7 +40,7 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
-        public async Task Extension_Enumerable_PassesSearchTerm()
+        public async Task Enumerable_PassesSearchTerm()
         {
             var list = TestData.Countries.AsEnumerable();
             var expected = TestData.Countries.First(x => x.Name == "Albania");
@@ -49,7 +49,7 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
-        public async Task Extension_List_PassesProperty()
+        public async Task List_PassesProperty()
         {
             var list = new[]
 {
@@ -66,7 +66,7 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
-        public async Task Extension_Enumerable_PassesProperty()
+        public async Task Enumerable_PassesProperty()
         {
             var listTmp = new[]
 {
@@ -85,7 +85,7 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
-        public async Task Extension_List_FieldToSearchOptional()
+        public async Task List_FieldToSearchOptional()
         {
             var actual = await TestData.CountriesString.SimplifiedSearchAsync("Morocco");
 
@@ -93,7 +93,7 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
-        public async Task Extension_Enumerable_FieldToSearchOptional()
+        public async Task Enumerable_FieldToSearchOptional()
         {
             var enumerableToSearch = TestData.CountriesString.AsEnumerable();
 

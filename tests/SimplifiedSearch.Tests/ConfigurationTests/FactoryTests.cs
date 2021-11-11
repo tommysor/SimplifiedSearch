@@ -8,10 +8,10 @@ using Xunit;
 
 namespace SimplifiedSearch.Tests.ConfigurationTests
 {
-    public class SimplifiedSearchFactoryTests
+    public class FactoryTests
     {
         [Fact]
-        public async Task SimplifiedSearchFactory_NoExplicitSettings_CanBeUsed()
+        public async Task NoExplicitSettings_CanBeUsed()
         {
             var factory = new SimplifiedSearchFactory();
             var simplifiedSearch = factory.GetSimplifiedSearch();
@@ -20,7 +20,7 @@ namespace SimplifiedSearch.Tests.ConfigurationTests
         }
 
         [Fact(Skip = "Functionality not implemented.")]
-        public async Task SimplifiedSearchFactory_FuzzySearchMaxDifferences_IsRespected()
+        public async Task FuzzySearchMaxDifferences_IsRespected()
         {
             //todo Check test value is not default value.
 

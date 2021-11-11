@@ -10,12 +10,12 @@ using Xunit;
 
 namespace SimplifiedSearch.Tests.PerformanceTests
 {
-    public class SimplifiedSearchSmokePerformanceTests
+    public class SmokePerformanceTests
     {
         private readonly ISimplifiedSearch _search;
         private readonly IList<TestItem> _persons;
 
-        public SimplifiedSearchSmokePerformanceTests()
+        public SmokePerformanceTests()
         {
             var factory = new SimplifiedSearchFactory();
             _search = factory.GetSimplifiedSearch();
@@ -26,7 +26,7 @@ namespace SimplifiedSearch.Tests.PerformanceTests
         }
 
         [Fact(Timeout = 100, Skip = "TODO Benchmark?")]
-        public async Task SimplifiedSearch_Perf01()
+        public async Task Perf01()
         {
             var sw = new Stopwatch();
             sw.Start();

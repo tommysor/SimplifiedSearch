@@ -8,11 +8,11 @@ using Xunit;
 
 namespace SimplifiedSearch.Tests.AcceptanceTests
 {
-    public class SimplifiedSearchReasonableResultTests
+    public class ReasonableResultTests
     {
         private readonly ISimplifiedSearch _search;
 
-        public SimplifiedSearchReasonableResultTests()
+        public ReasonableResultTests()
         {
             var factory = new SimplifiedSearchFactory();
             _search = factory.GetSimplifiedSearch();
@@ -24,7 +24,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [InlineData("Guinea", "Equatorial Guinea", "Guinea")]
         [InlineData("Niger", "Niger", "Nigeria")]
         [InlineData("Nigeria", "Nigeria", "Algeria")]
-        public async Task SimplifiedSearch_Countries_Top2(string search, string expect1, string expect2)
+        public async Task Countries_Top2(string search, string expect1, string expect2)
         {
             var expected1 = TestData.Countries.First(x => x.Name == expect1);
             var expected2 = TestData.Countries.First(x => x.Name == expect2);
@@ -42,7 +42,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Theory]
         [InlineData("York", "New York")]
         [InlineData("Loui", "Louisiana")]
-        public async Task SimplifiedSearch_UsStates_Top1(string search, string expectTop)
+        public async Task UsStates_Top1(string search, string expectTop)
         {
             var expectedTop = TestData.UsStates.First(x => x.Name == expectTop);
 
@@ -55,7 +55,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [InlineData("naruto ideas", "naruto and really original anime ideas like rakugo", "this naruto joke  link    http  imgurcomk8sjgwg")]
         [InlineData("joker favorite", "the  actual dialog  joke continues to be my favorite bit", "fanart corner    post your favorite anime related fanart")]
         [InlineData("main character", "in rewrite  the main character s fake name is suzuki bond", "it s supposed to be one of her cute character quirks")]
-        public async Task SimplifiedSearch_ShortText_Top2(string search, string expect1, string expect2)
+        public async Task ShortText_Top2(string search, string expect1, string expect2)
         {
             var actual = await _search.SimplifiedSearchAsync(TestData.RedditAnimeShortPosts, search);
 
@@ -74,7 +74,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [InlineData("potential plotprogression ideas",
             "_cross ange_  i felt like at every major plot intersection  they wrote six potential plotprogression ideas and then rolled a die to determine which one they d go with",
             "stands  jojo s bizarre adventure  are my favorite power there s so much potential for what they can do  and there are no signs of araki slowing down with the unique ideas")]
-        public async Task SimplifiedSearch_LongText_Top2(string search, string expect1, string expect2)
+        public async Task LongText_Top2(string search, string expect1, string expect2)
         {
             var actual = await _search.SimplifiedSearchAsync(TestData.RedditAnimeLongPosts, search);
 
