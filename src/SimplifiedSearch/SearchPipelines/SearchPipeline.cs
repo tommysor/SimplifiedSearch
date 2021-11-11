@@ -67,6 +67,12 @@ namespace SimplifiedSearch.SearchPipelines
 
         private async Task<string[]> GetFieldTokens(string fieldValue)
         {
+            // Project intended to search short texts.
+            // If fed very long field values, only search first part of field.
+            // In order to complete in reasonable time.
+            if (fieldValue.Length > 5000)
+                fieldValue = fieldValue.Substring(0, 5000);
+            
             var fieldValueTokens = new[] { fieldValue };
             foreach (var component in _pipelineComponents)
             {
