@@ -88,13 +88,6 @@ namespace SimplifiedSearch.Tests.Models
             return list;
         }
 
-        private static IList<T> TestItemFromFileProperty<T>(string fileName, Func<TestItem, T> selector)
-        {
-            var list = TestItemFromFile(fileName);
-            var results = list.Select(selector).ToArray();
-            return results;
-        }
-
         private static ICollection<string> GetRedditAnime()
         {
             var path = GetPath(RedditAnimeFileName);
