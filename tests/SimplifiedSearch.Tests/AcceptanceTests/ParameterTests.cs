@@ -73,7 +73,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
                 new TestItem { Id = 3, Name = "z"}
             };
 
-            var expected = list[0..2];
+            var expected = list.Take(2);
 
             var actual = await list.SimplifiedSearchAsync("1", null);
 
@@ -90,7 +90,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
                 new TestItem { Id = 3, Name = "z"}
             };
 
-            var expected = list[0..2];
+            var expected = list.Take(2);
 
             var actual = await list.SimplifiedSearchAsync("1");
 

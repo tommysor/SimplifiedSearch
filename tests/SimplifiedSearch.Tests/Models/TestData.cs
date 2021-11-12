@@ -24,7 +24,7 @@ namespace SimplifiedSearch.Tests.Models
         private static string GetPath(string fileName)
         {
             var baseDirectory = AppContext.BaseDirectory;
-            var path = baseDirectory + @"..\..\..\..\data\" + fileName;
+            var path = Path.Combine(baseDirectory, @"..\..\..\..\data\", fileName);
             return path;
         }
 
