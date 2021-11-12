@@ -1,4 +1,4 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 # SimplifiedSearch
 Simple way to add ranked fuzzy matching search.\
 For when you have up to a few thousand products, locations or similar and want to add a search that most users will see as smart, with minimal work.
