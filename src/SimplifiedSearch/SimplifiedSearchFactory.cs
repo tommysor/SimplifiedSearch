@@ -9,7 +9,7 @@ namespace SimplifiedSearch
     /// <summary>
     /// 
     /// </summary>
-    public class SimplifiedSearchFactory
+    internal class SimplifiedSearchFactory
     {
         private readonly SimplifiedSearchConfiguration _configuration;
 

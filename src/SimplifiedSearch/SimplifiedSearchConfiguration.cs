@@ -8,7 +8,7 @@ namespace SimplifiedSearch
     /// <summary>
     /// 
     /// </summary>
-    public record SimplifiedSearchConfiguration
+    internal record SimplifiedSearchConfiguration
     {
         /// <summary>
         /// Summary:

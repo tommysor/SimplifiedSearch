@@ -8,7 +8,7 @@ namespace SimplifiedSearch
     /// <summary>
     /// 
     /// </summary>
-    public interface ISimplifiedSearch
+    internal interface ISimplifiedSearch
     {
         //todo doc Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? fieldToSearch);
         /// <summary>

@@ -10,14 +10,6 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 {
     public class ReasonableResultTests
     {
-        private readonly ISimplifiedSearch _search;
-
-        public ReasonableResultTests()
-        {
-            var factory = new SimplifiedSearchFactory();
-            _search = factory.GetSimplifiedSearch();
-        }
-
         [Theory]
         [InlineData("tailand", "Thailand", "Taiwan")]
         //todo Prefer closer to total match ? [InlineData("Guinea", "Equatorial Guinea", "Guinea")]
@@ -29,7 +21,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             var expected1 = TestData.Countries.First(x => x.Name == expect1);
             var expected2 = TestData.Countries.First(x => x.Name == expect2);
 
-            var actual = await _search.SimplifiedSearchAsync(TestData.Countries, search, x => x.Name);
+            var actual = await TestData.Countries.SimplifiedSearchAsync(search, x => x.Name);
 
             var actual1 = actual[0];
             Assert.Same(expected1, actual1);
@@ -46,7 +38,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         {
             var expectedTop = TestData.UsStates.First(x => x.Name == expectTop);
 
-            var actual = await _search.SimplifiedSearchAsync(TestData.UsStates, search, x => x.Name);
+            var actual = await TestData.UsStates.SimplifiedSearchAsync(search, x => x.Name);
 
             Assert.Same(expectedTop, actual.First());
         }
@@ -57,7 +49,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [InlineData("main character", "in rewrite  the main character s fake name is suzuki bond", "it s supposed to be one of her cute character quirks")]
         public async Task ShortText_Top2(string search, string expect1, string expect2)
         {
-            var actual = await _search.SimplifiedSearchAsync(TestData.RedditAnimeShortPosts, search);
+            var actual = await TestData.RedditAnimeShortPosts.SimplifiedSearchAsync(search);
 
             var actual1 = actual[0];
             Assert.Equal(expect1, actual1);
@@ -76,7 +68,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             "stands  jojo s bizarre adventure  are my favorite power there s so much potential for what they can do  and there are no signs of araki slowing down with the unique ideas")]
         public async Task LongText_Top2(string search, string expect1, string expect2)
         {
-            var actual = await _search.SimplifiedSearchAsync(TestData.RedditAnimeLongPosts, search);
+            var actual = await TestData.RedditAnimeLongPosts.SimplifiedSearchAsync(search);
 
             var actual1 = actual[0];
             Assert.Equal(expect1, actual1);

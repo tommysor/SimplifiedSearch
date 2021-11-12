@@ -12,13 +12,10 @@ namespace SimplifiedSearch.Tests.PerformanceTests
 {
     public class SmokePerformanceTests
     {
-        private readonly ISimplifiedSearch _search;
         private readonly IList<TestItem> _persons;
 
         public SmokePerformanceTests()
         {
-            var factory = new SimplifiedSearchFactory();
-            _search = factory.GetSimplifiedSearch();
             _persons = new Faker<TestItem>()
                 .RuleFor(x => x.Id, x => x.IndexFaker)
                 .RuleFor(x => x.Name, x => x.Person.FirstName)
@@ -33,7 +30,7 @@ namespace SimplifiedSearch.Tests.PerformanceTests
             using var cancellationTokenSource = new CancellationTokenSource(100);
             var cancellationToken = cancellationTokenSource.Token;
 
-            await _search.SimplifiedSearchAsync(_persons, "a", null);
+            await _persons.SimplifiedSearchAsync("a", null);
 
             sw.Stop();
             var xxx = sw.ElapsedMilliseconds;
