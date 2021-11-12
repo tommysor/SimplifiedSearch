@@ -10,7 +10,7 @@ namespace SimplifiedSearch
     /// </summary>
     internal interface ISimplifiedSearch
     {
-        //todo doc Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? fieldToSearch);
+        //todo doc Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda);
         /// <summary>
         /// 
         /// </summary>
@@ -19,7 +19,7 @@ namespace SimplifiedSearch
         /// <param name="searchTerm"></param>
         /// <param name="fieldToSearch"></param>
         /// <returns></returns>
-        Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? fieldToSearch);
+        Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda);
 
         //todo doc Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm);
         /// <summary>

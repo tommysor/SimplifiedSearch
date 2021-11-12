@@ -85,7 +85,7 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
-        public async Task List_FieldToSearchOptional()
+        public async Task List_PropertyToSearchOptional()
         {
             var actual = await TestData.CountriesString.SimplifiedSearchAsync("Morocco");
 
@@ -93,7 +93,7 @@ namespace SimplifiedSearch.Tests.ExtensionTests
         }
 
         [Fact]
-        public async Task Enumerable_FieldToSearchOptional()
+        public async Task Enumerable_PropertyToSearchOptional()
         {
             var enumerableToSearch = TestData.CountriesString.AsEnumerable();
 

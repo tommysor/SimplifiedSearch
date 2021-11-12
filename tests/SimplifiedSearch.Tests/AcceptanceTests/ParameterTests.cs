@@ -48,7 +48,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task FieldToSearch_SearchOnlyThatField()
+        public async Task PropertyToSearch_SearchOnlyThatProperty()
         {
             var list = new[]
             {
@@ -64,7 +64,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task FieldToSearchNull_SearchAllFields()
+        public async Task PropertyToSearchNull_SearchAllProperty()
         {
             var list = new[]
             {
@@ -81,7 +81,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task FieldToSearchNull_Overload_searchAllFields()
+        public async Task PropertyToSearchNull_Overload_searchAllProperty()
         {
             var list = new[]
 {
@@ -126,7 +126,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task ListOfItemWithEnum_SpesifyField()
+        public async Task ListOfItemWithEnum_SpesifyProperty()
         {
             var expected = TestData.ItemsWithEnum.First(x => x.TestEnum == TestEnum.Second);
 
@@ -136,7 +136,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
-        public async Task ListOfItemWithEnum_AutoFields()
+        public async Task ListOfItemWithEnum_AutoProperty()
         {
             var expected = TestData.ItemsWithEnum.First(x => x.TestEnum == TestEnum.Second);
 

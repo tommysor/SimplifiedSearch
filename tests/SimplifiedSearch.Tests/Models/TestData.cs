@@ -39,7 +39,7 @@ namespace SimplifiedSearch.Tests.Models
             return list;
         }
 
-        private static IList<T> TestItemFromFileField<T>(string fileName, Func<TestItem, T> selector)
+        private static IList<T> TestItemFromFileProperty<T>(string fileName, Func<TestItem, T> selector)
         {
             var list = TestItemFromFile(fileName);
             var results = list.Select(selector).ToArray();
@@ -91,7 +91,7 @@ namespace SimplifiedSearch.Tests.Models
 
         internal static IList<TestItem> Countries { get; } = TestItemFromFile(CountriesFileName);
 
-        internal static IList<string?> CountriesString { get; } = TestItemFromFileField(CountriesFileName, x => x.Name);
+        internal static IList<string?> CountriesString { get; } = TestItemFromFileProperty(CountriesFileName, x => x.Name);
 
         internal static IList<TestItem> UsStates { get; } = TestItemFromFile(UsStatesFileName);
 

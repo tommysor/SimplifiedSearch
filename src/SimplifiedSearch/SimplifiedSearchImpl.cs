@@ -16,7 +16,7 @@ namespace SimplifiedSearch
             _searchPipeline = searchPipeline ?? throw new ArgumentNullException(nameof(searchPipeline));
         }
 
-        public async Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? fieldToSearch)
+        public async Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda)
         {
             // Validate arguments.
             if (searchThisList is null)
@@ -27,16 +27,16 @@ namespace SimplifiedSearch
                 return searchThisList;
 
             // If no field is specified, build field of all properties.
-            if (fieldToSearch is null)
+            if (propertyToSearchLambda is null)
             {
                 var type = typeof(T);
                 if (type == typeof(string) || type.IsPrimitive || type.IsEnum)
                 {
-                    fieldToSearch = new Func<T, string>(x => x?.ToString() ?? "");
+                    propertyToSearchLambda = new Func<T, string>(x => x?.ToString() ?? "");
                 }
                 else
                 {
-                    fieldToSearch = new Func<T, string?>(x =>
+                    propertyToSearchLambda = new Func<T, string?>(x =>
                     {
                         var properties = type.GetProperties().Where(p => p.CanRead);
                         var stringBuilder = new StringBuilder();
@@ -52,7 +52,7 @@ namespace SimplifiedSearch
             }
 
             // Build the results.
-            var results = await _searchPipeline.SearchAsync(searchThisList, searchTerm, fieldToSearch).ConfigureAwait(false);
+            var results = await _searchPipeline.SearchAsync(searchThisList, searchTerm, propertyToSearchLambda).ConfigureAwait(false);
 
             return results;
         }
