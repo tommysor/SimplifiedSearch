@@ -24,3 +24,8 @@ foreach (var country in matches)
 // # Thailand
 // # Taiwan
 ```
+### Acknowledgements
+#### https://github.com/annexare/Countries
+[MIT Licence](tests/data/annexare/Countries/LICENSE)
+Test data: countries.
+`tests/data/annexare/Countries/countries.json`

@@ -11,7 +11,6 @@ namespace SimplifiedSearch.Tests.Models
 {
     internal static class TestData
     {
-        private const string CountriesFileName = "countries.txt";
         private const string UsStatesFileName = "UsStates.txt";
         
         /// <summary>
@@ -21,11 +20,61 @@ namespace SimplifiedSearch.Tests.Models
 
         private const int RedditShortLongCutoffPoint = 60;
 
-        private static string GetPath(string fileName)
+        static TestData()
+        {
+            Countries = GetCountries();
+            CountriesString = Countries.Select(x => x.Name).ToArray();
+        }
+
+        private static string GetPathToDataDirectory()
         {
             var baseDirectory = AppContext.BaseDirectory;
-            var path = Path.Combine(baseDirectory, @"..\..\..\..\data\", fileName);
+            var path = Path.Combine(baseDirectory, @"..\..\..\..\data\");
             return path;
+        }
+
+        private static string GetPath(string fileName)
+        {
+            var baseDirectory = GetPathToDataDirectory();
+            var path = Path.Combine(baseDirectory, fileName);
+            return path;
+        }
+
+        private static IList<TestItem> GetCountries()
+        {
+            var pathData = GetPathToDataDirectory();
+            var path = Path.Combine(pathData, "annexare", "Countries", "countries.json");
+
+            using var streamReader = new StreamReader(path);
+            var fileContent = streamReader.ReadToEnd();
+            var deserializedObject = Newtonsoft.Json.JsonConvert.DeserializeObject(fileContent);
+            if (deserializedObject is not Newtonsoft.Json.Linq.JObject countries)
+                throw new InvalidOperationException($"Failed to get testdata 'Countries'. Expected result of type '{typeof(Newtonsoft.Json.Linq.JObject)}', got object of type '{deserializedObject?.GetType()}'");
+
+            var results = new List<TestItem>();
+            var index = 0;
+            foreach (var country in countries)
+            {
+                if (country.Value is not Newtonsoft.Json.Linq.JObject countryValues)
+                    continue;
+
+                foreach (var countryValue in countryValues)
+                {
+                    if ("name".Equals(countryValue.Key, StringComparison.InvariantCultureIgnoreCase))
+                    {
+                        var countryName = countryValue.Value?.ToString();
+                        if (!string.IsNullOrEmpty(countryName))
+                        {
+                            index++;
+                            var testItem = new TestItem { Id = index, Name = countryName };
+                            results.Add(testItem);
+                        }
+                        break;
+                    }
+                }
+            }
+
+            return results;
         }
 
         private static IList<TestItem> TestItemFromFile(string fileName)
@@ -89,20 +138,11 @@ namespace SimplifiedSearch.Tests.Models
             return list;
         }
 
-        internal static IList<TestItem> Countries { get; } = TestItemFromFile(CountriesFileName);
+        internal static IList<TestItem> Countries { get; } //= TestItemFromFile(CountriesFileName);
 
-        internal static IList<string?> CountriesString { get; } = TestItemFromFileProperty(CountriesFileName, x => x.Name);
+        internal static IList<string?> CountriesString { get; } //= TestItemFromFileProperty(CountriesFileName, x => x.Name);
 
         internal static IList<TestItem> UsStates { get; } = TestItemFromFile(UsStatesFileName);
-
-        internal static IList<TestItem> GermanDistrictsLimited { get; } = new[]
-        {
-            new TestItem { Id = 1, Name = "Düsseldorf" },
-            new TestItem { Id = 2, Name = "Bergstraße" },
-            new TestItem { Id = 3, Name = "Böblingen" },
-            new TestItem { Id = 4, Name = "Ostallgäu" },
-            new TestItem { Id = 5, Name = "Südliche Weinstraße"}
-        };
 
         internal static IList<string> RedditAnimeShortPosts { get; } = GetRedditAnimeShortPosts();
 

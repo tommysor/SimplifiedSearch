@@ -12,8 +12,6 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
     {
         [Theory]
         [InlineData("tailand", "Thailand", "Taiwan")]
-        //todo Prefer closer to total match ? [InlineData("Guinea", "Equatorial Guinea", "Guinea")]
-        [InlineData("Guinea", "Equatorial Guinea", "Guinea")]
         [InlineData("Niger", "Niger", "Nigeria")]
         [InlineData("Nigeria", "Nigeria", "Algeria")]
         public async Task Countries_Top2(string search, string expect1, string expect2)
