@@ -27,12 +27,15 @@ steps:
     projects: '**/*.csproj'
     feedsToUse: 'select'
 
+- script: OnlyBuildNetStandard2_0=True
+  displayName: 'Set OnlyBuildNetStandard2_0'
+
 - task: DotNetCoreCLI@2
   displayName: 'Build netstandard2.0'
   inputs:
     command: 'build'
     projects: 'src/**/*.csproj'
-    arguments: '--no-restore -c $(buildConfiguration) -f netstandard2.0'
+    arguments: '--no-restore -c $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build test project for netstandard2.0'
@@ -47,6 +50,9 @@ steps:
     command: 'test'
     projects: 'tests/**/*.csproj'
     arguments: '--no-build -c $(buildConfiguration) -f net6.0'
+
+- script: unset OnlyBuildNetStandard2_0
+  displayName: 'remove OnlyBuildNetStandard2_0'
 
 - task: UseDotNet@2
   displayName: 'Use NET5.0'

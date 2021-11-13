@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;netstandard2.1</TargetFrameworks>
+	<TargetFramework Condition="$(OnlyBuildNetStandard2_0) == 'True'">netstandard2.0</TargetFramework>
+    <TargetFrameworks Condition="$(OnlyBuildNetStandard2_0) != 'True'">netstandard2.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
 	<LangVersion>latest</LangVersion>
 
@@ -17,7 +18,7 @@
   </PropertyGroup>
   
   <ItemGroup>
-      <None Include="..\..\README.md" Pack="true" PackagePath="\"/>
+      <None Include="..\..\README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
 
   <ItemGroup>
