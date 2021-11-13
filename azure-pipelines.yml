@@ -29,10 +29,18 @@ steps:
 
 - script: |
     export OnlyBuildNetStandard2_0=True
+    echo '!!! BUILD !!!'
+    dotnet build 'tests/**/*.csproj' --no-restore -c $(buildConfiguration) -f net6.0
+    echo '!!! TEST !!!'
+    dotnet test 'tests/**/*.csproj' --no-build -c $(buildConfiguration) -f net6.0
     echo '---'
     echo $OnlyBuildNetStandard2_0
     echo '---'
-  displayName: 'Set OnlyBuildNetStandard2_0'
+    unset OnlyBuildNetStandard2_0
+    echo '---'
+    echo $OnlyBuildNetStandard2_0
+    echo '---'
+  displayName: 'Test netstandard2.0'
 
 - script: |
     echo '---'
