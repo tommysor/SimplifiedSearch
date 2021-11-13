@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+	<!-- Conditional TargetFramework is used to force a test using netstandard2.0 in Azure pipeline. -->
 	<TargetFramework Condition="$(OnlyBuildNetStandard2_0) == 'True'">netstandard2.0</TargetFramework>
     <TargetFrameworks Condition="$(OnlyBuildNetStandard2_0) != 'True'">netstandard2.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
@@ -14,7 +15,7 @@
 	  <PackageProjectUrl>https://github.com/tommysor/SimplifiedSearch</PackageProjectUrl>
 	  <Description>Simple way to add ranked fuzzy matching search. For when you have up to a few thousand products, locations or similar and want to add a search that most users will see as smart, with minimal work.</Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
-	  <PackageTags>search simple fuzzy</PackageTags>
+	  <PackageTags>simple ranked fuzzy search</PackageTags>
   </PropertyGroup>
   
   <ItemGroup>
