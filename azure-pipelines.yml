@@ -5,7 +5,7 @@
 # https://aka.ms/yaml
 
 trigger:
-- main
+- none
 
 pool:
   vmImage: ubuntu-latest
@@ -20,12 +20,28 @@ steps:
   displayName: 'Run a multi-line script'
 
 - task: UseDotNet@2
+  displayName: 'Use NET6.0'
   inputs:
     packageType: 'sdk'
     version: '6.x'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Restore'
   inputs:
     command: 'restore'
     projects: '**/*.csproj'
     feedsToUse: 'select'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Build'
+  inputs:
+    command: 'build'
+    projects: '**/*.csproj'
+    arguments: '--no-restore'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Test'
+  inputs:
+    command: 'test'
+    projects: 'tests/**/*.csproj'
+    arguments: '--no-build'
