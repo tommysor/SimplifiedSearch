@@ -44,4 +44,4 @@ steps:
   inputs:
     command: 'test'
     projects: 'tests/**/*.csproj'
-    arguments: '--no-build'
+    arguments: '--no-build -c Release'
