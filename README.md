@@ -1,4 +1,5 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE).
+See [Acknowledgements](#Acknowledgements) for additional license information covering parts of the project.
 # SimplifiedSearch
 Simple way to add ranked fuzzy matching search.\
 For when you have up to a few thousand products, locations or similar and want to add a search that most users will see as smart, with minimal work.
@@ -27,4 +28,5 @@ foreach (var country in matches)
 ```
 ### Acknowledgements
 #### https://github.com/annexare/Countries
-For test data.
+For test data `tests/data/annexare/Countries/*`.\
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/annexare/Countries/LICENSE](tests/data/annexare/Countries/LICENSE).
