@@ -30,3 +30,6 @@ foreach (var country in matches)
 #### https://github.com/annexare/Countries
 For test data `tests/data/annexare/Countries/*`.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/annexare/Countries/LICENSE](tests/data/annexare/Countries/LICENSE).
+#### https://github.com/CivilServiceUSA/us-states
+For test data `tests/data/CivilServiceUSA/us-states/*`\
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/CivilServiceUSA/us-states/LICENSE](tests/data/CivilServiceUSA/us-states/LICENSE).

@@ -11,8 +11,6 @@ namespace SimplifiedSearch.Tests.Models
 {
     internal static class TestData
     {
-        private const string UsStatesFileName = "UsStates.txt";
-        
         /// <summary>
         /// This file is from https://github.com/linanqiu/reddit-dataset
         /// </summary>
@@ -77,6 +75,32 @@ namespace SimplifiedSearch.Tests.Models
             return results;
         }
 
+        private static IList<TestItem> GetUsStates()
+        {
+            var pathData = GetPathToDataDirectory();
+            var path = Path.Combine(pathData, "CivilServiceUSA", "us-states", "states.json");
+
+            using var streamReader = new StreamReader(path);
+            var fileContent = streamReader.ReadToEnd();
+            var states = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(fileContent, new[] { new { state = "" } });
+            if (states is null)
+                throw new InvalidOperationException($"Failed to get testdata 'UsStates'.");
+
+            var results = new List<TestItem>();
+            var index = 0;
+            foreach (var state in states)
+            {
+                if (!string.IsNullOrEmpty(state.state))
+                {
+                    index++;
+                    var testItem = new TestItem { Id = index, Name = state.state };
+                    results.Add(testItem);
+                }
+            }
+
+            return results;
+        }
+
         private static IList<TestItem> TestItemFromFile(string fileName)
         {
             var path = GetPath(fileName);
@@ -131,11 +155,11 @@ namespace SimplifiedSearch.Tests.Models
             return list;
         }
 
-        internal static IList<TestItem> Countries { get; } //= TestItemFromFile(CountriesFileName);
+        internal static IList<TestItem> Countries { get; }
 
-        internal static IList<string?> CountriesString { get; } //= TestItemFromFileProperty(CountriesFileName, x => x.Name);
+        internal static IList<string?> CountriesString { get; }
 
-        internal static IList<TestItem> UsStates { get; } = TestItemFromFile(UsStatesFileName);
+        internal static IList<TestItem> UsStates { get; } = GetUsStates();
 
         internal static IList<string> RedditAnimeShortPosts { get; } = GetRedditAnimeShortPosts();
 
