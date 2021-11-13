@@ -37,7 +37,7 @@ steps:
   inputs:
     command: 'build'
     projects: '**/*.csproj'
-    arguments: '--no-restore'
+    arguments: '--no-restore -c Release'
 
 - task: DotNetCoreCLI@2
   displayName: 'Test'
