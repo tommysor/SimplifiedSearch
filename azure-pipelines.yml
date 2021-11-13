@@ -39,7 +39,7 @@ steps:
   inputs:
     command: 'test'
     projects: 'tests/**/*.csproj'
-    arguments: '--no-build -c $(buildConfiguration) -f net6.0'
+    arguments: '--no-restore -c $(buildConfiguration) -f net6.0'
 
 - task: UseDotNet@2
   displayName: 'Use NET5.0'
