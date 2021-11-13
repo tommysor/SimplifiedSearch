@@ -17,8 +17,6 @@ variables:
 steps:
 - task: UseDotNet@2
   displayName: 'Install NET6.0'
-  env:
-    
   inputs:
     packageType: 'sdk'
     version: '6.x'
