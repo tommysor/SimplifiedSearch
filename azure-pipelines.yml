@@ -35,11 +35,18 @@ steps:
     arguments: '--no-restore -c $(buildConfiguration) -f netstandard2.0'
 
 - task: DotNetCoreCLI@2
+  displayName: 'Build test project for netstandard2.0'
+  inputs:
+    command: 'build'
+    projects: 'tests/**/*.csproj'
+    arguments: '--no-restore --no-dependencies -c $(buildConfiguration) -f net6.0'
+
+- task: DotNetCoreCLI@2
   displayName: 'Test netstandard2.0'
   inputs:
     command: 'test'
     projects: 'tests/**/*.csproj'
-    arguments: '--no-restore -c $(buildConfiguration) -f net6.0 --no-dependencies'
+    arguments: '--no-build -c $(buildConfiguration) -f net6.0'
 
 - task: UseDotNet@2
   displayName: 'Use NET5.0'
