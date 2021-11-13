@@ -11,30 +11,22 @@ namespace SimplifiedSearch.Tests.Models
 {
     internal static class TestData
     {
-        /// <summary>
-        /// This file is from https://github.com/linanqiu/reddit-dataset
-        /// </summary>
-        private const string RedditAnimeFileName = "entertainment_anime.csv";
-
         private const int RedditShortLongCutoffPoint = 60;
 
         static TestData()
         {
             Countries = GetCountries();
             CountriesString = Countries.Select(x => x.Name).ToArray();
+
+            var redditAnimes = GetRedditAnime();
+            RedditAnimeShortPosts = GetRedditAnimeShortPosts(redditAnimes);
+            RedditAnimeLongPosts = GetRedditAnimeLongPosts(redditAnimes);
         }
 
         private static string GetPathToDataDirectory()
         {
             var baseDirectory = AppContext.BaseDirectory;
             var path = Path.Combine(baseDirectory, @"..\..\..\..\data\");
-            return path;
-        }
-
-        private static string GetPath(string fileName)
-        {
-            var baseDirectory = GetPathToDataDirectory();
-            var path = Path.Combine(baseDirectory, fileName);
             return path;
         }
 
@@ -101,20 +93,10 @@ namespace SimplifiedSearch.Tests.Models
             return results;
         }
 
-        private static IList<TestItem> TestItemFromFile(string fileName)
-        {
-            var path = GetPath(fileName);
-
-            var lines = File.ReadAllLines(path);
-            var list = new List<TestItem>();
-            for (var i = 0; i < lines.Length; i++)
-                list.Add(new TestItem { Id = i + 1, Name = lines[i] });
-            return list;
-        }
-
         private static ICollection<string> GetRedditAnime()
         {
-            var path = GetPath(RedditAnimeFileName);
+            var pathData = GetPathToDataDirectory();
+            var path = Path.Combine(pathData, "linanqiu", "reddit-dataset", "entertainment_anime.csv");
 
             using var streamReader = new StreamReader(path);
             using var csvReader = new CsvReader(streamReader, CultureInfo.GetCultureInfo("en-US"));
@@ -130,17 +112,15 @@ namespace SimplifiedSearch.Tests.Models
             return list;
         }
 
-        private static IList<string> GetRedditAnimeShortPosts()
+        private static IList<string> GetRedditAnimeShortPosts(ICollection<string> redditAnimes)
         {
-            var lines = GetRedditAnime();
-            var list = lines.Where(x => x.Length <= RedditShortLongCutoffPoint).ToArray();
+            var list = redditAnimes.Where(x => x.Length <= RedditShortLongCutoffPoint).ToArray();
             return list;
         }
 
-        private static IList<string> GetRedditAnimeLongPosts()
+        private static IList<string> GetRedditAnimeLongPosts(ICollection<string> redditAnimes)
         {
-            var lines = GetRedditAnime();
-            var list = lines.Where(x => x.Length > RedditShortLongCutoffPoint && x.Length <= 700).ToArray();
+            var list = redditAnimes.Where(x => x.Length > RedditShortLongCutoffPoint && x.Length <= 700).ToArray();
             return list;
         }
 
@@ -161,9 +141,9 @@ namespace SimplifiedSearch.Tests.Models
 
         internal static IList<TestItem> UsStates { get; } = GetUsStates();
 
-        internal static IList<string> RedditAnimeShortPosts { get; } = GetRedditAnimeShortPosts();
+        internal static IList<string> RedditAnimeShortPosts { get; }
 
-        internal static IList<string> RedditAnimeLongPosts { get; } = GetRedditAnimeLongPosts();
+        internal static IList<string> RedditAnimeLongPosts { get; }
 
         internal static IList<TestEnum> Enums { get; } = Enum.GetValues(typeof(TestEnum)).Cast<TestEnum>().ToArray();
 

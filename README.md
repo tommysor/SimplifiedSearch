@@ -33,3 +33,6 @@ For test data `tests/data/annexare/Countries/*`.\
 #### https://github.com/CivilServiceUSA/us-states
 For test data `tests/data/CivilServiceUSA/us-states/*`\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/CivilServiceUSA/us-states/LICENSE](tests/data/CivilServiceUSA/us-states/LICENSE).
+#### https://github.com/linanqiu/reddit-dataset
+For test data `tests/data/linanqiu/reddit-dataset/*`\
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/linanqiu/reddit-dataset/README.md](tests/data/linanqiu/reddit-dataset/README.md) (se bottom of readme).
