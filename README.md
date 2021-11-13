@@ -1,4 +1,4 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE).
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 See [Acknowledgements](#Acknowledgements) for additional license information covering parts of the project.
 # SimplifiedSearch
 Simple way to add ranked fuzzy matching search.\
