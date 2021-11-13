@@ -29,10 +29,16 @@ steps:
 
 - script: |
     export OnlyBuildNetStandard2_0=True
-    echo ###
+    echo '---'
     echo $OnlyBuildNetStandard2_0
-    echo ###
+    echo '---'
   displayName: 'Set OnlyBuildNetStandard2_0'
+
+- script: |
+    echo '---'
+    echo $OnlyBuildNetStandard2_0
+    echo '---'
+  displayName: '1 after OnlyBuildNetStandard2_0'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build netstandard2.0'
@@ -40,6 +46,12 @@ steps:
     command: 'build'
     projects: 'src/**/*.csproj'
     arguments: '--no-restore -c $(buildConfiguration)'
+
+- script: |
+    echo '---'
+    echo $OnlyBuildNetStandard2_0
+    echo '---'
+  displayName: 'after build OnlyBuildNetStandard2_0'
 
 - task: DotNetCoreCLI@2
   displayName: 'Build test project for netstandard2.0'
