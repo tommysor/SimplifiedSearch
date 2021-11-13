@@ -12,10 +12,13 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
+  OnlyBuildNetStandard2_0: True
 
 steps:
 - task: UseDotNet@2
   displayName: 'Install NET6.0'
+  env:
+    
   inputs:
     packageType: 'sdk'
     version: '6.x'
@@ -30,17 +33,10 @@ steps:
 - script: |
     export OnlyBuildNetStandard2_0=True
     echo '!!! BUILD !!!'
-    # C:\src\tests\SimplifiedSearch.Tests
     dotnet build 'tests/SimplifiedSearch.Tests/SimplifiedSearch.Tests.csproj' --no-restore -c $(buildConfiguration) -f net6.0
     echo '!!! TEST !!!'
     dotnet test 'tests/SimplifiedSearch.Tests/SimplifiedSearch.Tests.csproj' --no-build -c $(buildConfiguration) -f net6.0
-    echo '---'
-    echo $OnlyBuildNetStandard2_0
-    echo '---'
     unset OnlyBuildNetStandard2_0
-    echo '---'
-    echo $OnlyBuildNetStandard2_0
-    echo '---'
   displayName: 'Test netstandard2.0'
 
 - script: |
@@ -71,17 +67,12 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Test netstandard2.0'
+  env:
+    OnlyBuildNetStandard2_0: True
   inputs:
     command: 'test'
     projects: 'tests/**/*.csproj'
-    arguments: '--no-build -c $(buildConfiguration) -f net6.0'
-
-- script: |
-    unset OnlyBuildNetStandard2_0
-    echo ###
-    echo $OnlyBuildNetStandard2_0
-    echo ###
-  displayName: 'remove OnlyBuildNetStandard2_0'
+    arguments: '-c $(buildConfiguration) -f net6.0'
 
 - task: UseDotNet@2
   displayName: 'Install NET5.0'
