@@ -12,7 +12,6 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  OnlyBuildNetStandard2_0: True
 
 steps:
 - task: UseDotNet@2
@@ -28,41 +27,6 @@ steps:
     projects: '**/*.csproj'
     feedsToUse: 'select'
 
-- script: |
-    export OnlyBuildNetStandard2_0=True
-    echo '!!! BUILD !!!'
-    dotnet build 'tests/SimplifiedSearch.Tests/SimplifiedSearch.Tests.csproj' --no-restore -c $(buildConfiguration) -f net6.0
-    echo '!!! TEST !!!'
-    dotnet test 'tests/SimplifiedSearch.Tests/SimplifiedSearch.Tests.csproj' --no-build -c $(buildConfiguration) -f net6.0
-    unset OnlyBuildNetStandard2_0
-  displayName: 'Test netstandard2.0'
-
-- script: |
-    echo '---'
-    echo $OnlyBuildNetStandard2_0
-    echo '---'
-  displayName: '1 after OnlyBuildNetStandard2_0'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Build netstandard2.0'
-  inputs:
-    command: 'build'
-    projects: 'src/**/*.csproj'
-    arguments: '--no-restore -c $(buildConfiguration)'
-
-- script: |
-    echo '---'
-    echo $OnlyBuildNetStandard2_0
-    echo '---'
-  displayName: 'after build OnlyBuildNetStandard2_0'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Build test project for netstandard2.0'
-  inputs:
-    command: 'build'
-    projects: 'tests/**/*.csproj'
-    arguments: '--no-restore --no-dependencies -c $(buildConfiguration) -f net6.0'
-
 - task: DotNetCoreCLI@2
   displayName: 'Test netstandard2.0'
   env:
@@ -70,7 +34,7 @@ steps:
   inputs:
     command: 'test'
     projects: 'tests/**/*.csproj'
-    arguments: '-c $(buildConfiguration) -f net6.0'
+    arguments: '--no-restore -c $(buildConfiguration) -f net6.0'
 
 - task: UseDotNet@2
   displayName: 'Install NET5.0'
@@ -84,13 +48,11 @@ steps:
     packageType: 'sdk'
     version: '3.1.x'
 
-
-
 - task: DotNetCoreCLI@2
   displayName: 'Build'
   inputs:
     command: 'build'
-    projects: '**/*.csproj'
+    projects: 'src/**/*.csproj'
     arguments: '--no-restore -c $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
@@ -98,4 +60,4 @@ steps:
   inputs:
     command: 'test'
     projects: 'tests/**/*.csproj'
-    arguments: '--no-build -c $(buildConfiguration)'
+    arguments: '--no-restore -c $(buildConfiguration)'
