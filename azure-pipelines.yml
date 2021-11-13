@@ -15,7 +15,7 @@ variables:
 
 steps:
 - task: UseDotNet@2
-  displayName: 'Use NET6.0'
+  displayName: 'Install NET6.0'
   inputs:
     packageType: 'sdk'
     version: '6.x'
@@ -27,7 +27,11 @@ steps:
     projects: '**/*.csproj'
     feedsToUse: 'select'
 
-- script: OnlyBuildNetStandard2_0=True
+- script: |
+    export OnlyBuildNetStandard2_0=True
+    echo ###
+    echo $OnlyBuildNetStandard2_0
+    echo ###
   displayName: 'Set OnlyBuildNetStandard2_0'
 
 - task: DotNetCoreCLI@2
@@ -51,17 +55,21 @@ steps:
     projects: 'tests/**/*.csproj'
     arguments: '--no-build -c $(buildConfiguration) -f net6.0'
 
-- script: unset OnlyBuildNetStandard2_0
+- script: |
+    unset OnlyBuildNetStandard2_0
+    echo ###
+    echo $OnlyBuildNetStandard2_0
+    echo ###
   displayName: 'remove OnlyBuildNetStandard2_0'
 
 - task: UseDotNet@2
-  displayName: 'Use NET5.0'
+  displayName: 'Install NET5.0'
   inputs:
     packageType: 'sdk'
     version: '5.x'
 
 - task: UseDotNet@2
-  displayName: 'Use NET3.1'
+  displayName: 'Install NET3.1'
   inputs:
     packageType: 'sdk'
     version: '3.1.x'
