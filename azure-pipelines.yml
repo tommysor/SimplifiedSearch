@@ -10,6 +10,9 @@ trigger:
 pool:
   vmImage: ubuntu-latest
 
+variables:
+  buildConfiguration: 'Release'
+
 steps:
 - script: echo Hello, world!
   displayName: 'Run a one-line script'
@@ -25,6 +28,18 @@ steps:
     packageType: 'sdk'
     version: '6.x'
 
+- task: UseDotNet@2
+  displayName: 'Use NET5.0'
+  inputs:
+    packageType: 'sdk'
+    version: '5.x'
+
+- task: UseDotNet@2
+  displayName: 'Use NET3.1'
+  inputs:
+    packageType: 'sdk'
+    version: '3.1.x'
+
 - task: DotNetCoreCLI@2
   displayName: 'Restore'
   inputs:
@@ -37,11 +52,11 @@ steps:
   inputs:
     command: 'build'
     projects: '**/*.csproj'
-    arguments: '--no-restore -c Release'
+    arguments: '--no-restore -c $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2
   displayName: 'Test'
   inputs:
     command: 'test'
     projects: 'tests/**/*.csproj'
-    arguments: '--no-build -c Release'
+    arguments: '--no-build -c $(buildConfiguration)'
