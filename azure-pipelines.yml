@@ -5,13 +5,16 @@
 # https://aka.ms/yaml
 
 trigger:
-- none
+  tags:
+    include:
+    - v*
 
 pool:
   vmImage: ubuntu-latest
 
 variables:
   buildConfiguration: 'Release'
+  branchIsTag: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/v')]
 
 steps:
 # Intall .NET SDKs.
@@ -67,20 +70,33 @@ steps:
 #     projects: 'tests/**/*.csproj'
 #     arguments: '--no-restore -c $(buildConfiguration)'
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: 'src/SimplifiedSearch/'
-    Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)/src/SimplifiedSearch/'
+# - task: CopyFiles@2
+#   inputs:
+#     SourceFolder: 'src/SimplifiedSearch/'
+#     Contents: '**'
+#     TargetFolder: '$(Build.ArtifactStagingDirectory)/src/SimplifiedSearch/'
 
-- task: CopyFiles@2
-  inputs:
-    SourceFolder: ''
-    Contents: 'README.md'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+# - task: CopyFiles@2
+#   inputs:
+#     SourceFolder: ''
+#     Contents: 'README.md'
+#     TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-- task: PublishBuildArtifacts@1
+- script: echo HEY $(branchIsTag) YOU
+
+- task: DotNetCoreCLI@2
+  displayName: 'Pack'
+  condition: $(branchIsTag)
   inputs:
-    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
-    ArtifactName: 'simplifiedSearchProjectBuilt'
-    publishLocation: 'Container'
+    command: 'pack'
+    packagesToPack: 'src/**/*.csproj'
+    nobuild: true
+    versioningScheme: 'off'
+
+- script: echo THERE
+
+# - task: PublishBuildArtifacts@1
+#   inputs:
+#     PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+#     ArtifactName: 'simplifiedSearchProjectBuilt'
+#     publishLocation: 'Container'    
