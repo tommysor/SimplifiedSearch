@@ -5,36 +5,24 @@
 # https://aka.ms/yaml
 
 trigger:
-- none
+  tags:
+    include:
+    - v*
 
 pool:
   vmImage: ubuntu-latest
 
 variables:
   buildConfiguration: 'Release'
+  branchIsTag: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/v')]
 
 steps:
+# Intall .NET SDKs.
 - task: UseDotNet@2
   displayName: 'Install NET6.0'
   inputs:
     packageType: 'sdk'
     version: '6.x'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Restore'
-  inputs:
-    command: 'restore'
-    projects: '**/*.csproj'
-    feedsToUse: 'select'
-
-- task: DotNetCoreCLI@2
-  displayName: 'Test netstandard2.0'
-  env:
-    OnlyBuildNetStandard2_0: True
-  inputs:
-    command: 'test'
-    projects: 'tests/**/*.csproj'
-    arguments: '--no-restore -c $(buildConfiguration) -f net6.0'
 
 - task: UseDotNet@2
   displayName: 'Install NET5.0'
@@ -48,6 +36,25 @@ steps:
     packageType: 'sdk'
     version: '3.1.x'
 
+# Restore.
+- task: DotNetCoreCLI@2
+  displayName: 'Restore'
+  inputs:
+    command: 'restore'
+    projects: '**/*.csproj'
+    feedsToUse: 'select'
+
+# Test the netstandard2.0 version.
+- task: DotNetCoreCLI@2
+  displayName: 'Test netstandard2.0'
+  env:
+    OnlyBuildNetStandard2_0: True
+  inputs:
+    command: 'test'
+    projects: 'tests/**/*.csproj'
+    arguments: '--no-restore -c $(buildConfiguration) -f net6.0'
+
+# Build ready for release.
 - task: DotNetCoreCLI@2
   displayName: 'Build'
   inputs:
@@ -55,9 +62,37 @@ steps:
     projects: 'src/**/*.csproj'
     arguments: '--no-restore -c $(buildConfiguration)'
 
+# Run tests for all tested .NET SDKs.
 - task: DotNetCoreCLI@2
   displayName: 'Test'
   inputs:
     command: 'test'
     projects: 'tests/**/*.csproj'
     arguments: '--no-restore -c $(buildConfiguration)'
+
+# - task: CopyFiles@2
+#   inputs:
+#     SourceFolder: 'src/SimplifiedSearch/'
+#     Contents: '**'
+#     TargetFolder: '$(Build.ArtifactStagingDirectory)/src/SimplifiedSearch/'
+
+# - task: CopyFiles@2
+#   inputs:
+#     SourceFolder: ''
+#     Contents: 'README.md'
+#     TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Pack'
+  condition: eq(variables['branchIsTag'], 'True')
+  inputs:
+    command: 'pack'
+    packagesToPack: 'src/**/*.csproj'
+    nobuild: true
+    versioningScheme: 'off'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    ArtifactName: 'simplifiedSearchProjectBuilt'
+    publishLocation: 'Container'

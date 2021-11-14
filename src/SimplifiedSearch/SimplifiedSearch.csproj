@@ -8,7 +8,7 @@
 	<LangVersion>latest</LangVersion>
 
 	  <PackageId>SimplifiedSearch</PackageId>
-	  <Version>0.9.0-alpha.14</Version>
+	  <Version>0.9.0-alpha.27</Version>
 	  <Authors>Tommy Sørbråten</Authors>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <RepositoryUrl>https://github.com/tommysor/SimplifiedSearch.git</RepositoryUrl>
