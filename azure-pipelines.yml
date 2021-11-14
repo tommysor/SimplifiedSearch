@@ -66,3 +66,9 @@ steps:
     command: 'test'
     projects: 'tests/**/*.csproj'
     arguments: '--no-restore -c $(buildConfiguration)'
+
+- task: CopyFiles@2
+  inputs:
+    SourceFolder: 'src/**/bin/Release/'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
