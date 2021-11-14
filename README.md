@@ -6,7 +6,7 @@ For when you have up to a few thousand products, locations or similar and want t
 ## Intended use case
 Searching through lists of short phrases like country names or the subject line in emails.
 ## .NET support
-Tested with: NET4.8, NETCOREAPP3.1, NET5.0, NET6.0
+Tested with: NETCOREAPP3.1, NET5.0, NET6.0
 ## Quickstart
 ### Install
 `PM> Install-Package SimplifiedSearch`
@@ -26,18 +26,18 @@ foreach (var country in matches)
 // # Thailand
 // # Taiwan
 ```
-### Acknowledgements
-#### https://github.com/apache/lucenenet
+## Acknowledgements
+### https://github.com/apache/lucenenet
 Lucenenet is the main inspiration for SimplifiedSearch.\
-SimplifiedSearch was started with the goal of delivering similar results to a certain setup of a Lucene index.
-#### https://github.com/ninjanye/SearchExtensions
+SimplifiedSearch was started with the goal of delivering similar results to a spesific setup of Lucene analyzer and query.
+### https://github.com/ninjanye/SearchExtensions
 SimplifiedSearch was inspired by SearchExtensions, and delivers a simpler (and less configurable) experience.
-#### https://github.com/annexare/Countries
+### https://github.com/annexare/Countries
 For test data `tests/data/annexare/Countries/*`.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/annexare/Countries/LICENSE](tests/data/annexare/Countries/LICENSE).
-#### https://github.com/CivilServiceUSA/us-states
+### https://github.com/CivilServiceUSA/us-states
 For test data `tests/data/CivilServiceUSA/us-states/*`.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/CivilServiceUSA/us-states/LICENSE](tests/data/CivilServiceUSA/us-states/LICENSE).
-#### https://github.com/linanqiu/reddit-dataset
+### https://github.com/linanqiu/reddit-dataset
 For test data `tests/data/linanqiu/reddit-dataset/*`.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/linanqiu/reddit-dataset/README.md](tests/data/linanqiu/reddit-dataset/README.md) (se bottom of readme).
