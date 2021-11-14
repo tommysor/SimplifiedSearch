@@ -69,6 +69,6 @@ steps:
 
 - task: CopyFiles@2
   inputs:
-    SourceFolder: 'src/**/bin/Release/'
+    SourceFolder: 'src/SimplifiedSearch/bin/Release/'
     Contents: '**'
     TargetFolder: '$(Build.ArtifactStagingDirectory)'
