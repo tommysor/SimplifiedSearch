@@ -15,7 +15,7 @@ pool:
 variables:
   buildConfiguration: 'Release'
   branchIsTag: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/v')]
-  branchTag: "0.0.0-alpha.0"
+  nuGetVersionNumber: "0.0.0-alpha.0"
 
 steps:
 # if release, setup NuGet version.
@@ -24,7 +24,17 @@ steps:
     echo '---'
     echo $NuGetVersion
     echo '---'
+    echo '##vso[task.setvariable variable=nuGetVersionNumber]$NuGetVersion'
+    echo '---'
+    echo $nuGetVersionNumber
+    echo '---'
   condition: eq(variables['branchIsTag'], 'True')
+  displayName: 'Setup NuGet version'
+
+- script: |
+    echo '---'
+    echo $nuGetVersionNumber
+    echo '---'
 
 # Intall .NET SDKs.
 - task: UseDotNet@2
