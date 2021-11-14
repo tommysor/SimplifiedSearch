@@ -23,13 +23,10 @@ steps:
     export NuGetVersion=$(echo $(Build.SourceBranch) | cut -c12-)
     echo '---'
     echo $NuGetVersion
-    export nuGetVersionNumber2=''
     echo '---'
     echo '##vso[task.setvariable variable=nuGetVersionNumber;isOutput=true]$NuGetVersion'
-    echo '##vso[task.setvariable variable=nuGetVersionNumber2;isOutput=true]$NuGetVersion'
     echo '---'
     echo $(nuGetVersionNumber)
-    echo $(nuGetVersionNumber2)
     echo '---'
   condition: eq(variables['branchIsTag'], 'True')
   displayName: 'Setup NuGet version'
@@ -37,7 +34,6 @@ steps:
 - script: |
     echo '---'
     echo $(nuGetVersionNumber)
-    echo $(nuGetVersionNumber2)
     echo '---'
 
 # Intall .NET SDKs.
@@ -115,6 +111,10 @@ steps:
     packagesToPack: 'src/**/*.csproj'
     nobuild: true
     versioningScheme: 'off'
+    majorVersion: 0
+    minorVersion: 9
+    patchVersion: 0
+    arguments: '--version-suffix alpha.25'
 
 # - task: PublishBuildArtifacts@1
 #   inputs:
