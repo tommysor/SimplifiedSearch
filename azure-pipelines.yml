@@ -25,12 +25,9 @@ steps:
     echo $NuGetVersion
     echo '---'
     echo '##vso[task.setvariable variable=nuGetVersionNumber;]$NuGetVersion'
-    echo '##vso[task.setvariable variable=nuGetVersionNumber2;]$NuGetVersion'
-    echo '##vso[task.setvariable variable=nuGetVersionNumber3]$NuGetVersion'
     echo '---'
     echo $(nuGetVersionNumber)
-    echo $(nuGetVersionNumber2)
-    echo $(nuGetVersionNumber3)
+    echo $[variables.nuGetVersionNumber]
     echo '---'
   condition: eq(variables['branchIsTag'], 'True')
   displayName: 'Setup NuGet version'
@@ -38,8 +35,7 @@ steps:
 - script: |
     echo '---'
     echo $(nuGetVersionNumber)
-    echo $(nuGetVersionNumber2)
-    echo $(nuGetVersionNumber3)
+    echo $[variables.nuGetVersionNumber]
     echo '---'
 
 # Intall .NET SDKs.
