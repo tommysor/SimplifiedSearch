@@ -86,14 +86,12 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Pack'
-  condition: eq('$(branchIsTag)', 'true')
+  condition: eq('variables['branchIsTag']', 'True')
   inputs:
     command: 'pack'
     packagesToPack: 'src/**/*.csproj'
     nobuild: true
     versioningScheme: 'off'
-
-- script: echo THERE
 
 # - task: PublishBuildArtifacts@1
 #   inputs:
