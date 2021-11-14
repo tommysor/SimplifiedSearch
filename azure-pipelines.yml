@@ -15,8 +15,17 @@ pool:
 variables:
   buildConfiguration: 'Release'
   branchIsTag: $[startsWith(variables['Build.SourceBranch'], 'refs/tags/v')]
+  branchTag: "0.0.0-alpha.0"
 
 steps:
+# if release, setup NuGet version.
+- script: |
+    export NuGetVersion=$(echo $(Build.SourceBranch) | cut -c12-)
+    echo '---'
+    echo $NuGetVersion
+    echo '---'
+  condition: eq(variables['branchIsTag'], 'True')
+
 # Intall .NET SDKs.
 - task: UseDotNet@2
   displayName: 'Install NET6.0'
