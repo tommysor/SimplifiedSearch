@@ -71,7 +71,7 @@ steps:
   inputs:
     SourceFolder: 'src/SimplifiedSearch/'
     Contents: '**'
-    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)/src/SimplifiedSearch/'
 
 - task: CopyFiles@2
   inputs:
