@@ -86,7 +86,7 @@ steps:
 
 - task: DotNetCoreCLI@2
   displayName: 'Pack'
-  condition: $(branchIsTag)
+  condition: eq('$(branchIsTag)', 'true')
   inputs:
     command: 'pack'
     packagesToPack: 'src/**/*.csproj'
