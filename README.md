@@ -32,6 +32,9 @@ Lucenenet is the main inspiration for SimplifiedSearch.\
 SimplifiedSearch was started with the goal of delivering similar results to a spesific setup of Lucene analyzer and query.
 ### https://github.com/ninjanye/SearchExtensions
 SimplifiedSearch was inspired by SearchExtensions, and delivers a simpler (and less configurable) experience.
+### https://github.com/DanHarltey/Fastenshtein
+Provides the distance calculation needed for fuzzy search.
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) https://github.com/DanHarltey/Fastenshtein/LICENSE](https://github.com/DanHarltey/Fastenshtein/LICENSE).
 ### https://github.com/annexare/Countries
 For test data `tests/data/annexare/Countries/*`.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/annexare/Countries/LICENSE](tests/data/annexare/Countries/LICENSE).
