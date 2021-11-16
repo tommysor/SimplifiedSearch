@@ -4,7 +4,9 @@
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
 
-trigger: none
+trigger:
+  pr:
+    main
 #  tags:
 #    include:
 #    - v*
