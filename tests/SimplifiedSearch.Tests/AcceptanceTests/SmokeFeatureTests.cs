@@ -65,5 +65,20 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 
             Assert.Same(expected, actual.First());
         }
+
+        [Fact]
+        public async Task AsciiFoldingMatch()
+        {
+            var list = new[]
+            {
+                "cørèbréächñìñjâ"
+            };
+
+            var ascii = "corebreachninja";
+
+            var actual = await list.SimplifiedSearchAsync(ascii);
+
+            Assert.Single(actual);
+        }
     }
 }

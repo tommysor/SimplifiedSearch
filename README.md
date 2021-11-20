@@ -17,14 +17,14 @@ Use extension method `.SimplifiedSearchAsync(searchTerm, propertyToSearchLambda)
 using SimplifiedSearch;
 
 IList<Country> countries = GetListOfCountries();
-IList<Country> matches = await countries.SimplifiedSearchAsync("tailand", x => x.CountryName);
+IList<Country> matches = await countries.SimplifiedSearchAsync("thaiwan", x => x.CountryName);
 foreach (var country in matches)
 {
-    Console.WriteLine($"# {country.CountryName}");
+    Console.WriteLine(country.CountryName);
 }
 // output:
-// # Thailand
-// # Taiwan
+// Taiwan
+// Thailand
 ```
 ## Acknowledgements
 ### https://github.com/apache/lucenenet
@@ -35,6 +35,9 @@ SimplifiedSearch was inspired by SearchExtensions, and delivers a simpler (and l
 ### https://github.com/DanHarltey/Fastenshtein
 Provides the distance calculation needed for fuzzy search.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) https://github.com/DanHarltey/Fastenshtein/blob/master/LICENSE](https://github.com/DanHarltey/Fastenshtein/blob/master/LICENSE).
+### https://github.com/thecoderok/Unidecode.NET
+Provides the ascii folding needed to match accented characters to their ascii approximate equivalent (â, å, à, á, ä ≈ a).\
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) https://github.com/thecoderok/Unidecode.NET/blob/master/LICENSE](https://github.com/thecoderok/Unidecode.NET/blob/master/LICENSE).
 ### https://github.com/annexare/Countries
 For test data `tests/data/annexare/Countries/*`.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/annexare/Countries/LICENSE](tests/data/annexare/Countries/LICENSE).

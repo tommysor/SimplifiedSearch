@@ -11,7 +11,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
     public class ReasonableResultTests
     {
         [Theory]
-        [InlineData("tailand", "Thailand", "Taiwan")]
+        [InlineData("thaiwan", "Taiwan", "Thailand")]
         [InlineData("Niger", "Niger", "Nigeria")]
         [InlineData("Nigeria", "Nigeria", "Algeria")]
         public async Task Countries_Top2(string search, string expect1, string expect2)

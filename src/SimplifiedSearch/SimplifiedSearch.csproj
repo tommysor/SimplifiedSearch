@@ -8,7 +8,7 @@
 	<LangVersion>latest</LangVersion>
 
 	  <PackageId>SimplifiedSearch</PackageId>
-	  <Version>1.0.0</Version>
+	  <Version>1.1.0</Version>
 	  <Authors>Tommy Sørbråten</Authors>
 	  <PackageLicenseExpression>MIT</PackageLicenseExpression>
 	  <RepositoryUrl>https://github.com/tommysor/SimplifiedSearch.git</RepositoryUrl>
@@ -21,12 +21,12 @@ Simple way to add ranked fuzzy matching search.
 For when you have up to a few thousand products, locations or similar and want to add a search that most users will see as smart, with minimal work.
 		  
 using SimplifiedSearch;
-IList&lt;Country&gt; matches = await listOfCountries.SimplifiedSearchAsync("tailand", x => x.CountryName);
+IList&lt;Country&gt; matches = await listOfCountries.SimplifiedSearchAsync("thaiwan", x =&gt; x.CountryName);
 foreach (var country in matches)
     Console.WriteLine(country.CountryName);
 // output:
-// Thailand
 // Taiwan
+// Thailand
 	  </Description>
 	  <PackageReadmeFile>README.md</PackageReadmeFile>
 	  <PackageTags>simple ranked fuzzy search</PackageTags>
@@ -42,6 +42,7 @@ foreach (var country in matches)
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Unidecode.NET" Version="2.1.0" />
   </ItemGroup>
 
 </Project>
