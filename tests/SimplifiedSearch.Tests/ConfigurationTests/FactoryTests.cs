@@ -10,13 +10,13 @@ namespace SimplifiedSearch.Tests.ConfigurationTests
 {
     public class FactoryTests
     {
-        [Fact(Skip = "Factory not publicly supported.")]
+        [Fact]
         public async Task NoExplicitSettings_CanBeUsed()
         {
-            //var factory = new SimplifiedSearchFactory();
-            //var simplifiedSearch = factory.GetSimplifiedSearch();
-            //var actual = await simplifiedSearch.SimplifiedSearchAsync(TestData.UsStates, "Pennsylvania", x => x.Name);
-            //Assert.Single(actual);
+            var factory = new SimplifiedSearchFactory();
+            var simplifiedSearch = factory.GetSimplifiedSearch();
+            var actual = await simplifiedSearch.SimplifiedSearchAsync(TestData.UsStates, "Pennsylvania", x => x.Name);
+            Assert.Single(actual);
             
             await Task.CompletedTask;
         }

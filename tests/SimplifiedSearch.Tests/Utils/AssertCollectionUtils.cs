@@ -17,5 +17,15 @@ namespace SimplifiedSearch.Tests.Utils
             var intersect = expectedIds.Intersect(actualIds).ToArray();
             Assert.True(intersect.Length == expectedIds.Length, $"Lists have different content. Expected: {expectedIds.Length}, Actual: {intersect.Length}");
         }
+
+        internal static void AssertCollectionContainsSameInSameOrder<T>(IList<T> expected, IList<T> actual)
+        {
+            var len = expected.Count;
+            Assert.True(len == actual.Count, $"Expected length: {len}, got: {actual.Count}");
+            for (var i = 0; i < len; i++)
+            {
+                Assert.True(object.Equals(expected[i], actual[i]), $"Diff on index: {i}. Expected: {expected[i]}, Got: {actual[i]}");
+            }
+        }
     }
 }
