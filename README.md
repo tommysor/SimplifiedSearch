@@ -47,3 +47,6 @@ For test data `tests/data/CivilServiceUSA/us-states/*`.\
 ### https://github.com/linanqiu/reddit-dataset
 For test data `tests/data/linanqiu/reddit-dataset/*`.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/linanqiu/reddit-dataset/README.md](tests/data/linanqiu/reddit-dataset/README.md) (se bottom of readme).
+## Contributing
+Pull requests are welcome.
+- Follow the established code format.
