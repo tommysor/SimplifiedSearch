@@ -2,6 +2,8 @@ trigger:
   tags:
     include:
     - v*
+  branches:
+    include:
     - main
 
 pr:
