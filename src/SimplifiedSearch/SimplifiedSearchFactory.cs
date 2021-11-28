@@ -12,6 +12,16 @@ namespace SimplifiedSearch
     internal class SimplifiedSearchFactory
     {
         private readonly SimplifiedSearchConfiguration _configuration;
+        private readonly ISimplifiedSearch _simplifiedSearch;
+
+        private ISimplifiedSearch BuildSimplifiedSearch()
+        {
+            var lowercaseFilter = new LowercaseFilter();
+            var asciiFoldingFilter = new AsciiFoldingFilter();
+            var tokenizeFilter = new TokenizeFilter();
+            var pipeline = new SearchPipeline(lowercaseFilter, asciiFoldingFilter, tokenizeFilter);
+            return new SimplifiedSearchImpl(pipeline);
+        }
 
         //todo doc public SimplifiedSearchFactory()
         /// <summary>
@@ -20,6 +30,7 @@ namespace SimplifiedSearch
         public SimplifiedSearchFactory()
         {
             _configuration = new SimplifiedSearchConfiguration();
+            _simplifiedSearch = BuildSimplifiedSearch();
         }
 
         //todo doc public SimplifiedSearchFactory(Action<SimplifiedSearchConfiguration> configure)
@@ -31,6 +42,7 @@ namespace SimplifiedSearch
         {
             _configuration = new SimplifiedSearchConfiguration();
             configure(_configuration);
+            _simplifiedSearch = BuildSimplifiedSearch();
         }
 
         //todo doc public ISimplifiedSearch GetSimplifiedSearch()
@@ -40,11 +52,7 @@ namespace SimplifiedSearch
         /// <returns></returns>
         public ISimplifiedSearch GetSimplifiedSearch()
         {
-            var lowercaseFilter = new LowercaseFilter();
-            var asciiFoldingFilter = new AsciiFoldingFilter();
-            var tokenizeFilter = new TokenizeFilter();
-            var pipeline = new SearchPipeline(lowercaseFilter, asciiFoldingFilter, tokenizeFilter);
-            return new SimplifiedSearchImpl(pipeline);
+            return _simplifiedSearch;
         }
     }
 }
