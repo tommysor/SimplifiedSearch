@@ -3,33 +3,36 @@ using SimplifiedSearch.SearchPipelines;
 using SimplifiedSearch.Tests.Utils;
 using Xunit;
 
-public class AsciiFoldingTests
+namespace SimplifiedSearch.Tests.SearchPipelineTests
 {
-    private readonly AsciiFoldingFilter _asciiFoldingFilter;
-
-    public AsciiFoldingTests()
+    public class AsciiFoldingTests
     {
-        _asciiFoldingFilter = new AsciiFoldingFilter();
-    }
+        private readonly AsciiFoldingFilter _asciiFoldingFilter;
 
-    [Fact]
-    public async Task AsciiFoldingSimple()
-    {
-        var input = "ü";
-        
-        var actual = await _asciiFoldingFilter.RunAsync(input);
+        public AsciiFoldingTests()
+        {
+            _asciiFoldingFilter = new AsciiFoldingFilter();
+        }
 
-        Assert.Single(actual, "u");
-    }
+        [Fact]
+        public async Task AsciiFoldingSimple()
+        {
+            var input = "ü";
 
-    [Fact]
-    public async Task AsciiFoldingSimpleList()
-    {
-        var input = new[]{"â", "ß"};
+            var actual = await _asciiFoldingFilter.RunAsync(input);
 
-        var actual = await _asciiFoldingFilter.RunAsync(input);
+            Assert.Single(actual, "u");
+        }
 
-        var expected = new[]{"a", "ss"};
-        AssertCollectionUtils.AssertCollectionContainsSameInSameOrder(expected, actual);
+        [Fact]
+        public async Task AsciiFoldingSimpleList()
+        {
+            var input = new[] { "â", "ß" };
+
+            var actual = await _asciiFoldingFilter.RunAsync(input);
+
+            var expected = new[] { "a", "ss" };
+            AssertCollectionUtils.AssertCollectionContainsSameInSameOrder(expected, actual);
+        }
     }
 }
