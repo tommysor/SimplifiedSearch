@@ -1,4 +1,5 @@
-﻿using SimplifiedSearch.Utils;
+﻿using SimplifiedSearch.Tests.Models;
+using SimplifiedSearch.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,6 +22,7 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
             return _propertyBuilder.BuildPropertyToSearchLambda<T>();
         }
 
+        #region string
         [Fact]
         public void BuildFromString()
         {
@@ -29,6 +31,32 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
         }
 
         [Fact]
+        public void BuildFromStringNullable()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<string?>();
+            Assert.IsType<Func<string?, string>>(func);
+        }
+
+        [Fact]
+        public void BuildFromStringGetValue()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<string>();
+            var actual = func("abc");
+            Assert.Equal("abc", actual);
+        }
+
+        [Fact]
+        public void BuildFromStringGetValueNullable()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<string>();
+            string? input = "abc";
+            var actual = func(input);
+            Assert.Equal("abc", actual);
+        }
+        #endregion
+
+        #region int
+        [Fact]
         public void BuildFromInt()
         {
             var func = _propertyBuilder.BuildPropertyToSearchLambda<int>();
@@ -36,17 +64,76 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
         }
 
         [Fact]
-        public void BuildFromEnum()
+        public void BuildFromIntNullable()
         {
-            var func = _propertyBuilder.BuildPropertyToSearchLambda<Models.TestEnum>();
-            Assert.IsType<Func<Models.TestEnum, string>>(func);
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<int?>();
+            Assert.IsType<Func<int?, string>>(func);
         }
 
         [Fact]
+        public void BuildFromIntGetValue()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<int>();
+            var actual = func(2);
+            Assert.Equal("2", actual);
+        }
+
+        [Fact]
+        public void BuildFromIntGetValueNullable()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<int?>();
+            int? input = 2;
+            var actual = func(input);
+            Assert.Equal("2", actual);
+        }
+        #endregion
+
+        #region enum
+        [Fact]
+        public void BuildFromEnum()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<TestEnum>();
+            Assert.IsType<Func<TestEnum, string>>(func);
+        }
+
+        [Fact]
+        public void BuildFromEnumNullable()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<TestEnum?>();
+            Assert.IsType<Func<TestEnum?, string>>(func);
+        }
+
+        [Fact]
+        public void BuildFromEnumGetValue()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<TestEnum>();
+            var actual = func(TestEnum.Second);
+            Assert.Equal(nameof(TestEnum.Second), actual);
+        }
+
+        [Fact]
+        public void BuildFromEnumGetValueNullable()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<TestEnum?>();
+            TestEnum? input = TestEnum.Second;
+            var actual = func(input);
+            Assert.Equal(nameof(TestEnum.Second), actual);
+        }
+        #endregion
+
+        #region class
+        [Fact]
         public void BuildFromClass()
         {
-            var func = _propertyBuilder.BuildPropertyToSearchLambda<Models.TestItem>();
-            Assert.IsType<Func<Models.TestItem, string>>(func);
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<TestItem>();
+            Assert.IsType<Func<TestItem, string>>(func);
+        }
+
+        [Fact]
+        public void BuildFromClassNullable()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<TestItem?>();
+            Assert.IsType<Func<TestItem?, string>>(func);
         }
 
         [Fact]
@@ -55,13 +142,13 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
             var item = new
             {
                 First = "abc",
-                Second = Models.TestEnum.Second,
+                Second = TestEnum.Second,
                 Third = 5
             };
-            var expectedBuilder = new StringBuilder();
-            expectedBuilder.AppendLine(item.First);
-            expectedBuilder.AppendLine(item.Second.ToString());
-            expectedBuilder.AppendLine(item.Third.ToString());
+            var expectedBuilder = new StringBuilder()
+                .AppendLine(item.First)
+                .AppendLine(item.Second.ToString())
+                .AppendLine(item.Third.ToString());
 
             var func = BuildFromAnonymousType(item);
 
@@ -69,5 +156,48 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
 
             Assert.Equal(expectedBuilder.ToString(), actual);
         }
+
+        [Fact]
+        public void BuildFromClassGivesAllPropertiesNullable()
+        {
+            var item = new
+            {
+                First = (string?)"abc",
+                Second = (TestEnum?)TestEnum.Second,
+                Third = (int?)5
+            };
+            var expectedBuilder = new StringBuilder()
+                .AppendLine(item.First)
+                .AppendLine(item.Second.ToString())
+                .AppendLine(item.Third.ToString());
+
+            var func = BuildFromAnonymousType(item);
+
+            var actual = func(item);
+
+            Assert.Equal(expectedBuilder.ToString(), actual);
+        }
+
+        [Fact]
+        public void BuildFromNestedClassGivesShallowProperties()
+        {
+            var item = new
+            {
+                First = "abc",
+                Nested = new
+                {
+                    NestedValue = "def"
+                }
+            };
+
+            var expectedBuilder = new StringBuilder().AppendLine(item.First);
+
+            var func = BuildFromAnonymousType(item);
+
+            var actual = func(item);
+
+            Assert.Equal(expectedBuilder.ToString(), actual);
+        }
+        #endregion
     }
 }

@@ -10,9 +10,9 @@ namespace SimplifiedSearch.Utils
         public Func<T, string> BuildPropertyToSearchLambda<T>()
         {
             var type = typeof(T);
-            if (type == typeof(string) || type.IsPrimitive)
+            if (type == typeof(string) || type.IsPrimitive || Nullable.GetUnderlyingType(type)?.IsPrimitive == true)
                 return BuildFromPrimitiveOrString<T>();
-            else if (type.IsEnum)
+            else if (type.IsEnum || Nullable.GetUnderlyingType(type)?.IsEnum == true)
                 return BuildFromEnum<T>();
             else
                 return BuildFromClass<T>();
@@ -33,7 +33,9 @@ namespace SimplifiedSearch.Utils
         {
             var propertyToSearchLambda = new Func<T, string>(x =>
             {
-                var properties = typeof(T).GetProperties().Where(p => p.CanRead);
+                var properties = typeof(T).GetProperties()
+                    .Where(p => p.CanRead)
+                    .Where(p => IsTypeIncludedInSearch(p.PropertyType));
                 var stringBuilder = new StringBuilder();
                 foreach (var property in properties)
                 {
@@ -45,6 +47,27 @@ namespace SimplifiedSearch.Utils
             });
 
             return propertyToSearchLambda;
+        }
+
+        private bool IsTypeIncludedInSearch(Type type)
+        {
+            if (type == typeof(string))
+                return true;
+
+            static bool isBasicTypeIncludedInSearch(Type possibleBasicType)
+            {
+                return possibleBasicType.IsPrimitive
+                    || possibleBasicType.IsEnum;
+            }
+
+            if (isBasicTypeIncludedInSearch(type))
+                return true;
+
+            var underlying = Nullable.GetUnderlyingType(type);
+            if (underlying is not null)
+                return isBasicTypeIncludedInSearch(underlying);
+            
+            return false;
         }
     }
 }
