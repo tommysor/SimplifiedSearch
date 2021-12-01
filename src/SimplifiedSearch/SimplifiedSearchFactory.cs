@@ -1,4 +1,5 @@
 ﻿using SimplifiedSearch.SearchPipelines;
+using SimplifiedSearch.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -20,7 +21,8 @@ namespace SimplifiedSearch
             var asciiFoldingFilter = new AsciiFoldingFilter();
             var tokenizeFilter = new TokenizeFilter();
             var pipeline = new SearchPipeline(lowercaseFilter, asciiFoldingFilter, tokenizeFilter);
-            return new SimplifiedSearchImpl(pipeline);
+            var propertyBuilder = new PropertyBuilder();
+            return new SimplifiedSearchImpl(pipeline, propertyBuilder);
         }
 
         //todo doc public SimplifiedSearchFactory()
