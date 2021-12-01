@@ -4,7 +4,8 @@ See [Acknowledgements](#Acknowledgements) for additional license information cov
 Simple way to add ranked fuzzy matching search.\
 For when you have up to a few thousand products, locations or similar and want to add a search that most users will see as smart, with minimal work.
 ## Intended use case
-Searching through lists of short phrases like country names or the subject line in emails.
+Searching through lists of short phrases like country names or the subject line in emails.\
+Data in databases must first be loaded into memory in order to be searched.
 ## .NET support
 Tested with: NETCOREAPP3.1, NET5.0, NET6.0
 ## Quickstart
@@ -48,5 +49,6 @@ For test data `tests/data/CivilServiceUSA/us-states/*`.\
 For test data `tests/data/linanqiu/reddit-dataset/*`.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/linanqiu/reddit-dataset/README.md](tests/data/linanqiu/reddit-dataset/README.md) (se bottom of readme).
 ## Contributing
-Pull requests are welcome.
+Bug reports, feature requests and pull requests are welcome.
 - Follow the established code format.
+- The focus of the project is in making the simple use case work well, not on supporting many special cases.
