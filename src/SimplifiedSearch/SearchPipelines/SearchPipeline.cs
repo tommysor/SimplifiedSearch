@@ -17,12 +17,6 @@ namespace SimplifiedSearch.SearchPipelines
 
         internal async Task<IList<T>> SearchAsync<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
         {
-            // Make sure we actually get off the UI thread when used in desktop apps.
-            return await Task.Run(async () => await SearchPrivateAsync(list, searchTerm, fieldToSearch)).ConfigureAwait(false);
-        }
-
-        private async Task<IList<T>> SearchPrivateAsync<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
-        {
             if (list is null)
                 throw new ArgumentNullException(nameof(list));
             if (string.IsNullOrEmpty(searchTerm))
