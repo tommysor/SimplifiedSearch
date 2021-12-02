@@ -53,6 +53,15 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
             var actual = func(input);
             Assert.Equal("abc", actual);
         }
+
+        [Fact]
+        public void BuildFromStringGetValueNull()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<string?>();
+            string? input = null;
+            var actual = func(input);
+            Assert.Equal("", actual);
+        }
         #endregion
 
         #region int
@@ -86,6 +95,15 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
             var actual = func(input);
             Assert.Equal("2", actual);
         }
+
+        [Fact]
+        public void BuildFromIntGetValueNull()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<int?>();
+            int? input = null;
+            var actual = func(input);
+            Assert.Equal("", actual);
+        }
         #endregion
 
         #region enum
@@ -118,6 +136,15 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
             TestEnum? input = TestEnum.Second;
             var actual = func(input);
             Assert.Equal(nameof(TestEnum.Second), actual);
+        }
+
+        [Fact]
+        public void BuildFromEnumGetValueNull()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<TestEnum?>();
+            TestEnum? input = null;
+            var actual = func(input);
+            Assert.Equal("", actual);
         }
         #endregion
 
@@ -170,6 +197,45 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
                 .AppendLine(item.First)
                 .AppendLine(item.Second.ToString())
                 .AppendLine(item.Third.ToString());
+
+            var func = BuildFromAnonymousType(item);
+
+            var actual = func(item);
+
+            Assert.Equal(expectedBuilder.ToString(), actual);
+        }
+
+        [Fact]
+        public void BuildFromClassGivesAllPropertiesNull()
+        {
+            var item = new
+            {
+                First = (string?)null,
+                Second = (TestEnum?)null,
+                Third = (int?)null
+            };
+            var expectedBuilder = new StringBuilder();
+
+            var func = BuildFromAnonymousType(item);
+
+            var actual = func(item);
+
+            Assert.Equal(expectedBuilder.ToString(), actual);
+        }
+
+        [Fact]
+        public void BuildFromClassThatIsNull()
+        {
+#pragma warning disable IDE0059 // Unnecessary assignment of a value
+            var item = new
+#pragma warning restore IDE0059 // Unnecessary assignment of a value
+            {
+                First = "abc",
+            };
+
+            item = null;
+
+            var expectedBuilder = new StringBuilder();
 
             var func = BuildFromAnonymousType(item);
 

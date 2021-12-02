@@ -33,6 +33,9 @@ namespace SimplifiedSearch.Utils
         {
             var propertyToSearchLambda = new Func<T, string>(x =>
             {
+                if (x is null)
+                    return "";
+
                 var properties = typeof(T).GetProperties()
                     .Where(p => p.CanRead)
                     .Where(p => IsTypeIncludedInSearch(p.PropertyType));
