@@ -32,7 +32,8 @@ foreach (var country in matches)
 Lucenenet is the main inspiration for SimplifiedSearch.\
 SimplifiedSearch was started with the goal of delivering similar results to a spesific setup of Lucene analyzer and query.
 ### https://github.com/ninjanye/SearchExtensions
-SimplifiedSearch was inspired by SearchExtensions, and delivers a simpler (and less configurable) experience.
+SearchExtensions is another inspiration for SimplifiedSearch.\
+SimplifiedSearch delivers a simpler (and less configurable) experience.
 ### https://github.com/DanHarltey/Fastenshtein
 Provides the distance calculation needed for fuzzy search.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) https://github.com/DanHarltey/Fastenshtein/blob/master/LICENSE](https://github.com/DanHarltey/Fastenshtein/blob/master/LICENSE).
@@ -50,5 +51,6 @@ For test data `tests/data/linanqiu/reddit-dataset/*`.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/linanqiu/reddit-dataset/README.md](tests/data/linanqiu/reddit-dataset/README.md) (se bottom of readme).
 ## Contributing
 Bug reports, feature requests and pull requests are welcome.
-- Follow the established code format.
 - The focus of the project is in making the simple use case work well, not on supporting many special cases.
+- For significant changes, make an issue for discussion before putting significant work into the change.
+- Follow the established code format.
