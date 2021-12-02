@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text;
 
 namespace SimplifiedSearch.Utils
@@ -31,28 +32,81 @@ namespace SimplifiedSearch.Utils
 
         private Func<T, string> BuildFromClass<T>()
         {
-            var propertyToSearchLambda = new Func<T, string>(x =>
+            var inputObject = Expression.Parameter(typeof(T), "inputObject");
+
+            var bodyOfFuncExpressions = new List<Expression>();
+
+            // Setup StringBuilder for return value.
+            var stringBuilderType = typeof(StringBuilder);
+            var stringBuilderCreate = Expression.New(stringBuilderType);
+            var stringBuilder = Expression.Parameter(stringBuilderType, "stringBuilder");
+            var assignStringBuilder = Expression.Assign(stringBuilder, stringBuilderCreate);
+            bodyOfFuncExpressions.Add(assignStringBuilder);
+
+            // Setup method to AppendLine to return value.
+            var stringBuilderAppendLineMethod = stringBuilderType.GetMethod("AppendLine", new[] { typeof(string) });
+            if (stringBuilderAppendLineMethod is null)
+                throw new Exception("Internal error. Unable to find method AppendLine on StringBuilder.");
+
+            // Setup method to Finalize return value.
+            var stringBuilderToStringMethod = stringBuilderType.GetMethod("ToString", Array.Empty<Type>());
+            if (stringBuilderToStringMethod is null)
+                throw new Exception("Internal error. Unable to find method ToString on StringBuilder.");
+            var stringBuilderToString = Expression.Call(stringBuilder, stringBuilderToStringMethod);
+
+            // Setup variable for return value.
+            var labelTarget = Expression.Label(typeof(string), "labelTarget");
+            var returnExp = Expression.Return(labelTarget, stringBuilderToString);
+
+            // Check if the inputObject is null.
+            // If so return immediately.
+            var isTNullTest = Expression.Equal(inputObject, Expression.Constant(null, typeof(T)));
+            bodyOfFuncExpressions.Add(Expression.IfThen(isTNullTest, returnExp));
+
+            // Get properties that should be included in search.
+            var properties = typeof(T).GetProperties()
+                .Where(p => p.CanRead)
+                .Where(p => IsTypeIncludedInSearch(p.PropertyType));
+
+            // Get value for each property.
+            foreach (var property in properties)
             {
-                if (x is null)
-                    return "";
+                var propertyExp = Expression.Property(inputObject, property);
 
-                var properties = typeof(T).GetProperties()
-                    .Where(p => p.CanRead)
-                    .Where(p => IsTypeIncludedInSearch(p.PropertyType));
-                var stringBuilder = new StringBuilder();
-                foreach (var property in properties)
+                var underlyingType = Nullable.GetUnderlyingType(property.PropertyType);
+
+                var propertyToStringMethod = property.PropertyType.GetMethod("ToString", Array.Empty<Type>());
+                if (propertyToStringMethod is null)
+                    throw new Exception($"Internal error. Unable to find method ToString on Property. {property.PropertyType} {property.Name}");
+                var propertyToString = Expression.Call(propertyExp, propertyToStringMethod);
+                var append = Expression.Call(stringBuilder, stringBuilderAppendLineMethod, propertyToString);
+
+                if (property.PropertyType == typeof(string) || underlyingType is not null)
                 {
-                    var propertyValue = property.GetValue(x);
-                    if (propertyValue is not null)
-                        stringBuilder.AppendLine(propertyValue.ToString());
+                    var isNotNullTest = Expression.NotEqual(propertyExp, Expression.Constant(null, property.PropertyType));
+                    bodyOfFuncExpressions.Add(Expression.IfThen(isNotNullTest, append));
                 }
-                return stringBuilder.ToString();
-            });
+                else
+                {
+                    bodyOfFuncExpressions.Add(append);
+                }
+            }
 
-            return propertyToSearchLambda;
+            // Return.
+            bodyOfFuncExpressions.Add(returnExp);
+
+            // GoTo label at end of Func.
+            var label = Expression.Label(labelTarget, Expression.Constant(""));
+            bodyOfFuncExpressions.Add(label);
+
+            // Build.
+            var body = Expression.Block(new[] { stringBuilder }, bodyOfFuncExpressions);
+            var lambda = Expression.Lambda<Func<T, string>>(body, inputObject);
+            var compiledLambda = lambda.Compile();
+            return compiledLambda;
         }
 
-        private bool IsTypeIncludedInSearch(Type type)
+        private static bool IsTypeIncludedInSearch(Type type)
         {
             if (type == typeof(string))
                 return true;
