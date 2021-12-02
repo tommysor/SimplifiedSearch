@@ -169,7 +169,7 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
             var item = new
             {
                 First = "abc",
-                Second = TestEnum.Second,
+                TestEnum.Second,
                 Third = 5
             };
             var expectedBuilder = new StringBuilder()

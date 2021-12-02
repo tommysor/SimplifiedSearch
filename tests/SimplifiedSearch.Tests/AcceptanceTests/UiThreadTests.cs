@@ -19,7 +19,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             }
         }
 
-        private async Task RunAndAddAfterSearch(List<string> listToAddMessageTo, Task<IList<string>> searchTask)
+        private static async Task RunAndAddAfterSearch(List<string> listToAddMessageTo, Task<IList<string>> searchTask)
         {
             await searchTask;
             listToAddMessageTo.Add("after search");
