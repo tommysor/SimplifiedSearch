@@ -10,7 +10,8 @@ Data in databases must first be loaded into memory in order to be searched.
 Tested with: NETCOREAPP3.1, NET5.0, NET6.0
 ## Quickstart
 ### Install
-`PM> Install-Package SimplifiedSearch`
+[![Nuget](https://img.shields.io/nuget/v/SimplifiedSearch)](https://www.nuget.org/packages/SimplifiedSearch/)\
+`> dotnet add package SimplifiedSearch`
 ### Code
 Use extension method `.SimplifiedSearchAsync(searchTerm, propertyToSearchLambda)`.\
 `propertyToSearchLambda` is optional. When missing, all properties will be searched (or the value, if the value is `string`, `Enum`, `int`, etc).
