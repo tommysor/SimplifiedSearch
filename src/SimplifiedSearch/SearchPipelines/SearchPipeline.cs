@@ -65,8 +65,13 @@ namespace SimplifiedSearch.SearchPipelines
             // If fed very long field values, only search first part of field.
             // In order to complete in reasonable time.
             if (fieldValue.Length > 5000)
+#if NETSTANDARD2_0
                 fieldValue = fieldValue.Substring(0, 5000);
-            
+#else
+                fieldValue = fieldValue[0..5000];
+#endif
+
+
             var fieldValueTokens = new[] { fieldValue };
             foreach (var component in _pipelineComponents)
             {
@@ -88,7 +93,11 @@ namespace SimplifiedSearch.SearchPipelines
                     // Add char to get better match when searchTerm is missing a character.
                     var maxLength = searchTerm.Length + 1;
                     if (fieldValue2.Length > maxLength)
+#if NETSTANDARD2_0
                         fieldValue2 = fieldValue2.Substring(0, maxLength);
+#else
+                        fieldValue2 = fieldValue2[0..maxLength];
+#endif
 
                     // Use fuzzy matching for longer words.
                     // For short words, use exact matching.
