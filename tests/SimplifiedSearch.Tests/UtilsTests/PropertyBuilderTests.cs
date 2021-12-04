@@ -187,6 +187,34 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
         }
 
         [Fact]
+        public void BuildCachingGivesCorrectFunc()
+        {
+            var aaa = new { Aaa = "aaa" };
+            var bbb = new { Bbb = "bbb" };
+
+            var aaaFuncFirst = BuildFromAnonymousType(aaa);
+            var bbbFuncFirst = BuildFromAnonymousType(bbb);
+            var bbbFuncSecond = BuildFromAnonymousType(bbb);
+            var aaaFuncSecond = BuildFromAnonymousType(aaa);
+
+            Assert.Same(aaaFuncFirst, aaaFuncSecond);
+            Assert.Same(bbbFuncFirst, bbbFuncSecond);
+        }
+
+        [Fact]
+        public void BuildCachingGivesWorkingFunc()
+        {
+            var aaa = new { Aaa = "aaa" };
+            var _ = BuildFromAnonymousType(aaa);
+
+            var cachedFunc = BuildFromAnonymousType(aaa);
+            var actual = cachedFunc(aaa);
+
+            var expected = new StringBuilder().AppendLine("aaa").ToString();
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
         public void BuildFromClassGivesAllProperties()
         {
             var item = new
