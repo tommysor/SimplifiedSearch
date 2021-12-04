@@ -8,6 +8,8 @@ namespace SimplifiedSearch.Utils
 {
     internal class PropertyBuilder
     {
+        private readonly Dictionary<Type, object> _compiledFuncs = new Dictionary<Type, object>();
+
         public Func<T, string> BuildPropertyToSearchLambda<T>()
         {
             var type = typeof(T);
@@ -32,6 +34,10 @@ namespace SimplifiedSearch.Utils
 
         private Func<T, string> BuildFromClass<T>()
         {
+            var funcType = typeof(Func<T, string>);
+            if (_compiledFuncs.TryGetValue(funcType, out var func))
+                return (Func<T, string>)func;
+
             var inputObject = Expression.Parameter(typeof(T), "inputObject");
 
             var bodyOfFuncExpressions = new List<Expression>();
@@ -103,6 +109,8 @@ namespace SimplifiedSearch.Utils
             var body = Expression.Block(new[] { stringBuilder }, bodyOfFuncExpressions);
             var lambda = Expression.Lambda<Func<T, string>>(body, inputObject);
             var compiledLambda = lambda.Compile();
+
+            _compiledFuncs.Add(funcType, compiledLambda);
             return compiledLambda;
         }
 
