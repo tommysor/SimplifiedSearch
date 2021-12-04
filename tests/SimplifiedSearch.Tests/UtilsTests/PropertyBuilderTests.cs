@@ -64,7 +64,7 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
         }
         #endregion
 
-        #region int
+        #region primitive
         [Fact]
         public void BuildFromInt()
         {
@@ -103,6 +103,29 @@ namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
             int? input = null;
             var actual = func(input);
             Assert.Equal("", actual);
+        }
+
+        [Fact]
+        public void BuildFromFloat()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<float>();
+            Assert.IsType<Func<float, string>>(func);
+        }
+
+        [Fact]
+        public void BuildFromFloatNullable()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<float?>();
+            Assert.IsType<Func<float?, string>>(func);
+        }
+
+        [Fact]
+        public void BuildFromFloatGetValueNullable()
+        {
+            var func = _propertyBuilder.BuildPropertyToSearchLambda<float?>();
+            float? input = 2;
+            var actual = func(input);
+            Assert.Equal("2", actual);
         }
         #endregion
 
