@@ -25,8 +25,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             listToAddMessageTo.Add("after search");
         }
 
-        [Fact]
-        public async Task SearchReallyRunsOnSeparateThread()
+        private async Task<bool> IsRunAsync()
         {
             // This only fails if the entire search runs synchronously.
 
@@ -36,7 +35,23 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             list.Add("first");
             await task2;
 
-            Assert.Equal("first", list[0]);
+            return list[0] == "first";
+        }
+
+        [Fact]
+        public async Task SearchReallyRunsOnSeparateThread()
+        {
+            // This test depends on the order of execution of 2 tasks.
+            // Should work most of the time.
+
+            for (var i = 0; i < 20; i++)
+            {
+                var actual = await IsRunAsync();
+                if (actual)
+                    return;
+            }
+
+            Assert.True(false, "Search is running synchronously");
         }
     }
 }
