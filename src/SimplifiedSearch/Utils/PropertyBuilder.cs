@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SimplifiedSearch.Utils
 {
-    internal class PropertyBuilder
+    internal class PropertyBuilder : IPropertyBuilder
     {
         private readonly Dictionary<Type, object> _compiledFuncs = new();
 

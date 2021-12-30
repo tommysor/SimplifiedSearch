@@ -10,21 +10,26 @@ namespace SimplifiedSearch
 {
     internal class SimplifiedSearchImpl : ISimplifiedSearch
     {
-        private readonly SearchPipeline _searchPipeline;
-        private readonly PropertyBuilder _propertyBuilder;
+        private readonly ISearchPipeline _searchPipeline;
+        private readonly IPropertyBuilder _propertyBuilder;
 
-        internal SimplifiedSearchImpl(SearchPipeline searchPipeline, PropertyBuilder propertyBuilder)
+        internal SimplifiedSearchImpl(ISearchPipeline searchPipeline, IPropertyBuilder propertyBuilder)
         {
             _searchPipeline = searchPipeline ?? throw new ArgumentNullException(nameof(searchPipeline));
             _propertyBuilder = propertyBuilder ?? throw new ArgumentNullException(nameof(propertyBuilder));
         }
 
-        private async Task<IList<T>> ExecuteSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda)
+        private Task<IList<T>> ExecuteSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda)
         {
             // Validate arguments.
             if (searchThisList is null)
                 throw new ArgumentNullException(nameof(searchThisList));
 
+            return ExecuteSearchAsync2(searchThisList, searchTerm, propertyToSearchLambda);
+        }
+
+        private async Task<IList<T>> ExecuteSearchAsync2<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda)
+        {
             // If nothing will be filtered. Do the fast thing, return the input list.
             if (string.IsNullOrEmpty(searchTerm))
                 return searchThisList;
@@ -45,9 +50,9 @@ namespace SimplifiedSearch
             return await Task.Run(async () => await ExecuteSearchAsync(searchThisList, searchTerm, propertyToSearchLambda)).ConfigureAwait(false);
         }
 
-        public async Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm)
+        public Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm)
         {
-            return await SimplifiedSearchAsync(searchThisList, searchTerm, null).ConfigureAwait(false);
+            return SimplifiedSearchAsync(searchThisList, searchTerm, null);
         }
     }
 }

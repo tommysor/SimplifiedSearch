@@ -20,7 +20,10 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Fact]
         public async Task SearchListOfNaughtyStrings()
         {
-            var _ = await _listOfNaughtyStrings.SimplifiedSearchAsync(new string('a', 500));
+            var actual = await _listOfNaughtyStrings.SimplifiedSearchAsync(new string('a', 500));
+            // Assert is mostly to keep SonarCloud happy.
+            // This test checks if anything blows up with weird values in list.
+            Assert.NotNull(actual);
         }
 
         [Fact]
@@ -33,7 +36,10 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 
             foreach(var naughtyString in _listOfNaughtyStrings)
             {
-                var _ = await list.SimplifiedSearchAsync(naughtyString);
+                var actual = await list.SimplifiedSearchAsync(naughtyString);
+                // Assert is mostly to keep SonarCloud happy.
+                // This test checks if anything blows up with weird values in search term.
+                Assert.NotNull(actual);
             }
         }
 

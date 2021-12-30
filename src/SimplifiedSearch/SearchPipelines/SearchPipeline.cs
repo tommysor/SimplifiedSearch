@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimplifiedSearch.SearchPipelines
 {
-    internal class SearchPipeline
+    internal class SearchPipeline : ISearchPipeline
     {
         private readonly ISearchPipelineComponent[] _pipelineComponents;
 
@@ -15,7 +15,7 @@ namespace SimplifiedSearch.SearchPipelines
             _pipelineComponents = pipelineComponenets ?? throw new ArgumentNullException(nameof(pipelineComponenets));
         }
 
-        internal async Task<IList<T>> SearchAsync<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
+        public Task<IList<T>> SearchAsync<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
         {
             if (list is null)
                 throw new ArgumentNullException(nameof(list));
@@ -24,15 +24,20 @@ namespace SimplifiedSearch.SearchPipelines
             if (fieldToSearch is null)
                 throw new ArgumentNullException(nameof(fieldToSearch));
 
+            return SearchAsync2(list, searchTerm, fieldToSearch);
+        }
+
+        private async Task<IList<T>> SearchAsync2<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
+        {
             var searchTermTokens = await GetSearchTermTokens(searchTerm).ConfigureAwait(false);
 
             var listWithRank = new List<(T, int)>();
             foreach (var item in list)
             {
                 var fieldValue = fieldToSearch(item);
-                if (string.IsNullOrEmpty(fieldValue))
-                    continue;
                 if (fieldValue is null)
+                    continue;
+                if (fieldValue == "")
                     continue;
                 var fieldValueTokens = await GetFieldTokens(fieldValue).ConfigureAwait(false);
                 var similarityRank = await GetSimilarityRank(fieldValueTokens, searchTermTokens).ConfigureAwait(false);
