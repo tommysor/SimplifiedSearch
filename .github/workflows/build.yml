@@ -86,6 +86,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         shell: powershell
         run: |
-          .\.sonar\scanner\dotnet-sonarscanner begin /k:"tommysor_SimplifiedSearch" /o:"tommysor" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+          .\.sonar\scanner\dotnet-sonarscanner begin /k:"tommysor_SimplifiedSearch" /o:"tommysor" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/*.opencover.xml"
           dotnet build SimplifiedSearch.sln -c Release
+          dotnet test --no-build -c Release --logger:trx --collect:"XPlat Code Coverage" --settings tests/SimplifiedSearch.Tests/sonarcloud.runsettings
           .\.sonar\scanner\dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
