@@ -48,8 +48,6 @@ namespace SimplifiedSearch.Utils
         private Action<Expression, BinaryExpression?> GetAppendToReturnValue()
         {
             var stringBuilderAppendLineMethod = _stringBuilderType.GetMethod("AppendLine", new[] { typeof(string) });
-            if (stringBuilderAppendLineMethod is null)
-                throw new Exception("Internal error. Unable to find method AppendLine on StringBuilder.");
 
             void stringBuilderAppend(Expression valueToAppend, BinaryExpression? ifTest)
             {
@@ -72,8 +70,6 @@ namespace SimplifiedSearch.Utils
         private GotoExpression GetReturnExpression()
         {
             var stringBuilderToStringMethod = _stringBuilderType.GetMethod("ToString", Array.Empty<Type>());
-            if (stringBuilderToStringMethod is null)
-                throw new Exception("Internal error. Unable to find method ToString on StringBuilder.");
             var stringBuilderToString = Expression.Call(_stringBuilderForReturnValue, stringBuilderToStringMethod);
 
             var returnExp = Expression.Return(_labelTarget, stringBuilderToString);
@@ -126,8 +122,6 @@ namespace SimplifiedSearch.Utils
                 var underlyingType = Nullable.GetUnderlyingType(property.PropertyType);
 
                 var propertyToStringMethod = property.PropertyType.GetMethod("ToString", Array.Empty<Type>());
-                if (propertyToStringMethod is null)
-                    throw new Exception($"Internal error. Unable to find method ToString on Property. {property.PropertyType} {property.Name}");
                 var propertyToString = Expression.Call(propertyExp, propertyToStringMethod);
 
                 if (property.PropertyType == typeof(string) || underlyingType is not null)
