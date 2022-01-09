@@ -40,5 +40,13 @@ jobs:
     - name: Test
       run: dotnet test -c ${{ env.BuildConfiguration }} --no-build
     - name: Pack
-      run: dotnet pack -c ${{ env.BuildConfiguration }} --no-build
-      
+      run: dotnet pack -c ${{ env.BuildConfiguration }} --no-build -p:PackageVersion=$GITHUB_REF_NAME
+    - name: Upload
+      uses: actions/upload-artifact@v2
+      with:
+        name: NuGetPackage
+        path: ${{ github.workspace }}/**/*.*nupkg
+    - name: NuGetPublish
+      env:
+        NUGET_TOKEN: ${{ secrets.NUGET_PUBLISH_NEW_VERSION_TOKEN }}
+      run: echo dummy
