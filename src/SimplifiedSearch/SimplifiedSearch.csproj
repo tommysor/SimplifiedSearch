@@ -2,6 +2,7 @@
 
   <PropertyGroup>
 	<!-- Conditional TargetFramework is used to force a test using netstandard2.0 in Azure pipeline. -->
+	<!-- TODO: Remove after Azure DevOps pipeline is removed. -->
 	<TargetFramework Condition="$(OnlyBuildNetStandard2_0) == 'True'">netstandard2.0</TargetFramework>
     <TargetFrameworks Condition="$(OnlyBuildNetStandard2_0) != 'True'">netstandard2.0;netstandard2.1</TargetFrameworks>
     <Nullable>enable</Nullable>
