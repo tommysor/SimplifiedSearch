@@ -1,5 +1,6 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-See [Acknowledgements](#Acknowledgements) for additional license information covering parts of the project.
+See [Acknowledgements](#Acknowledgements) for additional license information covering parts of the project.  
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tommysor_SimplifiedSearch&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=tommysor_SimplifiedSearch)
 # SimplifiedSearch
 Simple way to add ranked fuzzy matching search.\
 For when you have up to a few thousand products, locations or similar and want to add a search that most users will see as smart, with minimal work.
@@ -7,7 +8,7 @@ For when you have up to a few thousand products, locations or similar and want t
 Searching through lists of short phrases like country names or the subject line in emails.\
 Data in databases must first be loaded into memory in order to be searched.
 ## .NET support
-Tested with: NETCOREAPP3.1, NET5.0, NET6.0
+Tested with: .NETFramework4.8, NETCOREAPP3.1, NET5.0, NET6.0
 ## Quickstart
 ### Install
 [![Nuget](https://img.shields.io/nuget/v/SimplifiedSearch)](https://www.nuget.org/packages/SimplifiedSearch/)\
