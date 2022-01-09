@@ -2,7 +2,7 @@ name: SimplifiedSearch-release
 
 on:
   release:
-    types: [created]
+    types: [published]
   workflow_dispatch:
 
 env:
@@ -13,6 +13,7 @@ jobs:
     permissions:
       packages: write
       contents: read
+      
     runs-on: 'ubuntu-latest'
     
     steps:
@@ -35,18 +36,17 @@ jobs:
 
     - name: Restore dependencies
       run: dotnet restore
+      
     - name: Build
       run: dotnet build -c ${{ env.BuildConfiguration }} --no-restore
+      
     - name: Test
       run: dotnet test -c ${{ env.BuildConfiguration }} --no-build
+      
     - name: Pack
       run: dotnet pack -c ${{ env.BuildConfiguration }} --no-build -p:PackageVersion=$GITHUB_REF_NAME
-    - name: Upload
-      uses: actions/upload-artifact@v2
-      with:
-        name: NuGetPackage
-        path: ${{ github.workspace }}/**/*.*nupkg
+
     - name: NuGetPublish
       env:
         NUGET_TOKEN: ${{ secrets.NUGET_PUBLISH_NEW_VERSION_TOKEN }}
-      run: echo dummy
+      run: dotnet nuget push ${{ github.workspace }}/**/*.nupkg -k $NUGET_TOKEN -s https://api.nuget.org/v3/index.json
