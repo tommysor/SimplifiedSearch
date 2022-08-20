@@ -92,44 +92,52 @@ namespace SimplifiedSearch.SearchPipelines
             foreach(var fieldValue in fieldValueTokens)
                 foreach(var searchTerm in searchTermTokens)
                 {
-                    var fieldValue2 = fieldValue;
-
-                    // Shorten fieldValue to match start of word.
-                    // Add char to get better match when searchTerm is missing a character.
-                    var maxLength = searchTerm.Length + 1;
-                    if (fieldValue2.Length > maxLength)
-#if NETSTANDARD2_0
-                        fieldValue2 = fieldValue2.Substring(0, maxLength);
-#else
-                        fieldValue2 = fieldValue2[0..maxLength];
-#endif
-
-                    // Use fuzzy matching for longer words.
-                    // For short words, use exact matching.
-                    if (searchTerm.Length > 3)
-                    {
-                        var distance = Fastenshtein.Levenshtein.Distance(fieldValue2, searchTerm);
-                        switch (distance)
-                        {
-                            case 0:
-                                similarityRank += 5;
-                                break;
-                            case 1:
-                                similarityRank += 3;
-                                break;
-                            case 2:
-                                similarityRank += 1;
-                                break;
-                        }
-                    }
-                    else
-                    {
-                        if (searchTerm == fieldValue2)
-                            similarityRank += 1;
-                    }
+                    var similarityRankForToken = GetSimilarityRankForToken(fieldValue, searchTerm);
+                    similarityRank += similarityRankForToken;
                 }
 
             return Task.FromResult(similarityRank);
+        }
+
+        private static int GetSimilarityRankForToken(string fieldValue, string searchTerm)
+        {
+            // For very short SearchTerm, use exact match.
+            if (searchTerm.Length <= 1)
+            {
+                if (fieldValue.Length >= 1)
+                {
+                    var fieldValueFirstChar = fieldValue.Substring(0, 1);
+                    return string.Equals(fieldValueFirstChar, searchTerm, StringComparison.CurrentCultureIgnoreCase) ? 1 : 0;
+                }
+                else
+                {
+                    return 0;
+                }
+            }
+
+            return GetSimilarityRankForTokenFuzzy(fieldValue, searchTerm);
+        }
+
+        private static int GetSimilarityRankForTokenFuzzy(string fieldValue, string searchTerm)
+        {
+            // Shorten fieldValue to match start of word.
+            // Add char to get better match when searchTerm is missing a character.
+            var maxLength = searchTerm.Length + 1;
+            if (fieldValue.Length > maxLength)
+                fieldValue = fieldValue.Substring(0, maxLength);
+
+            var distance = Fastenshtein.Levenshtein.Distance(fieldValue, searchTerm);
+            switch (distance)
+            {
+                case 0:
+                    return 5;
+                case 1:
+                    return 3;
+                case 2:
+                    return 1;
+            }
+
+            return 0;
         }
     }
 }

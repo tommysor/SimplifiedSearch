@@ -14,7 +14,9 @@ namespace SimplifiedSearch.SearchPipelines
             '\t',
             '\r',
             '\n',
-            '-'
+            '-',
+            ',',
+            '.',
         };
 
         public Task<string[]> RunAsync(params string[] value)
