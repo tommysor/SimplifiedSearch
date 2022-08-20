@@ -17,52 +17,40 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Fact]
         public async Task MatchWholeWordExcact()
         {
-            var expected = TestData.UsStates.First(x => x.Name == "California");
-
-            var actual = await TestData.UsStates.SimplifiedSearchAsync("California", x => x.Name);
-
+            var expected = TestData.Countries.First(x => x.Name == "Taiwan");
+            var actual = await TestData.Countries.SimplifiedSearchAsync("Taiwan", x => x.Name);
             Assert.Same(expected, actual.First());
         }
 
         [Fact]
         public async Task MatchWholeWordExactCaseInsensitive()
         {
-            var expected = TestData.UsStates.First(x => x.Name == "Arkansas");
-
-            var actual = await TestData.UsStates.SimplifiedSearchAsync("arkANsas", x => x.Name);
-
+            var expected = TestData.Countries.First(x => x.Name == "Thailand");
+            var actual = await TestData.Countries.SimplifiedSearchAsync("tHAILAnd", x => x.Name);
             Assert.Same(expected, actual.First());
         }
 
         [Fact]
         public async Task MatchStartOfWordExact()
         {
-            var expected = TestData.UsStates.First(x => x.Name == "Maryland");
-
-            var actual = await TestData.UsStates.SimplifiedSearchAsync("Maryla", x => x.Name);
-
+            var expected = TestData.Countries.First(x => x.Name == "Albania");
+            var actual = await TestData.Countries.SimplifiedSearchAsync("Alba", x => x.Name);
             Assert.Same(expected, actual.First());
         }
 
         [Fact]
         public async Task MatchWholeWordFuzzy()
         {
-            var expected = TestData.UsStates.First(x => x.Name == "Montana");
-
-            //                                                                   Montana
-            var actual = await TestData.UsStates.SimplifiedSearchAsync("MoZtanZ", x => x.Name);
-
+            var expected = TestData.Countries.First(x => x.Name == "Morocco");
+            var actual = await TestData.Countries.SimplifiedSearchAsync("MZrocZo", x => x.Name);
             Assert.Same(expected, actual.First());
         }
 
         [Fact]
         public async Task MatchStartOfWordFuzzy()
         {
-            var expected = TestData.UsStates.First(x => x.Name == "Hawaii");
-
-            //                                                                   Hawaii
-            var actual = await TestData.UsStates.SimplifiedSearchAsync("hZwa", x => x.Name);
-
+            var expected = TestData.Countries.First(x => x.Name == "Morocco");
+            var actual = await TestData.Countries.SimplifiedSearchAsync("Zoro", x => x.Name);
             Assert.Same(expected, actual.First());
         }
 

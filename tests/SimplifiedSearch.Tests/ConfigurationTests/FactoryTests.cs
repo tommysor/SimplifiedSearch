@@ -15,7 +15,12 @@ namespace SimplifiedSearch.Tests.ConfigurationTests
         {
             var factory = new SimplifiedSearchFactory();
             var simplifiedSearch = factory.GetSimplifiedSearch();
-            var actual = await simplifiedSearch.SimplifiedSearchAsync(TestData.UsStates, "Pennsylvania", x => x.Name);
+            var list = new[]
+            {
+                new TestItem {Name = "abc"},
+                new TestItem {Name = "xyz"}
+            };
+            var actual = await simplifiedSearch.SimplifiedSearchAsync(list, "abc", x => x.Name);
             Assert.Single(actual);
             
             await Task.CompletedTask;
