@@ -13,7 +13,6 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Theory]
         [InlineData("thaiwan", "Taiwan", "Thailand")]
         [InlineData("Niger", "Niger", "Nigeria")]
-        [InlineData("Nigeria", "Nigeria", "Algeria")]
         public async Task Countries_Top2(string search, string expect1, string expect2)
         {
             var expected1 = TestData.Countries.First(x => x.Name == expect1);

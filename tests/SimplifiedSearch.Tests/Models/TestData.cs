@@ -15,8 +15,8 @@ namespace SimplifiedSearch.Tests.Models
 
         static TestData()
         {
-            Countries = GetCountries();
-            CountriesString = Countries.Select(x => x.Name).ToArray();
+            CountriesString = GetCountriesString();
+            Countries = GetCountries(CountriesString);
 
             var redditAnimes = GetRedditAnime();
             RedditAnimeShortPosts = GetRedditAnimeShortPosts(redditAnimes);
@@ -26,46 +26,40 @@ namespace SimplifiedSearch.Tests.Models
         private static string GetPathToDataDirectory()
         {
             var baseDirectory = AppContext.BaseDirectory;
-            //var path = Path.Combine(baseDirectory, @"..\..\..\..\data\");
             var path = Path.Combine(baseDirectory, "..", "..", "..", "..", "data");
             return path;
         }
 
-        private static IList<TestItem> GetCountries()
+        private static IList<string> GetCountriesString()
         {
-            var pathData = GetPathToDataDirectory();
-            var path = Path.Combine(pathData, "annexare", "Countries", "countries.json");
-
-            using var streamReader = new StreamReader(path);
-            var fileContent = streamReader.ReadToEnd();
-            var deserializedObject = Newtonsoft.Json.JsonConvert.DeserializeObject(fileContent);
-            if (deserializedObject is not Newtonsoft.Json.Linq.JObject countries)
-                throw new InvalidOperationException($"Failed to get testdata 'Countries'. Expected result of type '{typeof(Newtonsoft.Json.Linq.JObject)}', got object of type '{deserializedObject?.GetType()}'");
-
-            var results = new List<TestItem>();
-            var index = 0;
-            foreach (var country in countries)
+            var countries = new[]
             {
-                if (country.Value is not Newtonsoft.Json.Linq.JObject countryValues)
-                    continue;
+                "Taiwan",
+                "Thailand",
+                "Niger",
+                "Nigeria",
+                "Albania",
+                "Morocco"
+            };
+            return countries;
+        }
 
-                foreach (var countryValue in countryValues)
+        private static IList<TestItem> GetCountries(IList<string> countryNames)
+        {
+            var i = 0;
+            var countries = new List<TestItem>();
+            foreach (var countryName in countryNames)
+            {
+                i++;
+                var country = new TestItem
                 {
-                    if ("name".Equals(countryValue.Key, StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        var countryName = countryValue.Value?.ToString();
-                        if (!string.IsNullOrEmpty(countryName))
-                        {
-                            index++;
-                            var testItem = new TestItem { Id = index, Name = countryName };
-                            results.Add(testItem);
-                        }
-                        break;
-                    }
-                }
+                    Id = i,
+                    Name = countryName,
+                };
+                countries.Add(country);
             }
 
-            return results;
+            return countries;
         }
 
         private static IList<TestItem> GetUsStates()
@@ -138,7 +132,7 @@ namespace SimplifiedSearch.Tests.Models
 
         internal static IList<TestItem> Countries { get; }
 
-        internal static IList<string?> CountriesString { get; }
+        internal static IList<string> CountriesString { get; }
 
         internal static IList<TestItem> UsStates { get; } = GetUsStates();
 

@@ -100,9 +100,9 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Fact]
         public async Task ListOfString()
         {
-            var actual = await TestData.CountriesString.SimplifiedSearchAsync("Bahamas");
+            var actual = await TestData.CountriesString.SimplifiedSearchAsync("Morocco");
 
-            Assert.Equal("Bahamas", actual.First());
+            Assert.Equal("Morocco", actual.First());
         }
 
         [Fact]

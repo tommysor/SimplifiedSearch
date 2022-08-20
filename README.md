@@ -8,7 +8,7 @@ For when you have up to a few thousand products, locations or similar and want t
 Searching through lists of short phrases like country names or the subject line in emails.\
 Data in databases must first be loaded into memory in order to be searched.
 ## .NET support
-Tested with: .NETFramework4.8, NETCOREAPP3.1, NET5.0, NET6.0
+Tested with: .NETFramework4.8, NETCOREAPP3.1, NET6.0, NET7.0
 ## Quickstart
 ### Install
 [![Nuget](https://img.shields.io/nuget/v/SimplifiedSearch)](https://www.nuget.org/packages/SimplifiedSearch/)\
@@ -42,9 +42,7 @@ Provides the distance calculation needed for fuzzy search.\
 ### https://github.com/thecoderok/Unidecode.NET
 Provides the ascii folding needed to match accented characters to their ascii approximate equivalent (â, å, à, á, ä ≈ a).\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) https://github.com/thecoderok/Unidecode.NET/blob/master/LICENSE](https://github.com/thecoderok/Unidecode.NET/blob/master/LICENSE).
-### https://github.com/annexare/Countries
-For test data `tests/data/annexare/Countries/*`.\
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/annexare/Countries/LICENSE](tests/data/annexare/Countries/LICENSE).
+
 ### https://github.com/CivilServiceUSA/us-states
 For test data `tests/data/CivilServiceUSA/us-states/*`.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/CivilServiceUSA/us-states/LICENSE](tests/data/CivilServiceUSA/us-states/LICENSE).
