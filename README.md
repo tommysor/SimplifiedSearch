@@ -42,10 +42,6 @@ Provides the distance calculation needed for fuzzy search.\
 ### https://github.com/thecoderok/Unidecode.NET
 Provides the ascii folding needed to match accented characters to their ascii approximate equivalent (â, å, à, á, ä ≈ a).\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) https://github.com/thecoderok/Unidecode.NET/blob/master/LICENSE](https://github.com/thecoderok/Unidecode.NET/blob/master/LICENSE).
-
-### https://github.com/CivilServiceUSA/us-states
-For test data `tests/data/CivilServiceUSA/us-states/*`.\
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/CivilServiceUSA/us-states/LICENSE](tests/data/CivilServiceUSA/us-states/LICENSE).
 ## Contributing
 Bug reports, feature requests and pull requests are welcome.
 - The focus of the project is in making the simple use case work well, not on supporting many special cases.

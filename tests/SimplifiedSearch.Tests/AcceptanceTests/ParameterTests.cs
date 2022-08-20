@@ -28,10 +28,10 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Fact]
         public async Task SearchTermNull_ReturnsSameList()
         {
-            var expected = TestData.UsStates;
+            var expected = TestData.Countries;
 
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-            var actual = await TestData.UsStates.SimplifiedSearchAsync(null, x => x.Name);
+            var actual = await TestData.Countries.SimplifiedSearchAsync(null, x => x.Name);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
             Assert.Same(expected, actual);
@@ -40,9 +40,9 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Fact]
         public async Task SearchTermEmpty_ReturnsSameList()
         {
-            var expected = TestData.UsStates;
+            var expected = TestData.Countries;
 
-            var actual = await TestData.UsStates.SimplifiedSearchAsync("", x => x.Name);
+            var actual = await TestData.Countries.SimplifiedSearchAsync("", x => x.Name);
 
             Assert.Same(expected, actual);
         }

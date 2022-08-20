@@ -29,14 +29,12 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Theory]
-        [InlineData("York", "New York")]
-        [InlineData("Loui", "Louisiana")]
-        public async Task UsStates_Top1(string search, string expectTop)
+        [InlineData("Taiw", "Taiwan")]
+        [InlineData("Alba", "Albania")]
+        public async Task Countries_Top1(string search, string expectTop)
         {
-            var expectedTop = TestData.UsStates.First(x => x.Name == expectTop);
-
-            var actual = await TestData.UsStates.SimplifiedSearchAsync(search, x => x.Name);
-
+            var expectedTop = TestData.Countries.First(x => x.Name == expectTop);
+            var actual = await TestData.Countries.SimplifiedSearchAsync(search, x => x.Name);
             Assert.Same(expectedTop, actual.First());
         }
     }

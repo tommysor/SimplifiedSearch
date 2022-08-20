@@ -54,32 +54,6 @@ namespace SimplifiedSearch.Tests.Models
             return countries;
         }
 
-        private static IList<TestItem> GetUsStates()
-        {
-            var pathData = GetPathToDataDirectory();
-            var path = Path.Combine(pathData, "CivilServiceUSA", "us-states", "states.json");
-
-            using var streamReader = new StreamReader(path);
-            var fileContent = streamReader.ReadToEnd();
-            var states = Newtonsoft.Json.JsonConvert.DeserializeAnonymousType(fileContent, new[] { new { state = "" } });
-            if (states is null)
-                throw new InvalidOperationException($"Failed to get testdata 'UsStates'.");
-
-            var results = new List<TestItem>();
-            var index = 0;
-            foreach (var state in states)
-            {
-                if (!string.IsNullOrEmpty(state.state))
-                {
-                    index++;
-                    var testItem = new TestItem { Id = index, Name = state.state };
-                    results.Add(testItem);
-                }
-            }
-
-            return results;
-        }
-
         private static IList<TestItem> GetTestItemWithEnum()
         {
             var list = new[]
@@ -94,8 +68,6 @@ namespace SimplifiedSearch.Tests.Models
         internal static IList<TestItem> Countries { get; }
 
         internal static IList<string> CountriesString { get; }
-
-        internal static IList<TestItem> UsStates { get; } = GetUsStates();
 
         internal static IList<TestEnum> Enums { get; } = Enum.GetValues(typeof(TestEnum)).Cast<TestEnum>().ToArray();
 
