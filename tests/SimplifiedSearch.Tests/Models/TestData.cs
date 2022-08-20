@@ -4,23 +4,15 @@ using System.IO;
 using System.Text;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Globalization;
-using CsvHelper;
 
 namespace SimplifiedSearch.Tests.Models
 {
     internal static class TestData
     {
-        private const int RedditShortLongCutoffPoint = 60;
-
         static TestData()
         {
             CountriesString = GetCountriesString();
             Countries = GetCountries(CountriesString);
-
-            var redditAnimes = GetRedditAnime();
-            RedditAnimeShortPosts = GetRedditAnimeShortPosts(redditAnimes);
-            RedditAnimeLongPosts = GetRedditAnimeLongPosts(redditAnimes);
         }
 
         private static string GetPathToDataDirectory()
@@ -88,37 +80,6 @@ namespace SimplifiedSearch.Tests.Models
             return results;
         }
 
-        private static ICollection<string> GetRedditAnime()
-        {
-            var pathData = GetPathToDataDirectory();
-            var path = Path.Combine(pathData, "linanqiu", "reddit-dataset", "entertainment_anime.csv");
-
-            using var streamReader = new StreamReader(path);
-            using var csvReader = new CsvReader(streamReader, CultureInfo.GetCultureInfo("en-US"));
-
-            var list = new HashSet<string>();
-            while (csvReader.Read())
-            {
-                var fieldValue = csvReader.GetField(2).Trim();
-                if (!string.IsNullOrEmpty(fieldValue))
-                    list.Add(fieldValue);
-            }
-
-            return list;
-        }
-
-        private static IList<string> GetRedditAnimeShortPosts(ICollection<string> redditAnimes)
-        {
-            var list = redditAnimes.Where(x => x.Length <= RedditShortLongCutoffPoint).ToArray();
-            return list;
-        }
-
-        private static IList<string> GetRedditAnimeLongPosts(ICollection<string> redditAnimes)
-        {
-            var list = redditAnimes.Where(x => x.Length > RedditShortLongCutoffPoint && x.Length <= 700).ToArray();
-            return list;
-        }
-
         private static IList<TestItem> GetTestItemWithEnum()
         {
             var list = new[]
@@ -135,10 +96,6 @@ namespace SimplifiedSearch.Tests.Models
         internal static IList<string> CountriesString { get; }
 
         internal static IList<TestItem> UsStates { get; } = GetUsStates();
-
-        internal static IList<string> RedditAnimeShortPosts { get; }
-
-        internal static IList<string> RedditAnimeLongPosts { get; }
 
         internal static IList<TestEnum> Enums { get; } = Enum.GetValues(typeof(TestEnum)).Cast<TestEnum>().ToArray();
 

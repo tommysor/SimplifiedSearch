@@ -46,9 +46,6 @@ Provides the ascii folding needed to match accented characters to their ascii ap
 ### https://github.com/CivilServiceUSA/us-states
 For test data `tests/data/CivilServiceUSA/us-states/*`.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/CivilServiceUSA/us-states/LICENSE](tests/data/CivilServiceUSA/us-states/LICENSE).
-### https://github.com/linanqiu/reddit-dataset
-For test data `tests/data/linanqiu/reddit-dataset/*`.\
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) tests/data/linanqiu/reddit-dataset/README.md](tests/data/linanqiu/reddit-dataset/README.md) (se bottom of readme).
 ## Contributing
 Bug reports, feature requests and pull requests are welcome.
 - The focus of the project is in making the simple use case work well, not on supporting many special cases.
