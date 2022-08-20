@@ -37,5 +37,42 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             var actual = await TestData.Countries.SimplifiedSearchAsync(search, x => x.Name);
             Assert.Same(expectedTop, actual.First());
         }
+
+        [Fact]
+        public async Task ShortSearch()
+        {
+            const string aaa = "aaa";
+            const string baa = "baa";
+            var list = new[] { aaa, baa, };
+
+            var actual = await list.SimplifiedSearchAsync("ba");
+            Assert.Collection(actual, 
+                a => Assert.Equal(baa, a), 
+                b => Assert.Equal(aaa, b));
+        }
+
+        [Fact]
+        public async Task FirstCharSearch()
+        {
+            const string abc = "abc";
+            const string bcd = "bcd";
+            var list = new[] { abc, bcd, };
+
+            var actual = await list.SimplifiedSearchAsync("b");
+            Assert.Collection(actual, x => Assert.Equal(bcd, x));
+        }
+
+        [Fact]
+        public async Task PrioritizeShorterExactBeforeLongerStartswith()
+        {
+            const string comment1 = "Duckberg";
+            const string comment2 = "Duck";
+            var list = new[] { comment1, comment2, };
+
+            var actual = await list.SimplifiedSearchAsync("duck");
+            Assert.Collection(actual,
+                a => Assert.Equal(comment2, a),
+                b => Assert.Equal(comment1, b));
+        }
     }
 }
