@@ -31,7 +31,7 @@ namespace SimplifiedSearch.SearchPipelines
         {
             var searchTermTokens = await GetSearchTermTokens(searchTerm).ConfigureAwait(false);
 
-            var listWithRank = new List<(T, int)>();
+            var listWithRank = new List<(T, double)>();
             foreach (var item in list)
             {
                 var fieldValue = fieldToSearch(item);
@@ -86,9 +86,9 @@ namespace SimplifiedSearch.SearchPipelines
             return fieldValueTokens;
         }
 
-        private Task<int> GetSimilarityRank(string[] fieldValueTokens, string[] searchTermTokens)
+        private Task<double> GetSimilarityRank(string[] fieldValueTokens, string[] searchTermTokens)
         {
-            var similarityRank = 0;
+            var similarityRank = 0.0;
             foreach(var fieldValue in fieldValueTokens)
                 foreach(var searchTerm in searchTermTokens)
                 {
@@ -99,26 +99,40 @@ namespace SimplifiedSearch.SearchPipelines
             return Task.FromResult(similarityRank);
         }
 
-        private static int GetSimilarityRankForToken(string fieldValue, string searchTerm)
+        private static double GetSimilarityRankForToken(string fieldValue, string searchTerm)
         {
-            // For very short SearchTerm, use exact match.
-            if (searchTerm.Length <= 1)
+            var rank = GetSimilarityRankForTokenShort(fieldValue, searchTerm);
+            
+            if (searchTerm.Length > 1)
+                rank += GetSimilarityRankForTokenFuzzy(fieldValue, searchTerm);
+
+            return rank;
+        }
+
+        private static double GetSimilarityRankForTokenShort(string fieldValue, string searchTerm)
+        {
+            const int maxExactCheckLength = 5;
+            var minLength = fieldValue.Length < searchTerm.Length ? fieldValue.Length : searchTerm.Length;
+            if (maxExactCheckLength < minLength)
+                minLength = maxExactCheckLength;
+
+            var rank = 0.0;
+            for (var i = 0; i < minLength; i++)
             {
-                if (fieldValue.Length >= 1)
+                if (char.ToUpperInvariant(fieldValue[i]) == char.ToUpperInvariant(searchTerm[i]))
                 {
-                    var fieldValueFirstChar = fieldValue.Substring(0, 1);
-                    return string.Equals(fieldValueFirstChar, searchTerm, StringComparison.CurrentCultureIgnoreCase) ? 1 : 0;
+                    rank += 0.1;
                 }
                 else
                 {
-                    return 0;
+                    break;
                 }
             }
 
-            return GetSimilarityRankForTokenFuzzy(fieldValue, searchTerm);
+            return rank;
         }
 
-        private static int GetSimilarityRankForTokenFuzzy(string fieldValue, string searchTerm)
+        private static double GetSimilarityRankForTokenFuzzy(string fieldValue, string searchTerm)
         {
             // Shorten fieldValue to match start of word.
             // Add char to get better match when searchTerm is missing a character.
