@@ -74,5 +74,33 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
                 a => Assert.Equal(comment2, a),
                 b => Assert.Equal(comment1, b));
         }
+
+        [Fact]
+        public async Task PrioritizeExactMatchInStartOfWord()
+        {
+            const string n30p = "30%";
+            const string n30 = "30";
+            const string n50p = "50%";
+            const string n50 = "50";
+
+            var list = new[] { n30p, n30, n50p, n50 };
+            var actual = await list.SimplifiedSearchAsync("50");
+            Assert.Equal(n50, actual[0]);
+            Assert.Equal(n50p, actual[1]);
+        }
+
+        [Fact]
+        public async Task PrioritizeExactMatchInStartOfWordIgnoreCapitalization()
+        {
+            const string n30p = "a0z";
+            const string n30 = "a0";
+            const string n50p = "b0z";
+            const string n50 = "B0";
+
+            var list = new[] { n30p, n30, n50p, n50 };
+            var actual = await list.SimplifiedSearchAsync("b0");
+            Assert.Equal(n50, actual[0]);
+            Assert.Equal(n50p, actual[1]);
+        }
     }
 }
