@@ -25,7 +25,7 @@ public class ExtensibilityTests
     }
 
     ////[Fact]
-    public void ConsumerCanCustomizeTheSearchPipeline()
+    public void ConsumerCanCustomizeTheRankingPipeline()
     {
     }
     
@@ -46,12 +46,25 @@ public class ExtensibilityTests
 
         private ISimplifiedSearch BuildSimplifiedSearch()
         {
-            var lowercaseFilter = new LowercaseFilter();
+            var lowercaseFilter = new UppercaseFilter(); // customize this
             var asciiFoldingFilter = new AsciiFoldingFilter();
             var tokenizeFilter = new TokenizeFilter();
             var pipeline = new SearchPipeline(lowercaseFilter, asciiFoldingFilter, tokenizeFilter);
             var propertyBuilder = new PropertyBuilder();
             return new SimplifiedSearchImpl(pipeline, propertyBuilder);
+        }
+    }
+
+    internal class UppercaseFilter : ISearchPipelineComponent
+    {
+        public Task<string[]> RunAsync(params string[] value)
+        {
+            var results = new string[value.Length];
+
+            for (var i = 0; i < value.Length; i++)
+                results[i] = value[i].ToUpperInvariant();
+
+            return Task.FromResult(results);
         }
     }
 }
