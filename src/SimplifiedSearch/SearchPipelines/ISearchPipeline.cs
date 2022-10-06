@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SimplifiedSearch.SearchPipelines
 {
-    internal interface ISearchPipeline
+    public interface ISearchPipeline
     {
         Task<IList<T>> SearchAsync<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch);
     }

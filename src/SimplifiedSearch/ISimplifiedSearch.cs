@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace SimplifiedSearch
 {
-    internal interface ISimplifiedSearch
+    public interface ISimplifiedSearch
     {
         Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda);
         Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm);

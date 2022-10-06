@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SimplifiedSearch.SearchPipelines
 {
-    internal interface ISearchPipelineComponent
+    public interface ISearchPipelineComponent
     {
         Task<string[]> RunAsync(params string[] value);
     }

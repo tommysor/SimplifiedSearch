@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace SimplifiedSearch.SearchPipelines
 {
-    internal class SearchPipeline : ISearchPipeline
+    public sealed class SearchPipeline : ISearchPipeline
     {
         private readonly ISearchPipelineComponent[] _pipelineComponents;
 
-        internal SearchPipeline(params ISearchPipelineComponent[] pipelineComponenets)
+        public SearchPipeline(params ISearchPipelineComponent[] pipelineComponenets)
         {
             _pipelineComponents = pipelineComponenets ?? throw new ArgumentNullException(nameof(pipelineComponenets));
         }
