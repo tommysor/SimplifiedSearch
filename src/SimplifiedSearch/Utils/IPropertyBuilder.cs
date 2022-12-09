@@ -2,7 +2,7 @@
 
 namespace SimplifiedSearch.Utils
 {
-    internal interface IPropertyBuilder
+    public interface IPropertyBuilder
     {
         Func<T, string> BuildPropertyToSearchLambda<T>();
     }

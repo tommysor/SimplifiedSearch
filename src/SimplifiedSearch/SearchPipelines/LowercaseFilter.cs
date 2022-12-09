@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace SimplifiedSearch.SearchPipelines
 {
-    internal class LowercaseFilter : ISearchPipelineComponent
+    public sealed class LowercaseFilter : ISearchPipelineComponent
     {
         public Task<string[]> RunAsync(params string[] value)
         {

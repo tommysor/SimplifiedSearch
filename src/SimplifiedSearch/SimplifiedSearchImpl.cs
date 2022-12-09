@@ -8,12 +8,12 @@ using System.Threading.Tasks;
 
 namespace SimplifiedSearch
 {
-    internal class SimplifiedSearchImpl : ISimplifiedSearch
+    public sealed class SimplifiedSearchImpl : ISimplifiedSearch
     {
         private readonly ISearchPipeline _searchPipeline;
         private readonly IPropertyBuilder _propertyBuilder;
 
-        internal SimplifiedSearchImpl(ISearchPipeline searchPipeline, IPropertyBuilder propertyBuilder)
+        public SimplifiedSearchImpl(ISearchPipeline searchPipeline, IPropertyBuilder propertyBuilder)
         {
             _searchPipeline = searchPipeline ?? throw new ArgumentNullException(nameof(searchPipeline));
             _propertyBuilder = propertyBuilder ?? throw new ArgumentNullException(nameof(propertyBuilder));
