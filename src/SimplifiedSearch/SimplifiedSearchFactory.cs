@@ -1,4 +1,6 @@
 ﻿using SimplifiedSearch.SearchPipelines;
+using SimplifiedSearch.SearchPipelines.TokenPipelines;
+using SimplifiedSearch.SearchPipelines.TokenPipelines.Components;
 using SimplifiedSearch.Utils;
 using System;
 using System.Collections.Generic;

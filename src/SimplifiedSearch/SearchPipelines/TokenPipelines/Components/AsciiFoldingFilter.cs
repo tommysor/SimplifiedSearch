@@ -4,7 +4,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Unidecode.NET;
 
-namespace SimplifiedSearch.SearchPipelines
+namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components
 {
     internal class AsciiFoldingFilter : ITokenPipelineComponent
     {

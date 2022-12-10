@@ -2,8 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using SimplifiedSearch.SearchPipelines.TokenPipelines.Components;
 
-namespace SimplifiedSearch.SearchPipelines
+namespace SimplifiedSearch.SearchPipelines.TokenPipelines
 {
     internal sealed class TokenPipeline : ITokenPipeline
     {

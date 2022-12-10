@@ -1,9 +1,10 @@
 using System.Threading.Tasks;
 using SimplifiedSearch.SearchPipelines;
+using SimplifiedSearch.SearchPipelines.TokenPipelines.Components;
 using SimplifiedSearch.Tests.Utils;
 using Xunit;
 
-namespace SimplifiedSearch.Tests.SearchPipelineTests
+namespace SimplifiedSearch.Tests.SearchPipelineTests.TokenPipelinesTests.ComponentsTests
 {
     public class TokenizeFilterTests
     {

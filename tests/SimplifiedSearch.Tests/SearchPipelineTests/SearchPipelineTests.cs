@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SimplifiedSearch.SearchPipelines;
+using SimplifiedSearch.SearchPipelines.TokenPipelines;
 using Xunit;
 
 namespace SimplifiedSearch.Tests.SearchPipelineTests
@@ -34,9 +35,9 @@ namespace SimplifiedSearch.Tests.SearchPipelineTests
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public async Task SearchAsync_WhenSearchTermIsNullOrEmpty_ShouldThrowException(string? searchTerm)
+        public async Task SearchAsync_WhenSearchTermIsNullOrEmpty_ShouldThrowException(string? searchTermInput)
         {
-            var func = async () => await _sut.SearchAsync(_emptyList, searchTerm!, _ => "");
+            var func = async () => await _sut.SearchAsync(_emptyList, searchTermInput!, _ => "");
             await Assert.ThrowsAsync<ArgumentException>("searchTerm", func);
         }
 
