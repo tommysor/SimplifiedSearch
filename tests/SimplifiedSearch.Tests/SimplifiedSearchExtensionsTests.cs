@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SimplifiedSearch.Tests.ExtensionTests
+namespace SimplifiedSearch.Tests
 {
-    public class ExtensionTests
+    public class SimplifiedSearchExtensionsTests
     {
         [Fact]
         public  async Task List_PassesList()

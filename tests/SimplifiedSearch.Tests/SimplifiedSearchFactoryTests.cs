@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SimplifiedSearch.Tests.ConfigurationTests
+namespace SimplifiedSearch.Tests
 {
-    public class FactoryTests
+    public class SimplifiedSearchFactoryTests
     {
         [Fact]
         public async Task NoExplicitSettings_CanBeUsed()

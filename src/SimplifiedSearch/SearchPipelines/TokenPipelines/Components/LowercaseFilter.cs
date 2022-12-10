@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimplifiedSearch.SearchPipelines
+namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components
 {
-    internal class LowercaseFilter : ISearchPipelineComponent
+    internal class LowercaseFilter : ITokenPipelineComponent
     {
         public Task<string[]> RunAsync(params string[] value)
         {

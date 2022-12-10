@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimplifiedSearch.SearchPipelines
+namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components
 {
-    internal class TokenizeFilter : ISearchPipelineComponent
+    internal class TokenizeFilter : ITokenPipelineComponent
     {
         private static readonly char[] _splitChars = new char[]
         {
