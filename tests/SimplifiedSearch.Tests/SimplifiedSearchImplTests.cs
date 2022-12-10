@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SimplifiedSearch.Tests.SimplifiedSearchImplTests
+namespace SimplifiedSearch.Tests
 {
-    public class SearchImplTests
+    public class SimplifiedSearchImplTests
     {
         private readonly IList<string> _list = new[] { "abcd", "efgh" };
         private readonly string _searchTerm = "abcd";
@@ -15,7 +15,7 @@ namespace SimplifiedSearch.Tests.SimplifiedSearchImplTests
         private readonly SearchPipelines.ISearchPipeline _searchPipelineMock;
         private readonly SimplifiedSearch.Utils.IPropertyBuilder _propertyBuilderMock;
 
-        public SearchImplTests()
+        public SimplifiedSearchImplTests()
         {
             var searchPipelineMockBuilder = new Moq.Mock<SearchPipelines.ISearchPipeline>();
             searchPipelineMockBuilder
