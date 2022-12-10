@@ -8,11 +8,11 @@ namespace SimplifiedSearch.SearchPipelines
 {
     internal class SearchPipeline : ISearchPipeline
     {
-        private readonly ISearchPipelineComponent[] _pipelineComponents;
+        private readonly ITokenPipeline _tokenPipeline;
 
-        internal SearchPipeline(params ISearchPipelineComponent[] pipelineComponenets)
+        internal SearchPipeline(ITokenPipeline tokenPipeline)
         {
-            _pipelineComponents = pipelineComponenets ?? throw new ArgumentNullException(nameof(pipelineComponenets));
+            _tokenPipeline = tokenPipeline ?? throw new ArgumentNullException(nameof(tokenPipeline));
         }
 
         public Task<IList<T>> SearchAsync<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
@@ -29,7 +29,7 @@ namespace SimplifiedSearch.SearchPipelines
 
         private async Task<IList<T>> SearchAsync2<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
         {
-            var searchTermTokens = await GetSearchTermTokens(searchTerm).ConfigureAwait(false);
+            var searchTermTokens = await _tokenPipeline.RunAsync(searchTerm).ConfigureAwait(false);
 
             var listWithRank = new List<(T, double)>();
             foreach (var item in list)
@@ -39,7 +39,7 @@ namespace SimplifiedSearch.SearchPipelines
                     continue;
                 if (fieldValue == "")
                     continue;
-                var fieldValueTokens = await GetFieldTokens(fieldValue).ConfigureAwait(false);
+                var fieldValueTokens = await _tokenPipeline.RunAsync(fieldValue).ConfigureAwait(false);
                 var similarityRank = await GetSimilarityRank(fieldValueTokens, searchTermTokens).ConfigureAwait(false);
                 if (similarityRank > 0)
                     listWithRank.Add((item, similarityRank));
@@ -51,39 +51,6 @@ namespace SimplifiedSearch.SearchPipelines
                 .ToArray();
 
             return results;
-        }
-
-        private async Task<string[]> GetSearchTermTokens(string searchTerm)
-        {
-            var searchTermTokens = new[] { searchTerm };
-            foreach (var component in _pipelineComponents)
-            {
-                searchTermTokens = await component.RunAsync(searchTermTokens).ConfigureAwait(false);
-            }
-
-            return searchTermTokens;
-        }
-
-        private async Task<string[]> GetFieldTokens(string fieldValue)
-        {
-            // Project intended to search short texts.
-            // If fed very long field values, only search first part of field.
-            // In order to complete in reasonable time.
-            if (fieldValue.Length > 5000)
-#if NETSTANDARD2_0
-                fieldValue = fieldValue.Substring(0, 5000);
-#else
-                fieldValue = fieldValue[0..5000];
-#endif
-
-
-            var fieldValueTokens = new[] { fieldValue };
-            foreach (var component in _pipelineComponents)
-            {
-                fieldValueTokens = await component.RunAsync(fieldValueTokens).ConfigureAwait(false);
-            }
-
-            return fieldValueTokens;
         }
 
         private Task<double> GetSimilarityRank(string[] fieldValueTokens, string[] searchTermTokens)

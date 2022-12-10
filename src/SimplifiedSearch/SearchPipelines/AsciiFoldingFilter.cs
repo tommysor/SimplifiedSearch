@@ -6,7 +6,7 @@ using Unidecode.NET;
 
 namespace SimplifiedSearch.SearchPipelines
 {
-    internal class AsciiFoldingFilter : ISearchPipelineComponent
+    internal class AsciiFoldingFilter : ITokenPipelineComponent
     {
         public Task<string[]> RunAsync(params string[] value)
         {

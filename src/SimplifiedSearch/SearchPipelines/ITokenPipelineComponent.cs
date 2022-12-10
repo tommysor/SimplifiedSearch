@@ -5,8 +5,8 @@ using System.Threading.Tasks;
 
 namespace SimplifiedSearch.SearchPipelines
 {
-    internal interface ISearchPipelineComponent
+    internal interface ITokenPipelineComponent
     {
-        Task<string[]> RunAsync(params string[] value);
+        Task<string[]> RunAsync(string[] value);
     }
 }

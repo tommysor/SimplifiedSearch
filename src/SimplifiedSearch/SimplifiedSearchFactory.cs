@@ -15,7 +15,8 @@ namespace SimplifiedSearch
             var lowercaseFilter = new LowercaseFilter();
             var asciiFoldingFilter = new AsciiFoldingFilter();
             var tokenizeFilter = new TokenizeFilter();
-            var pipeline = new SearchPipeline(lowercaseFilter, asciiFoldingFilter, tokenizeFilter);
+            var tokenPipeline = new TokenPipeline(lowercaseFilter, asciiFoldingFilter, tokenizeFilter);
+            var pipeline = new SearchPipeline(tokenPipeline);
             var propertyBuilder = new PropertyBuilder();
             return new SimplifiedSearchImpl(pipeline, propertyBuilder);
         }

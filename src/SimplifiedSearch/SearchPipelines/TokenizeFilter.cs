@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SimplifiedSearch.SearchPipelines
 {
-    internal class TokenizeFilter : ISearchPipelineComponent
+    internal class TokenizeFilter : ITokenPipelineComponent
     {
         private static readonly char[] _splitChars = new char[]
         {
