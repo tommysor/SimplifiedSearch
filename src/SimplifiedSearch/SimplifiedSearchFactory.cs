@@ -1,4 +1,6 @@
 ﻿using SimplifiedSearch.SearchPipelines;
+using SimplifiedSearch.SearchPipelines.SimilarityRankPipelines;
+using SimplifiedSearch.SearchPipelines.SimilarityRankPipelines.Components;
 using SimplifiedSearch.SearchPipelines.TokenPipelines;
 using SimplifiedSearch.SearchPipelines.TokenPipelines.Components;
 using SimplifiedSearch.Utils;
@@ -18,7 +20,12 @@ namespace SimplifiedSearch
             var asciiFoldingFilter = new AsciiFoldingFilter();
             var tokenizeFilter = new TokenizeFilter();
             var tokenPipeline = new TokenPipeline(lowercaseFilter, asciiFoldingFilter, tokenizeFilter);
-            var pipeline = new SearchPipeline(tokenPipeline);
+
+            var mainSimilarityRanker = new MainSimilarityRanker();
+            var exactEqualStartBoost = new ExactEqualStartBoost();
+            var similarityRankPipeline = new SimilarityRankPipeline(tokenPipeline, mainSimilarityRanker, exactEqualStartBoost);
+            
+            var pipeline = new SearchPipeline(similarityRankPipeline);
             var propertyBuilder = new PropertyBuilder();
             return new SimplifiedSearchImpl(pipeline, propertyBuilder);
         }
