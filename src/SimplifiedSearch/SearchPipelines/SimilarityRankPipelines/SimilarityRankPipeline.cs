@@ -15,7 +15,7 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines
 
         public SimilarityRankPipeline(ITokenPipeline tokenPipeline, params ISimilarityRankPipelineComponent[] similarityRankPipelineComponents)
         {
-            _tokenPipeline = tokenPipeline;
+            _tokenPipeline = tokenPipeline ?? throw new ArgumentNullException(nameof(tokenPipeline));
             _similarityRankPipelineComponents.AddRange(similarityRankPipelineComponents);
         }
 
