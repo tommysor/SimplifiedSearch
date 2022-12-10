@@ -41,6 +41,33 @@ jobs:
     - name: Test
       run: dotnet test -c ${{ env.BuildConfiguration }} --no-build
 
+  mutation-test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup .NET 7.0
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '7.0.x'
+
+    - name: Restore dependencies
+      run: dotnet restore
+    - name: Build
+      run: dotnet build -c ${{ env.BuildConfiguration }} --no-restore
+    - name: Tools
+      run: dotnet tool restore
+
+    - name: Stryker
+      run: |
+        breakLevel=82
+        dotnet stryker \
+          --break-at $breakLevel \
+          --threshold-low $breakLevel \
+          --threshold-high 90 \
+          --reporter cleartext
+
   sonarcloud:
     runs-on: windows-2022
     steps:
