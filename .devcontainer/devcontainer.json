@@ -8,7 +8,9 @@
 	"features": {
 		"ghcr.io/devcontainers/features/dotnet:1": {
 			"version": "6"
-		}
+		},
+		"ghcr.io/dhoeric/features/act": {},
+		"ghcr.io/devcontainers/features/docker-in-docker": {}
 	},
 
 	// Use 'forwardPorts' to make a list of ports inside the container available locally.
