@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines
+namespace SimplifiedSearch.SearchPipelines
 {
     internal sealed class SimilarityRankItem<T>
     {
@@ -12,7 +12,7 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines
 
         public SimilarityRankItem(T item)
         {
-            Item = item ?? throw new ArgumentNullException(nameof(item));
+            Item = item;
         }
     }
 }

@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using SimplifiedSearch.SearchPipelines;
+using SimplifiedSearch.SearchPipelines.ResultSelectors;
 using SimplifiedSearch.SearchPipelines.SimilarityRankPipelines;
 using SimplifiedSearch.SearchPipelines.TokenPipelines;
 using Xunit;
@@ -17,13 +18,14 @@ namespace SimplifiedSearch.Tests.SearchPipelineTests
         {
             var tokenPipeline = new TokenPipeline();
             var similarityRankPipeline = new SimilarityRankPipeline(tokenPipeline);
-            _sut = new SearchPipeline(similarityRankPipeline);
+            var resultSelector = new ResultSelector();
+            _sut = new SearchPipeline(similarityRankPipeline, resultSelector);
         }
 
         [Fact]
         public void Ctor_WhenTokenPipelineIsNull_ShouldThowException()
         {
-            var action = () => new SearchPipeline(null!);
+            var action = () => new SearchPipeline(null!, new ResultSelector());
             Assert.Throws<ArgumentNullException>("similarityRankPipeline", action);
         }
 

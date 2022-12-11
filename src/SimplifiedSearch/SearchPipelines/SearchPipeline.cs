@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using SimplifiedSearch.SearchPipelines.ResultSelectors;
 using SimplifiedSearch.SearchPipelines.SimilarityRankPipelines;
 
 namespace SimplifiedSearch.SearchPipelines
@@ -10,10 +11,12 @@ namespace SimplifiedSearch.SearchPipelines
     internal class SearchPipeline : ISearchPipeline
     {
         private readonly ISimilarityRankPipeline _similarityRankPipeline;
+        private readonly IResultSelector _resultSelector;
 
-        internal SearchPipeline(ISimilarityRankPipeline similarityRankPipeline)
+        internal SearchPipeline(ISimilarityRankPipeline similarityRankPipeline, IResultSelector resultSelector)
         {
             _similarityRankPipeline = similarityRankPipeline ?? throw new ArgumentNullException(nameof(similarityRankPipeline));
+            _resultSelector = resultSelector;
         }
 
         public Task<IList<T>> SearchAsync<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
@@ -32,11 +35,7 @@ namespace SimplifiedSearch.SearchPipelines
         {
             var listWithRank = await _similarityRankPipeline.RunAsync(list, searchTerm, fieldToSearch);
 
-            var results = listWithRank
-                .Where(x => x.SimilarityRank > 0)
-                .OrderByDescending(x => x.SimilarityRank)
-                .Select(x => x.Item)
-                .ToArray();
+            var results = await _resultSelector.RunAsync(listWithRank);
 
             return results;
         }
