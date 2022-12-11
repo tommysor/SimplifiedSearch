@@ -14,7 +14,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ 'windows-latest', 'ubuntu-latest', 'macos-latest' ]
+        os: [ 'windows-2022', 'ubuntu-22.04', 'macos-12' ]
 
     steps:
     - uses: actions/checkout@v3
@@ -42,7 +42,7 @@ jobs:
       run: dotnet test -c ${{ env.BuildConfiguration }} --no-build
 
   mutation-test:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v3
