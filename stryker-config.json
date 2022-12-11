@@ -1,0 +1,17 @@
+{
+    "stryker-config": {
+        "project": "./src/SimplifiedSearch/SimplifiedSearch.csproj",
+        "ignore-methods": [
+            "ConfigureAwait"
+        ],
+        "thresholds": {
+            "high": 97,
+            "low": 90,
+            "break": 90
+        },
+        "reporters": [
+            "cleartext",
+            "html"
+        ]
+    }
+}
