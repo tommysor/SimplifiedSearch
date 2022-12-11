@@ -46,6 +46,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
 
     - name: Setup .NET 7.0
       uses: actions/setup-dotnet@v2
@@ -59,14 +61,19 @@ jobs:
     - name: Tools
       run: dotnet tool restore
 
-    - name: Stryker
-      run: |
-        breakLevel=82
-        dotnet stryker \
-          --break-at $breakLevel \
-          --threshold-low $breakLevel \
-          --threshold-high 90 \
-          --reporter cleartext
+    - name: Stryker main
+      if: github.ref == 'refs/heads/main'
+      run: dotnet stryker
+      
+    - name: Stryker branch
+      if: github.ref != 'refs/heads/main'
+      run: dotnet stryker --since:main
+
+    - name: Upload Stryker report
+      uses: actions/upload-artifact@v3
+      with:
+        name: stryker-report
+        path: '**/*.html'
 
   sonarcloud:
     runs-on: windows-2022
