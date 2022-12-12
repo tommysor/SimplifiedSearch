@@ -43,5 +43,78 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             }
         }
 
+        [Fact]
+        public async Task SearchWhereFieldValueIsNull()
+        {
+            var list = new [] { "Abc", null };
+
+            var actual = await list.SimplifiedSearchAsync("abc");
+
+            Assert.Single(actual);
+        }
+
+        [Fact]
+        public async Task SearchWhereFieldValuePropertyToSearchLambdaReturnsNull()
+        {
+            var list = new [] { "Abc", null };
+
+            var actual = await list.SimplifiedSearchAsync("abc", x => x);
+
+            Assert.Single(actual);
+        }
+
+        [Fact]
+        public async Task SearchWhereObjectIsNull()
+        {
+            var list = new [] 
+            {
+                new 
+                {
+                    Abc = "abc"
+                },
+                null
+            };
+
+            var actual = await list.SimplifiedSearchAsync("abc");
+
+            Assert.Single(actual);
+        }
+
+        [Fact]
+        public async Task SearchWhereObjectIsNullWhenUsingFieldToSearchLambda()
+        {
+            var list = new [] 
+            {
+                new 
+                {
+                    Abc = "abc"
+                },
+                null
+            };
+
+            var actual = await list.SimplifiedSearchAsync("abc", x => x!.Abc);
+
+            Assert.Single(actual);
+        }
+
+        [Fact]
+        public async Task SearchWhereFieldValueIsEmpty()
+        {
+            var list = new [] { "Abc", "" };
+
+            var actual = await list.SimplifiedSearchAsync("abc");
+
+            Assert.Single(actual);
+        }
+
+        [Fact]
+        public async Task SearchWhereFieldValuePropertyToSearchLambdaReturnsEmpty()
+        {
+            var list = new [] { "Abc", "" };
+
+            var actual = await list.SimplifiedSearchAsync("abc", x => x);
+
+            Assert.Single(actual);
+        }
     }
 }
