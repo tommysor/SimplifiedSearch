@@ -19,9 +19,9 @@ namespace SimplifiedSearch.Utils
 
         public BuildFromClass()
         {
-            _inputObject = Expression.Parameter(typeof(T), "inputObject");
-            _stringBuilderForReturnValue = Expression.Parameter(_stringBuilderType, "stringBuilderForReturnValue");
-            _labelTarget = Expression.Label(typeof(string), "labelTarget");
+            _inputObject = Expression.Parameter(typeof(T));
+            _stringBuilderForReturnValue = Expression.Parameter(_stringBuilderType);
+            _labelTarget = Expression.Label(typeof(string));
             BuildStringBuilderForReturnValue();
             _appendToReturnValue = GetAppendToReturnValue();
             _returnExpression = GetReturnExpression();
@@ -140,6 +140,7 @@ namespace SimplifiedSearch.Utils
         {
             _bodyExpressions.Add(_returnExpression);
 
+            // Stryker disable once string : Expression.Constant is needed to compile, but the value is irrelevant.
             var label = Expression.Label(_labelTarget, Expression.Constant(""));
             _bodyExpressions.Add(label);
         }

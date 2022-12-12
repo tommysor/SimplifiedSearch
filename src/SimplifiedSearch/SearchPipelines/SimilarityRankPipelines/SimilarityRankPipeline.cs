@@ -27,10 +27,10 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines
 
             foreach (var item in listLocal)
             {
+                if (item.Item is null)
+                    continue;
                 var fieldValue = fieldToSearch(item.Item);
                 if (fieldValue is null)
-                    continue;
-                if (fieldValue == "")
                     continue;
 
                 var fieldValueTokens = await _tokenPipeline.RunAsync(fieldValue).ConfigureAwait(false);
