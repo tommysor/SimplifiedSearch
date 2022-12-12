@@ -140,7 +140,7 @@ namespace SimplifiedSearch.Utils
         {
             _bodyExpressions.Add(_returnExpression);
 
-            // Stryker disable once string
+            // Stryker disable once string : Expression.Constant is needed to compile, but the value is irrelevant.
             var label = Expression.Label(_labelTarget, Expression.Constant(""));
             _bodyExpressions.Add(label);
         }
