@@ -23,7 +23,7 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines.Components
         private static double GetSimilarityRankForToken(string fieldValue, string searchTerm)
         {
             const int maxExactCheckLength = 5;
-            var minLength = fieldValue.Length < searchTerm.Length ? fieldValue.Length : searchTerm.Length;
+            var minLength = Math.Min(fieldValue.Length, searchTerm.Length);
             if (maxExactCheckLength < minLength)
                 minLength = maxExactCheckLength;
 
