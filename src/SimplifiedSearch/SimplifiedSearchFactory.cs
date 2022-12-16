@@ -15,7 +15,7 @@ namespace SimplifiedSearch
     {
         private readonly ISimplifiedSearch _simplifiedSearchDefault;
 
-        public static ISimplifiedSearchFactory Instance = new SimplifiedSearchFactory();
+        public static ISimplifiedSearchFactory Instance { get; } = new SimplifiedSearchFactory();
 
         private ISimplifiedSearch BuildSimplifiedSearch()
         {
