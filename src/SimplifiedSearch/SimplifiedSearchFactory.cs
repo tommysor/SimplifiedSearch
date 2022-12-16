@@ -11,9 +11,11 @@ using System.Text;
 
 namespace SimplifiedSearch
 {
-    internal class SimplifiedSearchFactory
+    internal class SimplifiedSearchFactory : ISimplifiedSearchFactory
     {
-        private readonly ISimplifiedSearch _simplifiedSearch;
+        private readonly ISimplifiedSearch _simplifiedSearchDefault;
+
+        public static ISimplifiedSearchFactory Instance = new SimplifiedSearchFactory();
 
         private ISimplifiedSearch BuildSimplifiedSearch()
         {
@@ -35,12 +37,12 @@ namespace SimplifiedSearch
 
         public SimplifiedSearchFactory()
         {
-            _simplifiedSearch = BuildSimplifiedSearch();
+            _simplifiedSearchDefault = BuildSimplifiedSearch();
         }
 
         public ISimplifiedSearch Create()
         {
-            return _simplifiedSearch;
+            return _simplifiedSearchDefault;
         }
     }
 }
