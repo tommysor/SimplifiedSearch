@@ -38,7 +38,7 @@ namespace SimplifiedSearch
             _simplifiedSearch = BuildSimplifiedSearch();
         }
 
-        public ISimplifiedSearch GetSimplifiedSearch()
+        public ISimplifiedSearch Create()
         {
             return _simplifiedSearch;
         }

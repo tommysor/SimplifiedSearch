@@ -8,7 +8,7 @@ namespace SimplifiedSearch
 {
     public static class SimplifiedSearchExtensions
     {
-        private static readonly ISimplifiedSearch _search = new SimplifiedSearchFactory().GetSimplifiedSearch();
+        private static readonly ISimplifiedSearch _search = new SimplifiedSearchFactory().Create();
 
         /// <summary>
         /// Search for items where string defined by <paramref name="propertyToSearchLambda"/> matches <paramref name="searchTerm"/>.
