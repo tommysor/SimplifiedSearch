@@ -8,7 +8,7 @@ namespace SimplifiedSearch
 {
     public static class SimplifiedSearchExtensions
     {
-        private static readonly ISimplifiedSearch _search = new SimplifiedSearchFactory().GetSimplifiedSearch();
+        private static readonly ISimplifiedSearchFactory _factory = SimplifiedSearchFactory.Instance;
 
         /// <summary>
         /// Search for items where string defined by <paramref name="propertyToSearchLambda"/> matches <paramref name="searchTerm"/>.
@@ -20,7 +20,8 @@ namespace SimplifiedSearch
         /// <returns></returns>
         public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda)
         {
-            var results = await _search.SimplifiedSearchAsync(searchThisList, searchTerm, propertyToSearchLambda).ConfigureAwait(false);
+            var search = _factory.Create();
+            var results = await search.SimplifiedSearchAsync(searchThisList, searchTerm, propertyToSearchLambda).ConfigureAwait(false);
             return results;
         }
 

@@ -14,7 +14,7 @@ namespace SimplifiedSearch.Tests.Internal
         public async Task NoExplicitSettings_CanBeUsed()
         {
             var factory = new SimplifiedSearchFactory();
-            var simplifiedSearch = factory.GetSimplifiedSearch();
+            var simplifiedSearch = factory.Create();
             var list = new[]
             {
                 new TestItem {Name = "abc"},
