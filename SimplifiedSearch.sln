@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplifiedSearch", "src\Sim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplifiedSearch.Tests", "tests\SimplifiedSearch.Tests\SimplifiedSearch.Tests.csproj", "{26AB2C5F-FC63-4403-B02A-7A62B448D5FD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimplifiedSearch.Tests.Internal", "tests\SimplifiedSearch.Tests.Internal\SimplifiedSearch.Tests.Internal.csproj", "{7D800A43-87C4-4A19-A065-5077EA0397FC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{26AB2C5F-FC63-4403-B02A-7A62B448D5FD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{26AB2C5F-FC63-4403-B02A-7A62B448D5FD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{26AB2C5F-FC63-4403-B02A-7A62B448D5FD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7D800A43-87C4-4A19-A065-5077EA0397FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7D800A43-87C4-4A19-A065-5077EA0397FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7D800A43-87C4-4A19-A065-5077EA0397FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7D800A43-87C4-4A19-A065-5077EA0397FC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -7,7 +7,7 @@ using SimplifiedSearch.SearchPipelines.SimilarityRankPipelines;
 using SimplifiedSearch.SearchPipelines.TokenPipelines;
 using Xunit;
 
-namespace SimplifiedSearch.Tests.SearchPipelineTests
+namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests
 {
     public class SearchPipelineTests
     {

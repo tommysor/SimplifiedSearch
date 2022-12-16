@@ -6,7 +6,7 @@ using SimplifiedSearch.SearchPipelines.SimilarityRankPipelines;
 using SimplifiedSearch.SearchPipelines.SimilarityRankPipelines.Components;
 using Xunit;
 
-namespace SimplifiedSearch.Tests.SearchPipelineTests.SimilarityRankPipelinesTests.Components
+namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests.SimilarityRankPipelinesTests.Components
 {
     public class ExactEqualStartBoostTests
     {

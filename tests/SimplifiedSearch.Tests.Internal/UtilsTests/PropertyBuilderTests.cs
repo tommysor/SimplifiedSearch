@@ -1,4 +1,4 @@
-﻿using SimplifiedSearch.Tests.Models;
+﻿using SimplifiedSearch.Tests.Internal.Models;
 using SimplifiedSearch.Utils;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SimplifiedSearch.Tests.SearchPropertyBuilderTests
+namespace SimplifiedSearch.Tests.Internal.SearchPropertyBuilderTests
 {
     public class PropertyBuilderTests
     {
