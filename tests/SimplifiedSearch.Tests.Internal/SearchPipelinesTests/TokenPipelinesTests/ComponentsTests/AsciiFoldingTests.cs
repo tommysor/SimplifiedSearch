@@ -1,10 +1,10 @@
 using System.Threading.Tasks;
 using SimplifiedSearch.SearchPipelines;
 using SimplifiedSearch.SearchPipelines.TokenPipelines.Components;
-using SimplifiedSearch.Tests.Utils;
+using SimplifiedSearch.Tests.Internal.Utils;
 using Xunit;
 
-namespace SimplifiedSearch.Tests.SearchPipelineTests.TokenPipelinesTests.ComponentsTests
+namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests.TokenPipelinesTests.ComponentsTests
 {
     public class AsciiFoldingTests
     {

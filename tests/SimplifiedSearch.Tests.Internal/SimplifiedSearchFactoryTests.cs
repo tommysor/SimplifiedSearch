@@ -1,12 +1,12 @@
-﻿using SimplifiedSearch.Tests.Models;
-using SimplifiedSearch.Tests.Utils;
+﻿using SimplifiedSearch.Tests.Internal.Models;
+using SimplifiedSearch.Tests.Internal.Utils;
 using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SimplifiedSearch.Tests
+namespace SimplifiedSearch.Tests.Internal
 {
     public class SimplifiedSearchFactoryTests
     {

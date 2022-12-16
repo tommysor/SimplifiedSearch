@@ -6,7 +6,7 @@ using SimplifiedSearch.SearchPipelines.TokenPipelines;
 using SimplifiedSearch.SearchPipelines.TokenPipelines.Components;
 using Xunit;
 
-namespace SimplifiedSearch.Tests.SearchPipelineTests.TokenPipelinesTests
+namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests.TokenPipelinesTests
 {
     public class TokenPipelineTests
     {
