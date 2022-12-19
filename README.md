@@ -36,12 +36,14 @@ public class MyCustomSelector : SimplifiedSearch.SearchPipelines.ResultSelectors
 {
     public Task<IList<T>> RunAsync<T>(IList<SimilarityRankItem<T>> rankedList) => ...
 }
-SimplifiedSearchFactory.Instance.Add("MyCustomSearcher", c => c.ResultSelector = new MyCustomSelector());
+SimplifiedSearchFactory.Instance.Add("MyCustomSearcher",
+    c => c.ResultSelector = new MyCustomSelector());
 var simplifiedSearch = SimplifiedSearchFactory.Instance.Create("MyCustomSearcher");
 var searchResults = await simplifiedSearch.SimplifiedSearchAsync(list, "searchTerm");
 
 // Override the default searcher, also used by the extension methods.
-SimplifiedSearchFactory.Instance.Add(SimplifiedSearchFactory.DefaultName, c => c.ResultSelector = new MyCustomSelector());
+SimplifiedSearchFactory.Instance.Add(SimplifiedSearchFactory.DefaultName,
+    c => c.ResultSelector = new MyCustomSelector());
 var searchResults = await list.SimplifiedSearchAsync("searchTerm");
 ```
 ## Acknowledgements

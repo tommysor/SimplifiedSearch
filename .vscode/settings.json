@@ -1,3 +1,4 @@
 {
-    "csharp.suppressBuildAssetsNotification": true
+    "csharp.suppressBuildAssetsNotification": true,
+    "git.autofetch": true
 }
