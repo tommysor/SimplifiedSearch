@@ -11,9 +11,11 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 {
     public class ParameterTests
     {
+        private readonly ISimplifiedSearch _sut;
+
         public ParameterTests()
         {
-            SimplifiedSearchFactory.Instance.ResetToDefault();
+            _sut = new SimplifiedSearchFactory().Create();
         }
 
         [Fact]
@@ -24,7 +26,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 #pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
 
 #pragma warning disable CS8604 // Possible null reference argument.
-            var func = new Func<Task>(async () => await nullList.SimplifiedSearchAsync("a", x => x.Name));
+            var func = new Func<Task>(async () => await _sut.SimplifiedSearchAsync(nullList, "a", x => x.Name));
 #pragma warning restore CS8604 // Possible null reference argument.
 
             await Assert.ThrowsAsync<ArgumentNullException>("searchThisList", func);
@@ -36,7 +38,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             var expected = TestData.Countries;
 
 #pragma warning disable CS8625 // Cannot convert null literal to non-nullable reference type.
-            var actual = await TestData.Countries.SimplifiedSearchAsync(null, x => x.Name);
+            var actual = await _sut.SimplifiedSearchAsync(TestData.Countries, null, x => x.Name);
 #pragma warning restore CS8625 // Cannot convert null literal to non-nullable reference type.
 
             Assert.Same(expected, actual);
@@ -47,7 +49,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         {
             var expected = TestData.Countries;
 
-            var actual = await TestData.Countries.SimplifiedSearchAsync("", x => x.Name);
+            var actual = await _sut.SimplifiedSearchAsync(TestData.Countries, "", x => x.Name);
 
             Assert.Same(expected, actual);
         }
@@ -63,7 +65,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 
             var expected = list.Last();
 
-            var actuals = await list.SimplifiedSearchAsync("efgh", x => x.Name);
+            var actuals = await _sut.SimplifiedSearchAsync(list, "efgh", x => x.Name);
 
             Assert.Single(actuals, expected);
         }
@@ -80,7 +82,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 
             var expected = list.Take(2);
 
-            var actual = await list.SimplifiedSearchAsync("1", null);
+            var actual = await _sut.SimplifiedSearchAsync(list, "1", null);
 
             AssertCollectionUtils.AssertCollectionContainsEqualIds(expected, actual);
         }
@@ -97,7 +99,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 
             var expected = list.Take(2);
 
-            var actual = await list.SimplifiedSearchAsync("1");
+            var actual = await _sut.SimplifiedSearchAsync(list, "1");
 
             AssertCollectionUtils.AssertCollectionContainsEqualIds(expected, actual);
         }
@@ -105,7 +107,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Fact]
         public async Task ListOfString()
         {
-            var actual = await TestData.CountriesString.SimplifiedSearchAsync("Morocco");
+            var actual = await _sut.SimplifiedSearchAsync(TestData.CountriesString, "Morocco");
 
             Assert.Equal("Morocco", actual.First());
         }
@@ -117,7 +119,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             for (var i = 0; i < 30; i++)
                 ids.Add(i);
 
-            var actual = await ids.SimplifiedSearchAsync("23");
+            var actual = await _sut.SimplifiedSearchAsync(ids, "23");
 
             Assert.Single(actual, 23);
         }
@@ -125,7 +127,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         [Fact]
         public async Task ListOfEnum()
         {
-            var actual = await TestData.Enums.SimplifiedSearchAsync(nameof(TestEnum.Second));
+            var actual = await _sut.SimplifiedSearchAsync(TestData.Enums, nameof(TestEnum.Second));
 
             Assert.Single(actual, TestEnum.Second);
         }
@@ -135,7 +137,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         {
             var expected = TestData.ItemsWithEnum.First(x => x.TestEnum == TestEnum.Second);
 
-            var actual = await TestData.ItemsWithEnum.SimplifiedSearchAsync(nameof(TestEnum.Second), x => x.TestEnum?.ToString());
+            var actual = await _sut.SimplifiedSearchAsync(TestData.ItemsWithEnum, nameof(TestEnum.Second), x => x.TestEnum?.ToString());
 
             Assert.Single(actual, expected);
         }
@@ -145,7 +147,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         {
             var expected = TestData.ItemsWithEnum.First(x => x.TestEnum == TestEnum.Second);
 
-            var actual = await TestData.ItemsWithEnum.SimplifiedSearchAsync(nameof(TestEnum.Second));
+            var actual = await _sut.SimplifiedSearchAsync(TestData.ItemsWithEnum, nameof(TestEnum.Second));
 
             Assert.Single(actual, expected);
         }

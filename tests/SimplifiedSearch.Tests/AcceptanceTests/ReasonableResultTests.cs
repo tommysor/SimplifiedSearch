@@ -10,9 +10,11 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 {
     public class ReasonableResultTests
     {
+        private readonly ISimplifiedSearch _sut;
+
         public ReasonableResultTests()
         {
-            SimplifiedSearchFactory.Instance.ResetToDefault();
+            _sut = new SimplifiedSearchFactory().Create();
         }
 
         [Theory]
@@ -23,7 +25,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             var expected1 = TestData.Countries.First(x => x.Name == expect1);
             var expected2 = TestData.Countries.First(x => x.Name == expect2);
 
-            var actual = await TestData.Countries.SimplifiedSearchAsync(search, x => x.Name);
+            var actual = await _sut.SimplifiedSearchAsync(TestData.Countries, search, x => x.Name);
 
             var actual1 = actual[0];
             Assert.Same(expected1, actual1);
@@ -39,7 +41,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         public async Task Countries_Top1(string search, string expectTop)
         {
             var expectedTop = TestData.Countries.First(x => x.Name == expectTop);
-            var actual = await TestData.Countries.SimplifiedSearchAsync(search, x => x.Name);
+            var actual = await _sut.SimplifiedSearchAsync(TestData.Countries, search, x => x.Name);
             Assert.Same(expectedTop, actual.First());
         }
 
@@ -50,7 +52,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             const string baa = "baa";
             var list = new[] { aaa, baa, };
 
-            var actual = await list.SimplifiedSearchAsync("ba");
+            var actual = await _sut.SimplifiedSearchAsync(list, "ba");
             Assert.Collection(actual, 
                 a => Assert.Equal(baa, a), 
                 b => Assert.Equal(aaa, b));
@@ -63,7 +65,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             const string bcd = "bcd";
             var list = new[] { abc, bcd, };
 
-            var actual = await list.SimplifiedSearchAsync("b");
+            var actual = await _sut.SimplifiedSearchAsync(list, "b");
             Assert.Collection(actual, x => Assert.Equal(bcd, x));
         }
 
@@ -74,7 +76,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             const string comment2 = "Duck";
             var list = new[] { comment1, comment2, };
 
-            var actual = await list.SimplifiedSearchAsync("duck");
+            var actual = await _sut.SimplifiedSearchAsync(list, "duck");
             Assert.Collection(actual,
                 a => Assert.Equal(comment2, a),
                 b => Assert.Equal(comment1, b));
@@ -89,7 +91,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             const string n50 = "50";
 
             var list = new[] { n30p, n30, n50p, n50 };
-            var actual = await list.SimplifiedSearchAsync("50");
+            var actual = await _sut.SimplifiedSearchAsync(list, "50");
             Assert.Equal(n50, actual[0]);
             Assert.Equal(n50p, actual[1]);
         }
@@ -103,7 +105,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             const string n50 = "B0";
 
             var list = new[] { n30p, n30, n50p, n50 };
-            var actual = await list.SimplifiedSearchAsync("b0");
+            var actual = await _sut.SimplifiedSearchAsync(list, "b0");
             Assert.Equal(n50, actual[0]);
             Assert.Equal(n50p, actual[1]);
         }

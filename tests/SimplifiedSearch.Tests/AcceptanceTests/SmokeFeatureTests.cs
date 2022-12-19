@@ -14,16 +14,18 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
     /// </summary>
     public class SmokeFeatureTests
     {
+        private readonly ISimplifiedSearch _sut;
+        
         public SmokeFeatureTests()
         {
-            SimplifiedSearchFactory.Instance.ResetToDefault();
+            _sut = new SimplifiedSearchFactory().Create();
         }
         
         [Fact]
         public async Task MatchWholeWordExcact()
         {
             var expected = TestData.Countries.First(x => x.Name == "Taiwan");
-            var actual = await TestData.Countries.SimplifiedSearchAsync("Taiwan", x => x.Name);
+            var actual = await _sut.SimplifiedSearchAsync(TestData.Countries, "Taiwan", x => x.Name);
             Assert.Same(expected, actual.First());
         }
 
@@ -31,7 +33,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         public async Task MatchWholeWordExactCaseInsensitive()
         {
             var expected = TestData.Countries.First(x => x.Name == "Thailand");
-            var actual = await TestData.Countries.SimplifiedSearchAsync("tHAILAnd", x => x.Name);
+            var actual = await _sut.SimplifiedSearchAsync(TestData.Countries, "tHAILAnd", x => x.Name);
             Assert.Same(expected, actual.First());
         }
 
@@ -39,7 +41,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         public async Task MatchStartOfWordExact()
         {
             var expected = TestData.Countries.First(x => x.Name == "Albania");
-            var actual = await TestData.Countries.SimplifiedSearchAsync("Alba", x => x.Name);
+            var actual = await _sut.SimplifiedSearchAsync(TestData.Countries, "Alba", x => x.Name);
             Assert.Same(expected, actual.First());
         }
 
@@ -47,7 +49,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         public async Task MatchWholeWordFuzzy()
         {
             var expected = TestData.Countries.First(x => x.Name == "Morocco");
-            var actual = await TestData.Countries.SimplifiedSearchAsync("MZrocZo", x => x.Name);
+            var actual = await _sut.SimplifiedSearchAsync(TestData.Countries, "MZrocZo", x => x.Name);
             Assert.Same(expected, actual.First());
         }
 
@@ -55,7 +57,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         public async Task MatchStartOfWordFuzzy()
         {
             var expected = TestData.Countries.First(x => x.Name == "Morocco");
-            var actual = await TestData.Countries.SimplifiedSearchAsync("Zoro", x => x.Name);
+            var actual = await _sut.SimplifiedSearchAsync(TestData.Countries, "Zoro", x => x.Name);
             Assert.Same(expected, actual.First());
         }
 
@@ -69,7 +71,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 
             var ascii = "corebreachninja";
 
-            var actual = await list.SimplifiedSearchAsync(ascii);
+            var actual = await _sut.SimplifiedSearchAsync(list, ascii);
 
             Assert.Single(actual);
         }

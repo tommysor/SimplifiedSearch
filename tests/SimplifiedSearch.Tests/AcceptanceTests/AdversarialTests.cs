@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -10,18 +11,19 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 {
     public class AdversarialTests
     {
-        private readonly IReadOnlyList<string> _listOfNaughtyStrings;
+        private readonly IList<string> _listOfNaughtyStrings;
+        private readonly ISimplifiedSearch _sut;
 
         public AdversarialTests()
         {
-            _listOfNaughtyStrings = TheNaughtyStrings.All;
-            SimplifiedSearchFactory.Instance.ResetToDefault();
+            _listOfNaughtyStrings = TheNaughtyStrings.All.ToList();
+            _sut = new SimplifiedSearchFactory().Create();
         }
 
         [Fact]
         public async Task SearchListOfNaughtyStrings()
         {
-            var actual = await _listOfNaughtyStrings.SimplifiedSearchAsync(new string('a', 500));
+            var actual = await _sut.SimplifiedSearchAsync(_listOfNaughtyStrings, new string('a', 500));
             // Assert is mostly to keep SonarCloud happy.
             // This test checks if anything blows up with weird values in list.
             Assert.NotNull(actual);
@@ -37,7 +39,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 
             foreach(var naughtyString in _listOfNaughtyStrings)
             {
-                var actual = await list.SimplifiedSearchAsync(naughtyString);
+                var actual = await _sut.SimplifiedSearchAsync(list, naughtyString);
                 // Assert is mostly to keep SonarCloud happy.
                 // This test checks if anything blows up with weird values in search term.
                 Assert.NotNull(actual);
@@ -49,7 +51,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         {
             var list = new [] { "Abc", null };
 
-            var actual = await list.SimplifiedSearchAsync("abc");
+            var actual = await _sut.SimplifiedSearchAsync(list, "abc");
 
             Assert.Single(actual);
         }
@@ -59,7 +61,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         {
             var list = new [] { "Abc", null };
 
-            var actual = await list.SimplifiedSearchAsync("abc", x => x);
+            var actual = await _sut.SimplifiedSearchAsync(list, "abc", x => x);
 
             Assert.Single(actual);
         }
@@ -76,7 +78,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
                 null
             };
 
-            var actual = await list.SimplifiedSearchAsync("abc");
+            var actual = await _sut.SimplifiedSearchAsync(list, "abc");
 
             Assert.Single(actual);
         }
@@ -93,7 +95,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
                 null
             };
 
-            var actual = await list.SimplifiedSearchAsync("abc", x => x!.Abc);
+            var actual = await _sut.SimplifiedSearchAsync(list, "abc", x => x!.Abc);
 
             Assert.Single(actual);
         }
@@ -103,7 +105,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         {
             var list = new [] { "Abc", "" };
 
-            var actual = await list.SimplifiedSearchAsync("abc");
+            var actual = await _sut.SimplifiedSearchAsync(list, "abc");
 
             Assert.Single(actual);
         }
@@ -113,7 +115,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         {
             var list = new [] { "Abc", "" };
 
-            var actual = await list.SimplifiedSearchAsync("abc", x => x);
+            var actual = await _sut.SimplifiedSearchAsync(list, "abc", x => x);
 
             Assert.Single(actual);
         }

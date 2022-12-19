@@ -9,6 +9,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
     public class UiThreadTests
     {
         private readonly IList<string> _listToSearch;
+        private readonly ISimplifiedSearch _sut;
 
         public UiThreadTests()
         {
@@ -18,7 +19,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
                 _listToSearch.Add("abcdefghijklmnopqrstuvwxyz");
             }
 
-            SimplifiedSearchFactory.Instance.ResetToDefault();
+            _sut = new SimplifiedSearchFactory().Create();
         }
 
         private static async Task RunAndAddAfterSearch(List<string> listToAddMessageTo, Task<IList<string>> searchTask)
@@ -32,7 +33,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             // This only fails if the entire search runs synchronously.
 
             var list = new List<string>(2);
-            var searchTask = _listToSearch.SimplifiedSearchAsync("ash dufgasuydigasuy dfguyiasfhjkas dygi asdygu aysgudtyausd fuytasd fjghasdfgujasfdtuy dasfda s addsf as d");
+            var searchTask = _sut.SimplifiedSearchAsync(_listToSearch, "ash dufgasuydigasuy dfguyiasfhjkas dygi asdygu aysgudtyausd fuytasd fjghasdfgujasfdtuy dasfda s addsf as d");
             var task2 = RunAndAddAfterSearch(list, searchTask);
             list.Add("first");
             await task2;
