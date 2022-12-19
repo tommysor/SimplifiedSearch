@@ -19,6 +19,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         public void Dispose()
         {
             SimplifiedSearchFactory.Instance.ResetToDefault();
+            GC.SuppressFinalize(this);
         }
 
         [Fact]
