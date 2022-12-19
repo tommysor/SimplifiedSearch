@@ -7,10 +7,34 @@ using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace SimplifiedSearch.Tests
+namespace SimplifiedSearch.Tests.AcceptanceTests
 {
-    public class SimplifiedSearchExtensionsTests
+    public class SimplifiedSearchExtensionsTests : IDisposable
     {
+        public SimplifiedSearchExtensionsTests()
+        {
+            SimplifiedSearchFactory.Instance.ResetToDefault();
+        }
+
+        public void Dispose()
+        {
+            SimplifiedSearchFactory.Instance.ResetToDefault();
+        }
+
+        [Fact]
+        public async Task OverrideDefault_WithConfig_ExtensionMethod_CanBeUsed()
+        {
+            SimplifiedSearchFactory.Instance.Add("default", c => c.ResultSelector = new Configurations.ResultSelectorTop1());
+            var list = new[]
+            {
+                new TestItem {Name = "aba"},
+                new TestItem {Name = "abc"},
+                new TestItem {Name = "xyz"}
+            };
+            var actual = await list.SimplifiedSearchAsync("abc", x => x.Name);
+            Assert.Single(actual);
+        }
+
         [Fact]
         public  async Task List_PassesList()
         {

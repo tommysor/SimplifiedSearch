@@ -10,29 +10,17 @@ namespace SimplifiedSearch.Tests
 {
     public class SimplifiedSearchFactoryTests
     {
+        private readonly SimplifiedSearchFactory _sut;
+
         public SimplifiedSearchFactoryTests()
         {
-            SimplifiedSearchFactory.Instance.ResetToDefault();
+            _sut = new SimplifiedSearchFactory();
         }
 
         [Fact]
         public async Task Default_NewFactory_CanBeUsed()
         {
-            var factory = new SimplifiedSearchFactory();
-            var simplifiedSearch = factory.Create();
-            var list = new[]
-            {
-                new TestItem {Name = "abc"},
-                new TestItem {Name = "xyz"}
-            };
-            var actual = await simplifiedSearch.SimplifiedSearchAsync(list, "abc", x => x.Name);
-            Assert.Single(actual);
-        }
-
-        [Fact]
-        public async Task Default_Instance_CanBeUsed()
-        {
-            var simplifiedSearch = SimplifiedSearchFactory.Instance.Create();
+            var simplifiedSearch = _sut.Create();
             var list = new[]
             {
                 new TestItem {Name = "abc"},
@@ -45,7 +33,7 @@ namespace SimplifiedSearch.Tests
         [Fact]
         public async Task Default_WithParam_CanBeUsed()
         {
-            var simplifiedSearch = SimplifiedSearchFactory.Instance.Create("Default");
+            var simplifiedSearch = _sut.Create("Default");
             var list = new[]
             {
                 new TestItem {Name = "abc"},
@@ -58,8 +46,8 @@ namespace SimplifiedSearch.Tests
         [Fact]
         public async Task ResultSelectorTop1_WithParam_CanBeUsed()
         {
-            SimplifiedSearchFactory.Instance.Add("SelectTop1", c => c.ResultSelector = new Configurations.ResultSelectorTop1());
-            var simplifiedSearch = SimplifiedSearchFactory.Instance.Create("SelectTop1");
+            _sut.Add("SelectTop1", c => c.ResultSelector = new Configurations.ResultSelectorTop1());
+            var simplifiedSearch = _sut.Create("SelectTop1");
             var list = new[]
             {
                 new TestItem {Name = "aba"},
@@ -73,8 +61,8 @@ namespace SimplifiedSearch.Tests
         [Fact]
         public async Task Default_GetWithNonExistantName_FallsBackToDefault()
         {
-            SimplifiedSearchFactory.Instance.Add("SelectTop1", c => c.ResultSelector = new Configurations.ResultSelectorTop1());
-            var simplifiedSearch = SimplifiedSearchFactory.Instance.Create("NonExistantName");
+            _sut.Add("SelectTop1", c => c.ResultSelector = new Configurations.ResultSelectorTop1());
+            var simplifiedSearch = _sut.Create("NonExistantName");
             var list = new[]
             {
                 new TestItem {Name = "aba"},
@@ -89,8 +77,8 @@ namespace SimplifiedSearch.Tests
         [Fact]
         public async Task Default_OverrideWithConfig_FromFactory_CanBeUsed()
         {
-            SimplifiedSearchFactory.Instance.Add("DeFaUlT", c => c.ResultSelector = new Configurations.ResultSelectorTop1());
-            var simplifiedSearch = SimplifiedSearchFactory.Instance.Create();
+            _sut.Add("default", c => c.ResultSelector = new Configurations.ResultSelectorTop1());
+            var simplifiedSearch = _sut.Create();
             var list = new[]
             {
                 new TestItem {Name = "aba"},
@@ -101,17 +89,41 @@ namespace SimplifiedSearch.Tests
             Assert.Single(actual);
         }
 
-        [Fact]
-        public async Task Default_OverrideWithConfig_ExtensionMethod_CanBeUsed()
+        [Theory]
+        [InlineData("default")]
+        [InlineData("DEFAULT")]
+        [InlineData("Default")]
+        [InlineData("DeFaUlT")]
+        public async Task OverrideDefault_IsCaseInsensitive(string defaultName)
         {
-            SimplifiedSearchFactory.Instance.Add("DeFaUlT", c => c.ResultSelector = new Configurations.ResultSelectorTop1());
+            _sut.Add(defaultName, c => c.ResultSelector = new Configurations.ResultSelectorTop1());
+            var simplifiedSearch = _sut.Create();
             var list = new[]
             {
                 new TestItem {Name = "aba"},
                 new TestItem {Name = "abc"},
                 new TestItem {Name = "xyz"}
             };
-            var actual = await list.SimplifiedSearchAsync("abc", x => x.Name);
+            var actual = await simplifiedSearch.SimplifiedSearchAsync(list, "abc", x => x.Name);
+            Assert.Single(actual);
+        }
+
+        [Theory]
+        [InlineData("name")]
+        [InlineData("NAME")]
+        [InlineData("Name")]
+        [InlineData("NaMe")]
+        public async Task Create_Name_IsCaseInsensitive(string name)
+        {
+            _sut.Add("name", c => c.ResultSelector = new Configurations.ResultSelectorTop1());
+            var simplifiedSearch = _sut.Create(name);
+            var list = new[]
+            {
+                new TestItem {Name = "aba"},
+                new TestItem {Name = "abc"},
+                new TestItem {Name = "xyz"}
+            };
+            var actual = await simplifiedSearch.SimplifiedSearchAsync(list, "abc", x => x.Name);
             Assert.Single(actual);
         }
     }
