@@ -10,6 +10,11 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 {
     public class ReasonableResultTests
     {
+        public ReasonableResultTests()
+        {
+            SimplifiedSearchFactory.Instance.ResetToDefault();
+        }
+
         [Theory]
         [InlineData("thaiwan", "Taiwan", "Thailand")]
         [InlineData("Niger", "Niger", "Nigeria")]
