@@ -10,14 +10,7 @@ namespace SimplifiedSearch
     {
         private static readonly ISimplifiedSearchFactory _factory = SimplifiedSearchFactory.Instance;
 
-        /// <summary>
-        /// Search for items where string defined by <paramref name="propertyToSearchLambda"/> matches <paramref name="searchTerm"/>.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="searchThisList"></param>
-        /// <param name="searchTerm"></param>
-        /// <param name="propertyToSearchLambda">If <see langword="null"/> than all properties will be searched.</param>
-        /// <returns></returns>
+        /// <inheritdoc cref="ISimplifiedSearch.SimplifiedSearchAsync{T}(IList{T}, string, Func{T, string?}?)" />
         public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda)
         {
             var search = _factory.Create();
@@ -25,41 +18,26 @@ namespace SimplifiedSearch
             return results;
         }
 
-        /// <summary>
-        /// Search for items in list where any property matches <paramref name="searchTerm"/>.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="searchThisList"></param>
-        /// <param name="searchTerm"></param>
-        /// <returns></returns>
+        /// <inheritdoc cref="ISimplifiedSearch.SimplifiedSearchAsync{T}(IList{T}, string)" />
         public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IList<T> searchThisList, string searchTerm)
         {
             return await SimplifiedSearchAsync(searchThisList, searchTerm, null).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Search for items where string defined by <paramref name="propertyToSearchLambda"/> matches <paramref name="searchTerm"/>.
-        /// IEnumerable will be enumerated in the process.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="searchThisList"></param>
-        /// <param name="searchTerm"></param>
-        /// <param name="propertyToSearchLambda">If <see langword="null"/> than all properties will be searched.</param>
-        /// <returns></returns>
+        /// <inheritdoc cref="ISimplifiedSearch.SimplifiedSearchAsync{T}(IList{T}, string, Func{T, string?}?)" />
+        /// <remarks>
+        /// This method is not as efficient as <see cref="SimplifiedSearchAsync{T}(IList{T}, string, Func{T, string?}?)"/> because it has to convert the <see cref="IEnumerable{T}"/> to a <see cref="IList{T}"/>.
+        /// </remarks>
         public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IEnumerable<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda)
         {
             var searchThisListAsList = searchThisList.ToArray();
             return await SimplifiedSearchAsync(searchThisListAsList, searchTerm, propertyToSearchLambda).ConfigureAwait(false);
         }
 
-        /// <summary>
-        /// Search for items in list where any property matches <paramref name="searchTerm"/>.
-        /// IEnumerable will be enumerated in the process.
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="searchThisList"></param>
-        /// <param name="searchTerm"></param>
-        /// <returns></returns>
+        /// <inheritdoc cref="ISimplifiedSearch.SimplifiedSearchAsync{T}(IList{T}, string)" />
+        /// <remarks>
+        /// This method is not as efficient as <see cref="SimplifiedSearchAsync{T}(IList{T}, string)"/> because it has to convert the <see cref="IEnumerable{T}"/> to a <see cref="IList{T}"/>.
+        /// </remarks>
         public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IEnumerable<T> searchThisList, string searchTerm)
         {
             return await SimplifiedSearchAsync(searchThisList, searchTerm, null).ConfigureAwait(false);
