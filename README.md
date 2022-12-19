@@ -7,7 +7,7 @@ For when you have up to a few thousand products, locations or similar and want t
 Searching through lists of short phrases like country names or the subject line in emails.\
 Data in databases must first be loaded into memory in order to be searched.
 ## .NET support
-Tested with: .NETFramework4.8, NETCOREAPP3.1, NET6.0, NET7.0
+Tested with: .NETFramework4.8, NET6.0, NET7.0
 ## Quickstart
 ### Install
 [![Nuget](https://img.shields.io/nuget/v/SimplifiedSearch)](https://www.nuget.org/packages/SimplifiedSearch/)\
