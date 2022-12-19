@@ -11,6 +11,11 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 {
     public class ParameterTests
     {
+        public ParameterTests()
+        {
+            SimplifiedSearchFactory.Instance.ResetToDefault();
+        }
+
         [Fact]
         public async Task ListNull_ThrowsException()
         {

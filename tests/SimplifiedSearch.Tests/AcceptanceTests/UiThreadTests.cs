@@ -17,6 +17,8 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             {
                 _listToSearch.Add("abcdefghijklmnopqrstuvwxyz");
             }
+
+            SimplifiedSearchFactory.Instance.ResetToDefault();
         }
 
         private static async Task RunAndAddAfterSearch(List<string> listToAddMessageTo, Task<IList<string>> searchTask)

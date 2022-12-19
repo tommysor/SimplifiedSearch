@@ -14,10 +14,13 @@ namespace SimplifiedSearch
     /// <summary>
     /// Factory that creates simplified search instances.
     /// </summary>
-    /// <returns></returns>
     public sealed class SimplifiedSearchFactory : ISimplifiedSearchFactory
     {
-        private const string DefaultName = "default";
+        /// <summary>
+        /// Name of the default configuration.
+        /// </summary>
+        public static string DefaultName { get; } = "default";
+
         private readonly Dictionary<string, ISimplifiedSearch> _simplifiedSearches = new();
 
         /// <summary>
@@ -79,24 +82,19 @@ namespace SimplifiedSearch
             AddToDictionary(DefaultName, _ => {});
         }
 
+        /// <inheritdoc cref="SimplifiedSearchFactory" />
         public SimplifiedSearchFactory()
         {
             ResetToDefault();
         }
 
-        /// <summary>
-        /// Get the default searcher.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public ISimplifiedSearch Create()
         {
             return GetSimplifiedSearch(DefaultName);
         }
 
-        /// <summary>
-        /// Get a named searcher. Or the default if the name is not found.
-        /// </summary>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public ISimplifiedSearch Create(string name)
         {
             return GetSimplifiedSearch(name);

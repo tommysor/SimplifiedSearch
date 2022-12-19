@@ -15,6 +15,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         public AdversarialTests()
         {
             _listOfNaughtyStrings = TheNaughtyStrings.All;
+            SimplifiedSearchFactory.Instance.ResetToDefault();
         }
 
         [Fact]

@@ -14,6 +14,11 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
     /// </summary>
     public class SmokeFeatureTests
     {
+        public SmokeFeatureTests()
+        {
+            SimplifiedSearchFactory.Instance.ResetToDefault();
+        }
+        
         [Fact]
         public async Task MatchWholeWordExcact()
         {

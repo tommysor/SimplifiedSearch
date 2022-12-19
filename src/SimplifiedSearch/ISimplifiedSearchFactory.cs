@@ -12,7 +12,7 @@ namespace SimplifiedSearch
         ISimplifiedSearch Create();
 
         /// <summary>
-        /// Get a named searcher.
+        /// Get a named searcher. Or the default if the name is not found.
         /// </summary>
         /// <param name="name"></param>
         /// <returns></returns>
