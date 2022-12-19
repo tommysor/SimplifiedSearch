@@ -103,6 +103,8 @@ namespace SimplifiedSearch
         /// <summary>
         /// Add a named searcher with a custom configuration.
         /// </summary>
+        /// <param name="name">Name of the searcher. Case insensitive.</param>
+        /// <param name="configurationBuilder"></param>
         public void Add(string name, Action<SimplifiedSearchConfiguration> configurationBuilder)
         {
             AddToDictionary(name, configurationBuilder);

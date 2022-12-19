@@ -14,7 +14,7 @@ namespace SimplifiedSearch
         /// <summary>
         /// Get a named searcher. Or the default if the name is not found.
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">Name of the searcher. Case insensitive.</param>
         /// <returns></returns>
         ISimplifiedSearch Create(string name);
     }
