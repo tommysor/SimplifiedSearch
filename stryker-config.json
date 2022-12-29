@@ -10,8 +10,10 @@
             "break": 90
         },
         "reporters": [
-            "cleartext",
-            "html"
-        ]
+            "dashboard"
+        ],
+        "project-info": { 
+            "name": "github.com/tommysor/SimplifiedSearch"
+        }
     }
 }

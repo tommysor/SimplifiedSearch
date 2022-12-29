@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [ main ]
 
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
 env:
   BuildConfiguration: Release
 
@@ -49,26 +53,20 @@ jobs:
       with:
         dotnet-version: '7.0.x'
 
-    - name: Restore dependencies
-      run: dotnet restore
-    - name: Build
-      run: dotnet build -c ${{ env.BuildConfiguration }} --no-restore
     - name: Tools
       run: dotnet tool restore
 
     - name: Stryker main
       if: github.ref == 'refs/heads/main'
-      run: dotnet stryker
-      
+      run: dotnet stryker --version "${{ github.ref_name }}"
+      env:
+        STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
+
     - name: Stryker branch
       if: github.ref != 'refs/heads/main'
-      run: dotnet stryker --since:main
-
-    - name: Upload Stryker report
-      uses: actions/upload-artifact@v3
-      with:
-        name: stryker-report
-        path: '**/*.html'
+      run: dotnet stryker --since:main --version "${{ github.ref_name }}"
+      env:
+        STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
   sonarcloud:
     runs-on: windows-2022
