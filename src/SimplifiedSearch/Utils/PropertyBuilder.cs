@@ -13,7 +13,7 @@ namespace SimplifiedSearch.Utils
             if (type == typeof(string) || type.IsPrimitive || Nullable.GetUnderlyingType(type)?.IsPrimitive == true)
                 return BuildFromPrimitiveOrString<T>();
             else if (type.IsEnum || Nullable.GetUnderlyingType(type)?.IsEnum == true)
-                return BuildFromEnum<T>();
+                return BuildFromPrimitiveOrString<T>();
             else
                 return BuildFromClass<T>();
         }
@@ -21,12 +21,6 @@ namespace SimplifiedSearch.Utils
         private Func<T, string> BuildFromPrimitiveOrString<T>()
         {
             return new Func<T, string>(x => x?.ToString() ?? "");
-        }
-
-        private Func<T, string> BuildFromEnum<T>()
-        {
-            // This roundtrip is in expectation of future optimization.
-            return BuildFromPrimitiveOrString<T>();
         }
 
         private Func<T, string> BuildFromClass<T>()

@@ -199,6 +199,14 @@ namespace SimplifiedSearch.Tests.Internal.SearchPropertyBuilderTests
 
             Assert.Same(aaaFuncFirst, aaaFuncSecond);
             Assert.Same(bbbFuncFirst, bbbFuncSecond);
+            Assert.NotSame(aaaFuncFirst, bbbFuncFirst);
+
+            var actualAaa = aaaFuncSecond(aaa);
+            var expectedAaa = new StringBuilder().AppendLine("aaa").ToString();
+            Assert.Equal(expectedAaa, actualAaa);
+            var actualBbb = bbbFuncSecond(bbb);
+            var expectedBbb = new StringBuilder().AppendLine("bbb").ToString();
+            Assert.Equal(expectedBbb, actualBbb);
         }
 
         [Fact]
