@@ -54,7 +54,7 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
                     return;
             }
 
-            Assert.True(false, "Search is running synchronously");
+            Assert.Fail("Search is running synchronously");
         }
     }
 }
