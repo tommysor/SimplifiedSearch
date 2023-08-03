@@ -1,6 +1,5 @@
 {
     "stryker-config": {
-        "project": "src/SimplifiedSearch/SimplifiedSearch.csproj",
         "ignore-methods": [
             "ConfigureAwait"
         ],
