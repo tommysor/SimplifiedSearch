@@ -18,9 +18,10 @@ namespace SimplifiedSearch.Tests.Internal
         public SimplifiedSearchImplTests()
         {
             _searchPipelineMock = Substitute.For<SearchPipelines.ISearchPipeline>();
+            IList<string> searchPipelineResultReturned = _list.Take(1).ToArray();
             _searchPipelineMock
                 .SearchAsync(_list, _searchTerm, _fieldToSearch)
-                .Returns(Task.FromResult((IList<string>)_list.Take(1).ToArray()));
+                .Returns(Task.FromResult(searchPipelineResultReturned));
 
             _propertyBuilderMock = Substitute.For<SimplifiedSearch.Utils.IPropertyBuilder>();
             _propertyBuilderMock
