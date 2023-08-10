@@ -17,17 +17,16 @@ namespace SimplifiedSearch.Tests.Internal
 
         public SimplifiedSearchImplTests()
         {
-            var searchPipelineMockBuilder = new Moq.Mock<SearchPipelines.ISearchPipeline>();
-            searchPipelineMockBuilder
-                .Setup(x => x.SearchAsync(_list, _searchTerm, _fieldToSearch))
-                .Returns(() => Task.FromResult((IList<string>)_list.Take(1).ToArray()));
-            _searchPipelineMock = searchPipelineMockBuilder.Object;
+            _searchPipelineMock = Substitute.For<SearchPipelines.ISearchPipeline>();
+            IList<string> searchPipelineResultReturned = _list.Take(1).ToArray();
+            _searchPipelineMock
+                .SearchAsync(_list, _searchTerm, _fieldToSearch)
+                .Returns(Task.FromResult(searchPipelineResultReturned));
 
-            var propertyBuilderMockBuilder = new Moq.Mock<SimplifiedSearch.Utils.IPropertyBuilder>();
-            propertyBuilderMockBuilder
-                .Setup(x => x.BuildPropertyToSearchLambda<string>())
+            _propertyBuilderMock = Substitute.For<SimplifiedSearch.Utils.IPropertyBuilder>();
+            _propertyBuilderMock
+                .BuildPropertyToSearchLambda<string>()
                 .Returns(_fieldToSearch);
-            _propertyBuilderMock = propertyBuilderMockBuilder.Object;
         }
 
         private SimplifiedSearchImpl GetImpl()
@@ -81,27 +80,23 @@ namespace SimplifiedSearch.Tests.Internal
         [Fact]
         public async Task PropertyBuilderIsCalled()
         {
-            var propertyBuilderMockBuilder = new Moq.Mock<SimplifiedSearch.Utils.IPropertyBuilder>();
-
-            var propertyBuilder = propertyBuilderMockBuilder.Object;
+            var propertyBuilder = Substitute.For<SimplifiedSearch.Utils.IPropertyBuilder>();
             var impl = new SimplifiedSearchImpl(_searchPipelineMock, propertyBuilder);
 
             var _ = await impl.SimplifiedSearchAsync(_list, "a");
 
-            propertyBuilderMockBuilder.Verify(x => x.BuildPropertyToSearchLambda<string>(), Moq.Times.Once);
+            propertyBuilder.Received(1).BuildPropertyToSearchLambda<string>();
         }
 
         [Fact]
         public async Task SearchPipelineIsCalled()
         {
-            var searchPipelineMockBuilder = new Moq.Mock<SearchPipelines.ISearchPipeline>();
-
-            var searchPipeline = searchPipelineMockBuilder.Object;
+            var searchPipeline = Substitute.For<SearchPipelines.ISearchPipeline>();
             var impl = new SimplifiedSearchImpl(searchPipeline, _propertyBuilderMock);
 
             var _ = await impl.SimplifiedSearchAsync(_list, "a");
 
-            searchPipelineMockBuilder.Verify(x => x.SearchAsync(_list, "a", _fieldToSearch), Moq.Times.Once);
+            await searchPipeline.Received(1).SearchAsync(_list, "a", _fieldToSearch);
         }
 
         [Fact]
