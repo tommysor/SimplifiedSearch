@@ -10,35 +10,23 @@ concurrency:
   group: "${{ github.workflow }}-${{ github.ref }}"
   cancel-in-progress: true
 
-env:
-  BuildConfiguration: Release
-
 jobs:
   build-and-test:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         os: [ 'windows-2022', 'ubuntu-22.04', 'macos-12' ]
+        buildConfiguration: [ 'Debug', 'Release' ]
 
     steps:
     - uses: actions/checkout@v4
-    
-    - name: Setup .NET 6.0
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-        
-    - name: Setup .NET 7.0
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '7.0.x'
 
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
-      run: dotnet build -c ${{ env.BuildConfiguration }} --no-restore
+      run: dotnet build -c ${{ matrix.buildConfiguration }} --no-restore
     - name: Test
-      run: dotnet test -c ${{ env.BuildConfiguration }} --no-build
+      run: dotnet test -c ${{ matrix.buildConfiguration }} --no-build
 
   mutation-test:
     runs-on: ubuntu-22.04
@@ -47,11 +35,6 @@ jobs:
     - uses: actions/checkout@v4
       with:
         fetch-depth: 0
-
-    - name: Setup .NET 7.0
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: '7.0.x'
 
     - name: Tools
       run: dotnet tool restore
@@ -80,11 +63,6 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
-
-      - name: Setup .NET 7.0
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '7.0.x'
       
       - name: Cache SonarCloud packages
         uses: actions/cache@v3
@@ -112,6 +90,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          BuildConfiguration: Debug
         shell: powershell
         run: |
           .\.sonar\scanner\dotnet-sonarscanner begin /k:"tommysor_SimplifiedSearch" /o:"tommysor" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io" /d:sonar.cs.opencover.reportsPaths="**/*.opencover.xml"
