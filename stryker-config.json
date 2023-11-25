@@ -9,7 +9,8 @@
             "break": 90
         },
         "reporters": [
-            "dashboard"
+            "Dots",
+            "ClearText"
         ],
         "project-info": { 
             "name": "github.com/tommysor/SimplifiedSearch"

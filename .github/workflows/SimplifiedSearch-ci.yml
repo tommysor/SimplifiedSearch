@@ -44,13 +44,13 @@ jobs:
 
     - name: Stryker main
       if: github.ref == 'refs/heads/main'
-      run: dotnet stryker --version "${{ github.ref_name }}"
+      run: dotnet stryker --version "${{ github.ref_name }}" --reporter Dashboard
       env:
         STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
     - name: Stryker branch
       if: github.ref != 'refs/heads/main'
-      run: dotnet stryker --since:main --version "${{ github.ref_name }}"
+      run: dotnet stryker --since:main --version "${{ github.ref_name }}" --reporter Dashboard
       env:
         STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
