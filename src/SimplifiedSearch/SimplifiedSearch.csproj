@@ -35,10 +35,6 @@ foreach (var country in matches)
 
   <ItemGroup>
     <PackageReference Include="Fastenshtein" Version="1.0.0.8" />
-    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
     <PackageReference Include="Unidecode.NET" Version="2.1.0" />
   </ItemGroup>
 
