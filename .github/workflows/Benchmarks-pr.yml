@@ -22,4 +22,18 @@ jobs:
           ref: main
           path: main
 
+      - run: |
+          echo "Running benchmarks"
+          pushd pr/benchmarks/Benchmarks
+          dotnet run --configuration Release -- --filter '*' --exporters json --job Short
+          mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json $RUNNER_TEMP/benchmarks-pr.json
+          popd
+        name: Run benchmarks for PR
+
       - run: tree -a
+
+      - run: |
+          echo Temp $RUNNER_TEMP
+          pushd $RUNNER_TEMP
+          tree -a
+          popd
