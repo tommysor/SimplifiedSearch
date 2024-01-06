@@ -1,0 +1,22 @@
+name: Benchmarks-pr
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  benchmark-pr-to-main:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/checkout@v2
+        with:
+          ref: main
+
+      - run: tree
