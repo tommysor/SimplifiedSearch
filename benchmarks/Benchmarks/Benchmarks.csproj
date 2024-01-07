@@ -5,8 +5,6 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-
-    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,7 +17,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <!-- <ProjectReference Include="../../src/SimplifiedSearch/SimplifiedSearch.csproj" /> -->
     <ProjectReference Include="$(SimplifiedSearchCsprojPath)" />
   </ItemGroup>
 

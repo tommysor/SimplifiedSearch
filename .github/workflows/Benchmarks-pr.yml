@@ -46,8 +46,8 @@ jobs:
 
           popd
 
-          isWorse=$(cat benchmarks-compare-result.md | grep --ignore-case --extended-regexp 'worse: .*, geomean: .*' | wc -l)
-          if [ "$isWorse" != "0" ]
+          noSlowerResults=$(cat benchmarks-compare-result.md | grep --ignore-case 'No Slower results for the provided threshold' | wc -l)
+          if [ "$noSlowerResults" == "0" ]
           then
             echo "Benchmarks are worse than main"
             echo "::error file=benchmarks-compare-result.md::Benchmarks are worse than main, investigate possible performance regression"

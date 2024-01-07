@@ -42,5 +42,15 @@ namespace Benchmarks
             var results = await _people.SimplifiedSearchAsync($"{_personSearchValues.FirstName} {_personSearchValues.LastName}");
             return results;
         }
+
+        [Benchmark]
+        public async Task<IList<Person>> SearchWithLambda()
+        {
+            var results = await _people.SimplifiedSearchAsync(
+                $"{_personSearchValues.FirstName} {_personSearchValues.LastName}", 
+                x => $"{x.FirstName} {x.LastName} {x.Age} {x.Email} {x.Address}"
+                );
+            return results;
+        }
     }
 }
