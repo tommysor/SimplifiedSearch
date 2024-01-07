@@ -13,7 +13,7 @@ namespace SimplifiedSearch
         /// <inheritdoc cref="ISimplifiedSearch.SimplifiedSearchAsync{T}(IList{T}, string, Func{T, string?}?)" />
         public static async Task<IList<T>> SimplifiedSearchAsync<T>(this IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda)
         {
-            await Task.Delay(10).ConfigureAwait(false);
+            // await Task.Delay(10).ConfigureAwait(false);
             var search = _factory.Create();
             var results = await search.SimplifiedSearchAsync(searchThisList, searchTerm, propertyToSearchLambda).ConfigureAwait(false);
             return results;
