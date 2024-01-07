@@ -27,12 +27,12 @@ jobs:
           pushd pr/benchmarks/Benchmarks
 
           # Run benchmarks for PR
-          dotnet run --configuration Release -- --filter '*' --exporters json --job Short
+          dotnet run --configuration Release -- --filter '*' --exporters json #--job Short
           mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json ../../../benchmarks-pr.json
 
           # Run benchmarks for main
           export SimplifiedSearchCsprojPath=../../../main/src/SimplifiedSearch/SimplifiedSearch.csproj
-          dotnet run --configuration Release -- --filter '*' --exporters json --job Short
+          dotnet run --configuration Release -- --filter '*' --exporters json #--job Short
           mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json ../../../benchmarks-main.json
 
           popd
