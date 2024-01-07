@@ -53,3 +53,23 @@ jobs:
           echo PR
           cat $RUNNER_TEMP/benchmarks-pr.json
         name: cat results
+
+      - name: Store baseline
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          name: MainVsPrBenchmark
+          tool: 'benchmarkdotnet'
+          output-file-path: $RUNNER_TEMP/benchmarks-main.json
+          auto-push: false
+          external-data-json-path: $RUNNER_TEMP/benchmarks-comparison.json
+
+      - name: Compare pr
+        uses: benchmark-action/github-action-benchmark@v1
+        with:
+          name: MainVsPrBenchmark
+          tool: 'benchmarkdotnet'
+          output-file-path: $RUNNER_TEMP/benchmarks-pr.json
+          auto-push: false
+          external-data-json-path: $RUNNER_TEMP/benchmarks-comparison.json
+          alert-threshold: '120%'
+          fail-on-alert: true
