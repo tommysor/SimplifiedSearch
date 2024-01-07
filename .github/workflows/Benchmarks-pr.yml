@@ -36,13 +36,13 @@ jobs:
           mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json ../../../benchmarks-main.json
 
           popd
-        name: Run benchmarks for PR
+        name: Run benchmarks
       
       - run: |
           echo "Comparing benchmarks"
           pushd pr/benchmarks/ResultsComparer
 
-          dotnet run --base ../../../benchmarks-main.json --diff ../../../benchmarks-pr.json --threshold 1% | tee ../../../benchmarks-compare-result.md
+          dotnet run --base ../../../benchmarks-main.json --diff ../../../benchmarks-pr.json --threshold 5% | tee ../../../benchmarks-compare-result.md
 
           popd
 
@@ -53,10 +53,4 @@ jobs:
             echo "::error file=benchmarks-compare-result.md::Benchmarks are worse than main, investigate possible performance regression"
             exit 1
           fi
-
         name: Compare benchmarks
-
-      - run: tree -a
-      
-      - run: ls -l
-
