@@ -9,12 +9,10 @@ namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components
     {
         public Task<string[]> RunAsync(params string[] value)
         {
-            var results = new string[value.Length];
-
             for (var i = 0; i < value.Length; i++)
-                results[i] = value[i].ToLower();
+                value[i] = value[i].ToLower();
 
-            return Task.FromResult(results);
+            return Task.FromResult(value);
         }
     }
 }
