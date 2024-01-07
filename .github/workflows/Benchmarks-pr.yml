@@ -27,37 +27,36 @@ jobs:
           pushd pr/benchmarks/Benchmarks
 
           # Run benchmarks for PR
-          dotnet run --configuration Release -- --filter '*' --exporters json #--job Short
+          dotnet run --configuration Release -- --filter '*' --exporters json
           mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json ../../../benchmarks-pr.json
 
           # Run benchmarks for main
           export SimplifiedSearchCsprojPath=../../../main/src/SimplifiedSearch/SimplifiedSearch.csproj
-          dotnet run --configuration Release -- --filter '*' --exporters json #--job Short
+          dotnet run --configuration Release -- --filter '*' --exporters json
           mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json ../../../benchmarks-main.json
 
           popd
         name: Run benchmarks for PR
+      
+      - run: |
+          echo "Comparing benchmarks"
+          pushd pr/benchmarks/ResultsComparer
+
+          dotnet run --base ../../../benchmarks-main.json --diff ../../../benchmarks-pr.json --threshold 1% | tee ../../../benchmarks-compare-result.md
+
+          popd
+
+          isWorse=$(cat benchmarks-compare-result.md | grep --ignore-case --extended-regexp 'worse: .*, geomean: .*' | wc -l)
+          if [ "$isWorse" != "0" ]
+          then
+            echo "Benchmarks are worse than main"
+            echo "::error file=benchmarks-compare-result.md::Benchmarks are worse than main, investigate possible performance regression"
+            exit 1
+          fi
+
+        name: Compare benchmarks
 
       - run: tree -a
       
       - run: ls -l
 
-      - name: Store baseline
-        uses: benchmark-action/github-action-benchmark@v1
-        with:
-          name: MainVsPrBenchmark
-          tool: 'benchmarkdotnet'
-          output-file-path: benchmarks-main.json
-          auto-push: false
-          external-data-json-path: benchmarks-comparison.json
-
-      - name: Compare pr
-        uses: benchmark-action/github-action-benchmark@v1
-        with:
-          name: MainVsPrBenchmark
-          tool: 'benchmarkdotnet'
-          output-file-path: benchmarks-pr.json
-          auto-push: false
-          external-data-json-path: benchmarks-comparison.json
-          alert-threshold: '120%'
-          fail-on-alert: true
