@@ -28,48 +28,36 @@ jobs:
 
           # Run benchmarks for PR
           dotnet run --configuration Release -- --filter '*' --exporters json --job Short
-          mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json $RUNNER_TEMP/benchmarks-pr.json
+          mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json ../../../benchmarks-pr.json
 
           # Run benchmarks for main
           export SimplifiedSearchCsprojPath=../../../main/src/SimplifiedSearch/SimplifiedSearch.csproj
           dotnet run --configuration Release -- --filter '*' --exporters json --job Short
-          mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json $RUNNER_TEMP/benchmarks-main.json
+          mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json ../../../benchmarks-main.json
 
           popd
         name: Run benchmarks for PR
 
       - run: tree -a
-
-      - run: |
-          echo Temp $RUNNER_TEMP
-          pushd $RUNNER_TEMP
-          tree -a
-          popd
-
-      - run: |
-          echo MAIN
-          cat $RUNNER_TEMP/benchmarks-main.json
-
-          echo PR
-          cat $RUNNER_TEMP/benchmarks-pr.json
-        name: cat results
+      
+      - run: ls -l
 
       - name: Store baseline
         uses: benchmark-action/github-action-benchmark@v1
         with:
           name: MainVsPrBenchmark
           tool: 'benchmarkdotnet'
-          output-file-path: $RUNNER_TEMP/benchmarks-main.json
+          output-file-path: benchmarks-main.json
           auto-push: false
-          external-data-json-path: $RUNNER_TEMP/benchmarks-comparison.json
+          external-data-json-path: benchmarks-comparison.json
 
       - name: Compare pr
         uses: benchmark-action/github-action-benchmark@v1
         with:
           name: MainVsPrBenchmark
           tool: 'benchmarkdotnet'
-          output-file-path: $RUNNER_TEMP/benchmarks-pr.json
+          output-file-path: benchmarks-pr.json
           auto-push: false
-          external-data-json-path: $RUNNER_TEMP/benchmarks-comparison.json
+          external-data-json-path: benchmarks-comparison.json
           alert-threshold: '120%'
           fail-on-alert: true
