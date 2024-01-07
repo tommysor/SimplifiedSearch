@@ -1,0 +1,60 @@
+name: Benchmarks-pr
+
+on:
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: "${{ github.workflow }}-${{ github.ref }}"
+  cancel-in-progress: true
+
+jobs:
+  benchmark-pr-to-main:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: pr
+
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          path: main
+
+      - run: |
+          echo "Running benchmarks"
+          pushd pr/benchmarks/Benchmarks
+
+          # Run benchmarks for pr
+          dotnet run --configuration Release -- --filter '*' --exporters json
+          mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json ../../../benchmarks-pr.json
+
+          # Run benchmarks for main
+          export SimplifiedSearchCsprojPath=../../../main/src/SimplifiedSearch/SimplifiedSearch.csproj
+          dotnet run --configuration Release -- --filter '*' --exporters json
+          mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json ../../../benchmarks-main.json
+
+          popd
+        name: Run benchmarks
+
+      - run: |
+          echo "Comparing benchmarks"
+          pushd pr/benchmarks/ResultsComparer
+
+          dotnet run --base ../../../benchmarks-main.json --diff ../../../benchmarks-pr.json --threshold 5% | tee ../../../benchmarks-compare-result.md
+
+          popd
+
+          # Build patterns.txt
+          echo No Slower results for the provided threshold > patterns.txt
+          echo No differences found between the benchmark results with threshold >> patterns.txt
+
+          numMessagesIndicatingNoPerfRegression=$(cat benchmarks-compare-result.md | grep --ignore-case --file=patterns.txt | wc -l)
+          if [ "$numMessagesIndicatingNoPerfRegression" == "0" ]
+          then
+            echo "Benchmarks are worse than main"
+            echo "::error file=benchmarks-compare-result.md::Benchmarks are worse than main, investigate possible performance regression"
+            exit 1
+          fi
+        name: Compare benchmarks
