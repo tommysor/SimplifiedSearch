@@ -27,19 +27,31 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines.Components
         {
             // Shorten fieldValue to match start of word.
             // Add char to get better match when searchTerm is missing a character.
+            var bonusForFewTruncated = 0.5;
             var maxLength = searchTerm.Length + 1;
             if (fieldValue.Length > maxLength)
+            {
+                var truncatedCharCount = fieldValue.Length - maxLength;
+                bonusForFewTruncated = truncatedCharCount switch
+                {
+                    1 => .4,
+                    2 => .3,
+                    < 5 => .2,
+                    _ => 0
+                };
+
                 fieldValue = fieldValue.Substring(0, maxLength);
+            }
 
             var distance = Fastenshtein.Levenshtein.Distance(fieldValue, searchTerm);
             switch (distance)
             {
                 case 0:
-                    return 5;
+                    return 5.0 + bonusForFewTruncated;
                 case 1:
-                    return 3;
+                    return 3.0 + bonusForFewTruncated;
                 case 2:
-                    return 1;
+                    return 1.0 + bonusForFewTruncated;
             }
 
             return 0;

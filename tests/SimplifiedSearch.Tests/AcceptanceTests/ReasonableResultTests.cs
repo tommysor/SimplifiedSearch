@@ -17,6 +17,21 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             _sut = new SimplifiedSearchFactory().Create();
         }
 
+        [Fact]
+        public async Task MatchShort_PrioritizedOverEqualMatchOnLonger()
+        {
+            string[] list = [
+                "Guiseppe Reynolds Emmettshire",
+                "Emma Smith Quigleyfort",
+            ];
+
+            var actual = await _sut.SimplifiedSearchAsync(list, "emm");
+            Assert.Collection(actual,
+                a => Assert.Equal("Emma Smith Quigleyfort", a),
+                b => Assert.Equal("Guiseppe Reynolds Emmettshire", b)
+            );
+        }
+
         [Theory]
         [InlineData("thaiwan", "Taiwan", "Thailand")]
         [InlineData("Niger", "Niger", "Nigeria")]
