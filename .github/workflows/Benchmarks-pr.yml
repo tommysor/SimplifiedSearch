@@ -13,11 +13,11 @@ jobs:
   benchmark-pr-to-main:
     runs-on: ubuntu-22.04
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           path: pr
 
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
         with:
           ref: main
           path: main
@@ -26,7 +26,7 @@ jobs:
           echo "Running benchmarks"
           pushd pr/benchmarks/Benchmarks
 
-          # Run benchmarks for PR
+          # Run benchmarks for pr
           dotnet run --configuration Release -- --filter '*' --exporters json
           mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json ../../../benchmarks-pr.json
 
@@ -37,7 +37,7 @@ jobs:
 
           popd
         name: Run benchmarks
-      
+
       - run: |
           echo "Comparing benchmarks"
           pushd pr/benchmarks/ResultsComparer
@@ -46,6 +46,7 @@ jobs:
 
           popd
 
+          # Build patterns.txt
           echo No Slower results for the provided threshold > patterns.txt
           echo No differences found between the benchmark results with threshold >> patterns.txt
 
