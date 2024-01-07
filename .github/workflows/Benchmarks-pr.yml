@@ -25,8 +25,16 @@ jobs:
       - run: |
           echo "Running benchmarks"
           pushd pr/benchmarks/Benchmarks
+
+          # Run benchmarks for PR
           dotnet run --configuration Release -- --filter '*' --exporters json --job Short
           mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json $RUNNER_TEMP/benchmarks-pr.json
+
+          # Run benchmarks for main
+          export SimplifiedSearchCsprojPath=../../../main/src/SimplifiedSearch/SimplifiedSearch.csproj
+          dotnet run --configuration Release -- --filter '*' --exporters json --job Short
+          mv BenchmarkDotNet.Artifacts/results/Benchmarks.Benchmarks-report-full-compressed.json $RUNNER_TEMP/benchmarks-main.json
+
           popd
         name: Run benchmarks for PR
 
@@ -37,3 +45,11 @@ jobs:
           pushd $RUNNER_TEMP
           tree -a
           popd
+
+      - run: |
+          echo MAIN
+          cat $RUNNER_TEMP/benchmarks-main.json
+
+          echo PR
+          cat $RUNNER_TEMP/benchmarks-pr.json
+        name: cat results
