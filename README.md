@@ -7,7 +7,7 @@ For when you have up to a few thousand products, locations or similar and want t
 Searching through lists of short phrases like country names or the subject line in emails.\
 Data in databases must first be loaded into memory in order to be searched.
 ## .NET support
-Tested with: .NETFramework4.8, NET6.0, NET7.0
+Tested with: .NETFramework4.8, NET6.0, NET8.0
 ## Quickstart
 ### Install
 [![Nuget](https://img.shields.io/nuget/v/SimplifiedSearch)](https://www.nuget.org/packages/SimplifiedSearch/)\
@@ -47,16 +47,15 @@ SimplifiedSearchFactory.Instance.Add(SimplifiedSearchFactory.DefaultName,
 var searchResults = await list.SimplifiedSearchAsync("searchTerm");
 ```
 ## Acknowledgements
-### https://github.com/apache/lucenenet
+### Inspiration
+#### https://github.com/apache/lucenenet
 Lucenenet is the main inspiration for SimplifiedSearch.\
-SimplifiedSearch was started with the goal of delivering similar results to a spesific setup of Lucene analyzer and query.
-### https://github.com/ninjanye/SearchExtensions
-SearchExtensions is another inspiration for SimplifiedSearch.\
-SimplifiedSearch delivers a simpler (and less configurable) experience.
-### https://github.com/DanHarltey/Fastenshtein
+SimplifiedSearch was originally started with the goal of delivering similar results to a spesific setup of Lucene analyzer and query.
+### Enablers
+#### https://github.com/DanHarltey/Fastenshtein
 Provides the distance calculation needed for fuzzy search.\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) https://github.com/DanHarltey/Fastenshtein/blob/master/LICENSE](https://github.com/DanHarltey/Fastenshtein/blob/master/LICENSE).
-### https://github.com/thecoderok/Unidecode.NET
+#### https://github.com/thecoderok/Unidecode.NET
 Provides the ascii folding needed to match accented characters to their ascii approximate equivalent (â, å, à, á, ä ≈ a).\
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg) https://github.com/thecoderok/Unidecode.NET/blob/master/LICENSE](https://github.com/thecoderok/Unidecode.NET/blob/master/LICENSE).
 ## Contributing
