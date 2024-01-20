@@ -67,6 +67,16 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
+        public async Task SearchWhereFieldValuePropertyToSearchLambdaReturnsNull_WhenItemIsNonNull()
+        {
+            var list = new [] { "Abc", "null" };
+
+            var actual = await _sut.SimplifiedSearchAsync(list, "abc", x => x == "null" ? null : x);
+
+            Assert.Single(actual);
+        }
+
+        [Fact]
         public async Task SearchWhereObjectIsNull()
         {
             var list = new [] 

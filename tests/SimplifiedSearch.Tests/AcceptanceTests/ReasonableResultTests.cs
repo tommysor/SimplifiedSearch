@@ -124,5 +124,18 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             Assert.Equal(n50, actual[0]);
             Assert.Equal(n50p, actual[1]);
         }
+
+        [Fact]
+        public async Task PrioritizeBetterStartOfWord_WhenSearchTermIsMissingChar()
+        {
+            string[] list = [
+                "abcghi",
+                "abcdef",
+            ];
+
+            var actual = await _sut.SimplifiedSearchAsync(list, "abd");
+            Assert.Equal("abcdef", actual[0]);
+            Assert.Equal("abcghi", actual[1]);
+        }
     }
 }
