@@ -83,6 +83,21 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
         }
 
         [Fact]
+        public async Task MatchShort_PrioritizedOverEqualMatchOnLonger()
+        {
+            string[] list = [
+                "Emmettshire",
+                "Emma",
+            ];
+
+            var actual = await _sut.SimplifiedSearchAsync(list, "emm");
+            Assert.Collection(actual,
+                a => Assert.Equal("Emma", a),
+                b => Assert.Equal("Emmettshire", b)
+            );
+        }
+
+        [Fact]
         public async Task PrioritizeExactMatchInStartOfWord()
         {
             const string n30p = "30%";

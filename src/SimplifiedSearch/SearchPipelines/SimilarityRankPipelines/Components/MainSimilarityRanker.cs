@@ -27,22 +27,28 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines.Components
         {
             // Shorten fieldValue to match start of word.
             // Add char to get better match when searchTerm is missing a character.
+            double truncatedCharCount = 0;
             var maxLength = searchTerm.Length + 1;
             if (fieldValue.Length > maxLength)
-                fieldValue = fieldValue.Substring(0, maxLength);
-
-            var distance = Fastenshtein.Levenshtein.Distance(fieldValue, searchTerm);
-            switch (distance)
             {
-                case 0:
-                    return 5;
-                case 1:
-                    return 3;
-                case 2:
-                    return 1;
+                truncatedCharCount = fieldValue.Length - maxLength;
+                fieldValue = fieldValue.Substring(0, maxLength);
             }
 
-            return 0;
+            var distance = Fastenshtein.Levenshtein.Distance(fieldValue, searchTerm);
+            double distanceScore = distance switch
+            {
+                0 => 5,
+                1 => 3,
+                2 => 1,
+                _ => 0,
+            };
+            distanceScore -= truncatedCharCount / 10;
+            if (distanceScore < 0)
+            {
+                distanceScore = 0;
+            }
+            return distanceScore;
         }
     }
 }
