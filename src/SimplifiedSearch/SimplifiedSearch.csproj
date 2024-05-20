@@ -34,7 +34,7 @@ foreach (var country in matches)
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Fastenshtein" Version="1.0.0.8" />
+    <PackageReference Include="Fastenshtein" Version="1.0.0.9" />
     <PackageReference Include="Unidecode.NET" Version="2.1.0" />
   </ItemGroup>
 
