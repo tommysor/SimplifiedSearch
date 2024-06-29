@@ -19,7 +19,7 @@ namespace SimplifiedSearch.SearchPipelines
             _resultSelector = resultSelector;
         }
 
-        public Task<IList<T>> SearchAsync<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
+        public IList<T> Search<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
         {
             if (list is null)
                 throw new ArgumentNullException(nameof(list));
@@ -28,16 +28,8 @@ namespace SimplifiedSearch.SearchPipelines
             if (fieldToSearch is null)
                 throw new ArgumentNullException(nameof(fieldToSearch));
 
-            return SearchAsync2(list, searchTerm, fieldToSearch);
-        }
-
-        private async Task<IList<T>> SearchAsync2<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
-        {
-            await Task.CompletedTask;
             var listWithRank = _similarityRankPipeline.Run(list, searchTerm, fieldToSearch);
-
             var results = _resultSelector.Run(listWithRank);
-
             return results;
         }
     }

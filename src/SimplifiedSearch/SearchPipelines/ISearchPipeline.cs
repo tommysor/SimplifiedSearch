@@ -6,6 +6,6 @@ namespace SimplifiedSearch.SearchPipelines
 {
     internal interface ISearchPipeline
     {
-        Task<IList<T>> SearchAsync<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch);
+        IList<T> Search<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch);
     }
 }

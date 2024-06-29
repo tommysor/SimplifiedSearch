@@ -19,17 +19,12 @@ namespace SimplifiedSearch
             _propertyBuilder = propertyBuilder ?? throw new ArgumentNullException(nameof(propertyBuilder));
         }
 
-        private Task<IList<T>> ExecuteSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda)
+        private IList<T> ExecuteSearch<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda)
         {
             // Validate arguments.
             if (searchThisList is null)
                 throw new ArgumentNullException(nameof(searchThisList));
 
-            return ExecuteSearchAsync2(searchThisList, searchTerm, propertyToSearchLambda);
-        }
-
-        private async Task<IList<T>> ExecuteSearchAsync2<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda)
-        {
             // If nothing will be filtered. Do the fast thing, return the input list.
             if (string.IsNullOrEmpty(searchTerm))
                 return searchThisList;
@@ -39,7 +34,7 @@ namespace SimplifiedSearch
                 propertyToSearchLambda = _propertyBuilder.BuildPropertyToSearchLambda<T>();
 
             // Build the results.
-            var results = await _searchPipeline.SearchAsync(searchThisList, searchTerm, propertyToSearchLambda).ConfigureAwait(false);
+            var results = _searchPipeline.Search(searchThisList, searchTerm, propertyToSearchLambda);
 
             return results;
         }
@@ -47,7 +42,7 @@ namespace SimplifiedSearch
         public async Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm, Func<T, string?>? propertyToSearchLambda)
         {
             // Make sure we actually get off the UI thread when used in desktop apps.
-            return await Task.Run(async () => await ExecuteSearchAsync(searchThisList, searchTerm, propertyToSearchLambda)).ConfigureAwait(false);
+            return await Task.Run(() => ExecuteSearch(searchThisList, searchTerm, propertyToSearchLambda)).ConfigureAwait(false);
         }
 
         public Task<IList<T>> SimplifiedSearchAsync<T>(IList<T> searchThisList, string searchTerm)

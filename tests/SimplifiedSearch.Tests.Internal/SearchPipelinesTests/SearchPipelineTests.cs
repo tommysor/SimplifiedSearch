@@ -30,26 +30,26 @@ namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests
         }
 
         [Fact]
-        public async Task SearchAsync_WhenListIsNull_ShouldThowException()
+        public void SearchAsync_WhenListIsNull_ShouldThowException()
         {
-            var func = async () => await _sut.SearchAsync<int>(null!, "searchTerm", _ => "");
-            await Assert.ThrowsAsync<ArgumentNullException>("list", func);
+            var func = () => _sut.Search<int>(null!, "searchTerm", _ => "");
+            Assert.Throws<ArgumentNullException>("list", func);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public async Task SearchAsync_WhenSearchTermIsNullOrEmpty_ShouldThrowException(string? searchTermInput)
+        public void SearchAsync_WhenSearchTermIsNullOrEmpty_ShouldThrowException(string? searchTermInput)
         {
-            var func = async () => await _sut.SearchAsync(_emptyList, searchTermInput!, _ => "");
-            await Assert.ThrowsAsync<ArgumentException>("searchTerm", func);
+            var func = () => _sut.Search(_emptyList, searchTermInput!, _ => "");
+            Assert.Throws<ArgumentException>("searchTerm", func);
         }
 
         [Fact]
-        public async Task SearchAsync_WhenFieldToSearchIsNull_ShouldThrowException()
+        public void SearchAsync_WhenFieldToSearchIsNull_ShouldThrowException()
         {
-            var func = async () => await _sut.SearchAsync(_emptyList, "searchTerm", null!);
-            await Assert.ThrowsAsync<ArgumentNullException>("fieldToSearch", func);
+            var func = () => _sut.Search(_emptyList, "searchTerm", null!);
+            Assert.Throws<ArgumentNullException>("fieldToSearch", func);
         }
     }
 }
