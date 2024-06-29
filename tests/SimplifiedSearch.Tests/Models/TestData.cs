@@ -15,14 +15,7 @@ namespace SimplifiedSearch.Tests.Models
             Countries = GetCountries(CountriesString);
         }
 
-        private static string GetPathToDataDirectory()
-        {
-            var baseDirectory = AppContext.BaseDirectory;
-            var path = Path.Combine(baseDirectory, "..", "..", "..", "..", "data");
-            return path;
-        }
-
-        private static IList<string> GetCountriesString()
+        private static string[] GetCountriesString()
         {
             var countries = new[]
             {
@@ -36,7 +29,7 @@ namespace SimplifiedSearch.Tests.Models
             return countries;
         }
 
-        private static IList<TestItem> GetCountries(IList<string> countryNames)
+        private static List<TestItem> GetCountries(IList<string> countryNames)
         {
             var i = 0;
             var countries = new List<TestItem>();
@@ -54,7 +47,7 @@ namespace SimplifiedSearch.Tests.Models
             return countries;
         }
 
-        private static IList<TestItem> GetTestItemWithEnum()
+        private static TestItem[] GetTestItemWithEnum()
         {
             var list = new[]
             {

@@ -66,7 +66,8 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
             var list = new[] { abc, bcd, };
 
             var actual = await _sut.SimplifiedSearchAsync(list, "b");
-            Assert.Collection(actual, x => Assert.Equal(bcd, x));
+            var actual1 = Assert.Single(actual);
+            Assert.Equal(bcd, actual1);
         }
 
         [Fact]

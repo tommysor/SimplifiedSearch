@@ -8,12 +8,12 @@ namespace SimplifiedSearch.Tests.AcceptanceTests
 {
     public class UiThreadTests
     {
-        private readonly IList<string> _listToSearch;
+        private readonly List<string> _listToSearch;
         private readonly ISimplifiedSearch _sut;
 
         public UiThreadTests()
         {
-            _listToSearch = new List<string>();
+            _listToSearch = [];
             for (var i = 0; i < 100; i++)
             {
                 _listToSearch.Add("abcdefghijklmnopqrstuvwxyz");
