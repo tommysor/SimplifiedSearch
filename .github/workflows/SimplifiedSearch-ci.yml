@@ -15,15 +15,11 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ 'windows-2022', 'ubuntu-22.04', 'macos-12' ]
+        os: [ 'windows-latest', 'ubuntu-latest', 'macos-latest' ]
         buildConfiguration: [ 'Debug', 'Release' ]
 
     steps:
     - uses: actions/checkout@v4
-    - uses: actions/setup-dotnet@v4
-      if: matrix.os == 'macos-12'
-      with:
-        dotnet-version: '8.0.x'
     - name: Restore dependencies
       run: dotnet restore
     - name: Build
@@ -32,7 +28,7 @@ jobs:
       run: dotnet test -c ${{ matrix.buildConfiguration }} --no-build
 
   mutation-test:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -55,7 +51,7 @@ jobs:
         STRYKER_DASHBOARD_API_KEY: ${{ secrets.STRYKER_DASHBOARD_API_KEY }}
 
   sonarcloud:
-    runs-on: windows-2022
+    runs-on: windows-latest
     steps:
       - name: Set up JDK 11
         uses: actions/setup-java@v4
