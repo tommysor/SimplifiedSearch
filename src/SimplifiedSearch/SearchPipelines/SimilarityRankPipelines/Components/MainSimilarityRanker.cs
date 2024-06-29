@@ -7,7 +7,7 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines.Components
 {
     internal sealed class MainSimilarityRanker : ISimilarityRankPipelineComponent
     {
-        public Task<double> RunAsync(string[] fieldValueTokens, string[] searchTermTokens)
+        public double Run(string[] fieldValueTokens, string[] searchTermTokens)
         {
             var similarityRank = 0.0;
             foreach(var fieldValue in fieldValueTokens)
@@ -20,7 +20,7 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines.Components
                     }
                 }
 
-            return Task.FromResult(similarityRank);
+            return similarityRank;
         }
 
         private static double GetSimilarityRankForToken(string fieldValue, string searchTerm)

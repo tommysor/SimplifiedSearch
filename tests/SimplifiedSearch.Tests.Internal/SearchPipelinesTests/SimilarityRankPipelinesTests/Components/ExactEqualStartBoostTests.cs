@@ -13,20 +13,20 @@ namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests.SimilarityRankPipe
         private readonly ExactEqualStartBoost _sut = new();
 
         [Fact]
-        public async Task RunAsync_WhenOnlyFirstCharMatches_ShouldGiveSomeValue()
+        public void RunAsync_WhenOnlyFirstCharMatches_ShouldGiveSomeValue()
         {
             var fieldValues = new [] { "abbb" };
             var searchTerm = new [] { "accc" };
-            var actual = await _sut.RunAsync(fieldValues, searchTerm);
+            var actual = _sut.Run(fieldValues, searchTerm);
             Assert.True(actual > 0, $"SimilarityRank was not greater than zero. Got: {actual}");
         }
 
         [Fact]
-        public async Task RunAsync_WhenFirstCharDoesNotMatch_ShouldGiveZero()
+        public void RunAsync_WhenFirstCharDoesNotMatch_ShouldGiveZero()
         {
             var fieldValues = new [] { "azzz" };
             var searchTerm = new [] { "bzzz" };
-            var actual = await _sut.RunAsync(fieldValues, searchTerm);
+            var actual = _sut.Run(fieldValues, searchTerm);
             Assert.True(actual == 0, $"SimilarityRank was not zero. Got: {actual}");
         }
     }

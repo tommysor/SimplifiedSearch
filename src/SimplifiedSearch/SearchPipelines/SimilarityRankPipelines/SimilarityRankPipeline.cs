@@ -21,6 +21,7 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines
 
         public async Task<IList<SimilarityRankItem<T>>> RunAsync<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
         {
+            await Task.CompletedTask;
             var listLocal = list.Select(x => new SimilarityRankItem<T>(x)).ToArray();
 
             var searchTermTokens = _tokenPipeline.Run(searchTerm);
@@ -37,7 +38,7 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines
                 
                 foreach (var component in _similarityRankPipelineComponents)
                 {
-                    var similarityRank = await component.RunAsync(fieldValueTokens, searchTermTokens);
+                    var similarityRank = component.Run(fieldValueTokens, searchTermTokens);
                     item.SimilarityRank += similarityRank;
                 }
             }
