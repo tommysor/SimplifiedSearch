@@ -19,9 +19,9 @@ namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests.TokenPipelinesTest
         }
 
         [Fact]
-        public async Task RunAsync_ShouldRunComponents()
+        public void RunAsync_ShouldRunComponents()
         {
-            var actual = await _sut.RunAsync("AbCd");
+            var actual = _sut.Run("AbCd");
             Assert.Equal("abcd", actual[0]);
         }
     }

@@ -15,12 +15,11 @@ namespace SimplifiedSearch.SearchPipelines.TokenPipelines
             _tokenPipelineComponents.AddRange(tokenPipelineComponents);
         }
 
-        public async Task<string[]> RunAsync(string value)
+        public string[] Run(string value)
         {
             var valueLocal = new[] { value };
             foreach (var component in _tokenPipelineComponents)
             {
-                await Task.CompletedTask;
                 valueLocal = component.Run(valueLocal);
             }
 

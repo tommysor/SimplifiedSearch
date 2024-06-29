@@ -23,7 +23,7 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines
         {
             var listLocal = list.Select(x => new SimilarityRankItem<T>(x)).ToArray();
 
-            var searchTermTokens = await _tokenPipeline.RunAsync(searchTerm).ConfigureAwait(false);
+            var searchTermTokens = _tokenPipeline.Run(searchTerm);
 
             foreach (var item in listLocal)
             {
@@ -33,7 +33,7 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines
                 if (fieldValue is null)
                     continue;
 
-                var fieldValueTokens = await _tokenPipeline.RunAsync(fieldValue).ConfigureAwait(false);
+                var fieldValueTokens = _tokenPipeline.Run(fieldValue);
                 
                 foreach (var component in _similarityRankPipelineComponents)
                 {
