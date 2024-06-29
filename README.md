@@ -34,7 +34,7 @@ New in version `1.3.0`.
 // Create searcher with custom selection of final result.
 public class MyCustomSelector : SimplifiedSearch.SearchPipelines.ResultSelectors.IResultSelector
 {
-    public Task<IList<T>> RunAsync<T>(IList<SimilarityRankItem<T>> rankedList) => ...
+    public IList<T> Run<T>(IList<SimilarityRankItem<T>> rankedList) => ...
 }
 SimplifiedSearchFactory.Instance.Add("MyCustomSearcher",
     c => c.ResultSelector = new MyCustomSelector());

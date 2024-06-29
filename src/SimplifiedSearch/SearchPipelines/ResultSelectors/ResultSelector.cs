@@ -9,7 +9,7 @@ namespace SimplifiedSearch.SearchPipelines.ResultSelectors
 {
     internal sealed class ResultSelector : IResultSelector
     {
-        public Task<IList<T>> RunAsync<T>(IList<SimilarityRankItem<T>> rankedList)
+        public IList<T> Run<T>(IList<SimilarityRankItem<T>> rankedList)
         {
             var results = rankedList
                 .Where(x => x.SimilarityRank > 0)
@@ -17,7 +17,7 @@ namespace SimplifiedSearch.SearchPipelines.ResultSelectors
                 .Select(x => x.Item)
                 .ToArray();
 
-            return Task.FromResult((IList<T>)results);
+            return results;
         }
     }
 }

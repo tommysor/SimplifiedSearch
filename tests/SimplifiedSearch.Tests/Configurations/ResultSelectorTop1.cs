@@ -8,7 +8,7 @@ namespace SimplifiedSearch.Tests.Configurations;
 
 public sealed class ResultSelectorTop1 : IResultSelector
 {
-    public Task<IList<T>> RunAsync<T>(IList<SimilarityRankItem<T>> rankedList)
+    public IList<T> Run<T>(IList<SimilarityRankItem<T>> rankedList)
     {
         var results = rankedList
             .Where(x => x.SimilarityRank > 0)
@@ -17,6 +17,6 @@ public sealed class ResultSelectorTop1 : IResultSelector
             .Select(x => x.Item)
             .ToArray();
 
-        return Task.FromResult((IList<T>)results);
+        return results;
     }
 }

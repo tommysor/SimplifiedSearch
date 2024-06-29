@@ -18,6 +18,6 @@ namespace SimplifiedSearch.SearchPipelines.ResultSelectors
         /// <typeparam name="T"></typeparam>
         /// <param name="rankedList">Unsorted list of items with rank.</param>
         /// <returns>The final result of the search. Sorted and filtered.</returns>
-        Task<IList<T>> RunAsync<T>(IList<SimilarityRankItem<T>> rankedList);
+        IList<T> Run<T>(IList<SimilarityRankItem<T>> rankedList);
     }
 }

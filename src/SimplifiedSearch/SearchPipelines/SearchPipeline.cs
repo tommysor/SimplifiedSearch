@@ -35,7 +35,7 @@ namespace SimplifiedSearch.SearchPipelines
         {
             var listWithRank = await _similarityRankPipeline.RunAsync(list, searchTerm, fieldToSearch);
 
-            var results = await _resultSelector.RunAsync(listWithRank);
+            var results = _resultSelector.Run(listWithRank);
 
             return results;
         }
