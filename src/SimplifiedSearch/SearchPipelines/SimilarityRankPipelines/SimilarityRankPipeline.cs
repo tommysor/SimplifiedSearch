@@ -19,9 +19,8 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines
             _similarityRankPipelineComponents.AddRange(similarityRankPipelineComponents);
         }
 
-        public async Task<IList<SimilarityRankItem<T>>> RunAsync<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
+        public IList<SimilarityRankItem<T>> Run<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch)
         {
-            await Task.CompletedTask;
             var listLocal = list.Select(x => new SimilarityRankItem<T>(x)).ToArray();
 
             var searchTermTokens = _tokenPipeline.Run(searchTerm);

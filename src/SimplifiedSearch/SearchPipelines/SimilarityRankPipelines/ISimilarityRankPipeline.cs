@@ -7,6 +7,6 @@ namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines
 {
     internal interface ISimilarityRankPipeline
     {
-        Task<IList<SimilarityRankItem<T>>> RunAsync<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch);
+        IList<SimilarityRankItem<T>> Run<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch);
     }
 }
