@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 
-namespace SimplifiedSearch.SearchPipelines
+namespace SimplifiedSearch.SearchPipelines;
+
+internal interface ISearchPipeline
 {
-    internal interface ISearchPipeline
-    {
-        IList<T> Search<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch);
-    }
+    IList<T> Search<T>(IList<T> list, string searchTerm, Func<T, string?> fieldToSearch);
 }

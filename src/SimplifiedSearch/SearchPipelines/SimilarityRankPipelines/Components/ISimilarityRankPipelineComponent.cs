@@ -1,12 +1,6 @@
-using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
+namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines.Components;
 
-namespace SimplifiedSearch.SearchPipelines.SimilarityRankPipelines.Components
+internal interface ISimilarityRankPipelineComponent
 {
-    internal interface ISimilarityRankPipelineComponent
-    {
-        double Run(string[] fieldValueTokens, string[] searchTermTokens);
-    }
+    double Run(string[] fieldValueTokens, string[] searchTermTokens);
 }

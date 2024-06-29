@@ -1,22 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using Unidecode.NET;
+﻿using Unidecode.NET;
 
-namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components
+namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components;
+
+internal class AsciiFoldingFilter : ITokenPipelineComponent
 {
-    internal class AsciiFoldingFilter : ITokenPipelineComponent
+    public string[] Run(params string[] value)
     {
-        public string[] Run(params string[] value)
+        var len = value.Length;
+        for (var i = 0; i < len; i++)
         {
-            var len = value.Length;
-            for (var i = 0; i < len; i++)
-            {
-                value[i] = value[i].Unidecode();
-            }
-
-            return value;
+            value[i] = value[i].Unidecode();
         }
+
+        return value;
     }
 }

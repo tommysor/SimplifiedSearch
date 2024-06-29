@@ -1,7 +1,6 @@
-namespace SimplifiedSearch.SearchPipelines.TokenPipelines
+namespace SimplifiedSearch.SearchPipelines.TokenPipelines;
+
+internal interface ITokenPipeline
 {
-    internal interface ITokenPipeline
-    {
-        string[] Run(string value);
-    }
+    string[] Run(string value);
 }

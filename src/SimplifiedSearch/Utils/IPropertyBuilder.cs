@@ -1,9 +1,8 @@
 ﻿using System;
 
-namespace SimplifiedSearch.Utils
+namespace SimplifiedSearch.Utils;
+
+internal interface IPropertyBuilder
 {
-    internal interface IPropertyBuilder
-    {
-        Func<T, string> BuildPropertyToSearchLambda<T>();
-    }
+    Func<T, string> BuildPropertyToSearchLambda<T>();
 }
