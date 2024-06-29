@@ -16,54 +16,54 @@ namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests.TokenPipelinesTest
         }
 
         [Fact]
-        public async Task TokenizeOnSpace()
+        public void TokenizeOnSpace()
         {
-            var actual = await _tokenizeFilter.RunAsync("a b");
+            var actual = _tokenizeFilter.Run("a b");
 
             var expected = new[] { "a", "b" };
             AssertCollectionUtils.AssertCollectionContainsSameInSameOrder(expected, actual);
         }
 
         [Fact]
-        public async Task TokenizeOnDash()
+        public void TokenizeOnDash()
         {
-            var actual = await _tokenizeFilter.RunAsync("a-b");
+            var actual = _tokenizeFilter.Run("a-b");
 
             var expected = new[] { "a", "b" };
             AssertCollectionUtils.AssertCollectionContainsSameInSameOrder(expected, actual);
         }
 
         [Fact]
-        public async Task TokenizeOnCarriageReturn()
+        public void TokenizeOnCarriageReturn()
         {
-            var actual = await _tokenizeFilter.RunAsync("a\rb");
+            var actual = _tokenizeFilter.Run("a\rb");
 
             var expected = new[] { "a", "b" };
             AssertCollectionUtils.AssertCollectionContainsSameInSameOrder(expected, actual);
         }
 
         [Fact]
-        public async Task TokenizeOnNewLine()
+        public void TokenizeOnNewLine()
         {
-            var actual = await _tokenizeFilter.RunAsync("a\nb");
+            var actual = _tokenizeFilter.Run("a\nb");
 
             var expected = new[] { "a", "b" };
             AssertCollectionUtils.AssertCollectionContainsSameInSameOrder(expected, actual);
         }
 
         [Fact]
-        public async Task TokenizeOnTab()
+        public void TokenizeOnTab()
         {
-            var actual = await _tokenizeFilter.RunAsync("a\tb");
+            var actual = _tokenizeFilter.Run("a\tb");
 
             var expected = new[] { "a", "b" };
             AssertCollectionUtils.AssertCollectionContainsSameInSameOrder(expected, actual);
         }
 
         [Fact]
-        public async Task TokenizeMultiSeparator()
+        public void TokenizeMultiSeparator()
         {
-            var actual = await _tokenizeFilter.RunAsync("a    \r\n\t    b");
+            var actual = _tokenizeFilter.Run("a    \r\n\t    b");
 
             var expected = new[] { "a", "b" };
             AssertCollectionUtils.AssertCollectionContainsSameInSameOrder(expected, actual);

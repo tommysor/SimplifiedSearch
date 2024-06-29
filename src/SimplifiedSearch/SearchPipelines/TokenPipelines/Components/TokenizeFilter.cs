@@ -19,7 +19,7 @@ namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components
             '.',
         };
 
-        public Task<string[]> RunAsync(params string[] value)
+        public string[] Run(params string[] value)
         {
             var results = new HashSet<string>();
             foreach (var item in value)
@@ -29,7 +29,7 @@ namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components
                     results.Add(result);
             }
 
-            return Task.FromResult(results.ToArray());
+            return results.ToArray();
         }
     }
 }

@@ -8,7 +8,7 @@ namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components
 {
     internal class AsciiFoldingFilter : ITokenPipelineComponent
     {
-        public Task<string[]> RunAsync(params string[] value)
+        public string[] Run(params string[] value)
         {
             var len = value.Length;
             for (var i = 0; i < len; i++)
@@ -16,7 +16,7 @@ namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components
                 value[i] = value[i].Unidecode();
             }
 
-            return Task.FromResult(value);
+            return value;
         }
     }
 }

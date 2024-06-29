@@ -16,21 +16,21 @@ namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests.TokenPipelinesTest
         }
 
         [Fact]
-        public async Task AsciiFoldingSimple()
+        public void AsciiFoldingSimple()
         {
             var input = "ü";
 
-            var actual = await _asciiFoldingFilter.RunAsync(input);
+            var actual = _asciiFoldingFilter.Run(input);
 
             Assert.Single(actual, "u");
         }
 
         [Fact]
-        public async Task AsciiFoldingSimpleList()
+        public void AsciiFoldingSimpleList()
         {
             var input = new[] { "â", "ß" };
 
-            var actual = await _asciiFoldingFilter.RunAsync(input);
+            var actual =  _asciiFoldingFilter.Run(input);
 
             var expected = new[] { "a", "ss" };
             AssertCollectionUtils.AssertCollectionContainsSameInSameOrder(expected, actual);
