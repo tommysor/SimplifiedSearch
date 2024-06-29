@@ -5,6 +5,7 @@
     <TargetFrameworks Condition="'$(os)' != 'Windows_NT'">net6.0;net8.0</TargetFrameworks>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 
     <IsPackable>false</IsPackable>
   </PropertyGroup>

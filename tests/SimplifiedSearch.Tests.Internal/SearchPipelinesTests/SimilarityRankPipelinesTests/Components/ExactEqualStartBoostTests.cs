@@ -13,7 +13,7 @@ namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests.SimilarityRankPipe
         private readonly ExactEqualStartBoost _sut = new();
 
         [Fact]
-        public async void RunAsync_WhenOnlyFirstCharMatches_ShouldGiveSomeValue()
+        public async Task RunAsync_WhenOnlyFirstCharMatches_ShouldGiveSomeValue()
         {
             var fieldValues = new [] { "abbb" };
             var searchTerm = new [] { "accc" };
@@ -22,7 +22,7 @@ namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests.SimilarityRankPipe
         }
 
         [Fact]
-        public async void RunAsync_WhenFirstCharDoesNotMatch_ShouldGiveZero()
+        public async Task RunAsync_WhenFirstCharDoesNotMatch_ShouldGiveZero()
         {
             var fieldValues = new [] { "azzz" };
             var searchTerm = new [] { "bzzz" };

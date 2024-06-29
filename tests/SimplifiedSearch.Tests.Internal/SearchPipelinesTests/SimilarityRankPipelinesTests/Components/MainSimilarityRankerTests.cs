@@ -13,7 +13,7 @@ namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests.SimilarityRankPipe
         private readonly MainSimilarityRanker _sut = new();
 
         [Fact]
-        public async void RunAsync_WhenValuesMatches_ShouldGiveSomeValue()
+        public async Task RunAsync_WhenValuesMatches_ShouldGiveSomeValue()
         {
             var fieldValues = new [] { "aaaa" };
             var searchTerm = new [] { "aaaa" };
@@ -22,7 +22,7 @@ namespace SimplifiedSearch.Tests.Internal.SearchPipelineTests.SimilarityRankPipe
         }
 
         [Fact]
-        public async void RunAsync_WhenFirstCharDoesNotMatch_ShouldGiveZero()
+        public async Task RunAsync_WhenFirstCharDoesNotMatch_ShouldGiveZero()
         {
             var fieldValues = new [] { "abcd" };
             var searchTerm = new [] { "zyxw" };
