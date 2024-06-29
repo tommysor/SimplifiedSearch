@@ -47,7 +47,7 @@ namespace SimplifiedSearch.Utils
 
         private Action<Expression, BinaryExpression?> GetAppendToReturnValue()
         {
-            var stringBuilderAppendLineMethod = _stringBuilderType.GetMethod("AppendLine", new[] { typeof(string) });
+            var stringBuilderAppendLineMethod = _stringBuilderType.GetMethod("AppendLine", [typeof(string)]);
 
             void stringBuilderAppend(Expression valueToAppend, BinaryExpression? ifTest)
             {

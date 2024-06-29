@@ -5,7 +5,7 @@ namespace SimplifiedSearch.Utils
 {
     internal class PropertyBuilder : IPropertyBuilder
     {
-        private readonly Dictionary<Type, object> _compiledFuncs = new();
+        private readonly Dictionary<Type, object> _compiledFuncs = [];
 
         public Func<T, string> BuildPropertyToSearchLambda<T>()
         {

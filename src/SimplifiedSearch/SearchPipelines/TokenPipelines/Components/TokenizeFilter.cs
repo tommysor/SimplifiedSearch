@@ -8,8 +8,8 @@ namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components
 {
     internal class TokenizeFilter : ITokenPipelineComponent
     {
-        private static readonly char[] _splitChars = new char[]
-        {
+        private static readonly char[] _splitChars =
+        [
             ' ',
             '\t',
             '\r',
@@ -17,7 +17,7 @@ namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components
             '-',
             ',',
             '.',
-        };
+        ];
 
         public string[] Run(params string[] value)
         {
@@ -29,7 +29,7 @@ namespace SimplifiedSearch.SearchPipelines.TokenPipelines.Components
                     results.Add(result);
             }
 
-            return results.ToArray();
+            return [.. results];
         }
     }
 }

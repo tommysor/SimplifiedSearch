@@ -8,7 +8,7 @@ namespace SimplifiedSearch.SearchPipelines.TokenPipelines
 {
     internal sealed class TokenPipeline : ITokenPipeline
     {
-        private readonly List<ITokenPipelineComponent> _tokenPipelineComponents = new();
+        private readonly List<ITokenPipelineComponent> _tokenPipelineComponents = [];
 
         public TokenPipeline(params ITokenPipelineComponent[] tokenPipelineComponents)
         {

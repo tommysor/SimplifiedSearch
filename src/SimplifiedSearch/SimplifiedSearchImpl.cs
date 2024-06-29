@@ -30,8 +30,7 @@ namespace SimplifiedSearch
                 return searchThisList;
 
             // If no field is specified, build field of all properties.
-            if (propertyToSearchLambda is null)
-                propertyToSearchLambda = _propertyBuilder.BuildPropertyToSearchLambda<T>();
+            propertyToSearchLambda ??= _propertyBuilder.BuildPropertyToSearchLambda<T>();
 
             // Build the results.
             var results = _searchPipeline.Search(searchThisList, searchTerm, propertyToSearchLambda);
