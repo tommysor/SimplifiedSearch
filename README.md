@@ -1,5 +1,4 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=tommysor_SimplifiedSearch&metric=alert_status)](https://sonarcloud.io/summary/overall?id=tommysor_SimplifiedSearch)
 # SimplifiedSearch
 Simple way to add ranked fuzzy matching search.\
 For when you have up to a few thousand products, locations or similar and want to add a search that most users will see as smart, with minimal work.
