@@ -2,13 +2,12 @@
 // README at: https://github.com/devcontainers/templates/tree/main/src/dotnet
 {
 	"name": "SimplifiedSearch",
-	"image": "mcr.microsoft.com/devcontainers/dotnet:8.0",
+	"image": "mcr.microsoft.com/devcontainers/dotnet:10.0",
 
 	// Features to add to the dev container. More info: https://containers.dev/features.
 	"features": {
 		"ghcr.io/devcontainers/features/dotnet:2": {
-			"version": "8.0",
-			"dotnetRuntimeVersions": "6.0"
+			"version": "8.0"
 		}
 	},
 
